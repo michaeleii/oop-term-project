@@ -7,32 +7,28 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 
 export default class PassportConfig {
-  private name: string;
-  private strategy: LocalStrategy;
-  constructor() {
-    this.name = "local";
-    this.strategy = new LocalStrategy(
+  private _name: string;
+  private _strategy: LocalStrategy;
+  constructor(name: string) {
+    this._name = name;
+    this._strategy = new LocalStrategy(
       {
         usernameField: "email",
         passwordField: "password",
       },
-      (email, password, done) => {
+      (email: string, password: string, done) => {
         try {
-        } catch (error: any) {}
+          console.log("email: ", email);
+          console.log("password: ", password);
+        } catch (error: any) {
+          console.log("error: ", error);
+        }
       }
     );
   }
-  private serializeUser() {}
-  private deserializeUser() {}
-}
-
-const localStrategy = new LocalStrategy(
-  {
-    usernameField: "email",
-    passwordField: "password",
-  },
-  (email, password, done) => {
-    try {
-    } catch (error: any) {}
+  registerStrategy() {
+    passport.use(this._name, this._strategy);
   }
-);
+  serializeUser() {}
+  deserializeUser() {}
+}
