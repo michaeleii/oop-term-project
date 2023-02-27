@@ -19,7 +19,6 @@ export class PostViewModel {
   public createdAt: Date;
   public message: string;
   public comments: string;
-  public reposts: string;
   public likes: string;
   public commentList?: Array<IComment>;
 
@@ -29,7 +28,6 @@ export class PostViewModel {
     this.createdAt = post.createdAt;
     this.message = post.message;
     this.comments = post.comments?.toString();
-    this.reposts = post.reposts?.toString();
     this.likes = post.likes?.toString();
     this.commentList = post.commentList;
   }

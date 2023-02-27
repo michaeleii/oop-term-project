@@ -1,7 +1,3 @@
-# OOP Term Project
-
-Group Members: Michael, Hani, Brian
-
 Breakdown of Work:
 
 Example below:

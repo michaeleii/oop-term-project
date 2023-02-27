@@ -1,7 +1,7 @@
 import express from "express";
 import errorMiddleware from "./middleware/error.middleware";
 import Controller from "./interfaces/controller.interface";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 
 class App {
   private _app: express.Application;

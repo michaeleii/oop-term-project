@@ -9,5 +9,4 @@ export default interface IUser {
   lastName: string;
   posts?: Array<IPost>;
   following?: Array<string>;
-  reposts?: Array<string>;
 }

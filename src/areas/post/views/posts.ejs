@@ -137,9 +137,10 @@
               <div class="items-center hidden space-x-3 md:flex">
                 <!-- Notification Button -->
                 <div class="relative" x-data="{ isOpen: false }">
-                  <!-- red dot -->
+                  <!-- uncomment when you want to indicate new notification red dot 
                   <div class="absolute right-0 p-1 bg-red-400 rounded-full animate-ping"></div>
                   <div class="absolute right-0 p-1 bg-red-400 border rounded-full"></div>
+                  -->
                   <button
                     @click="isOpen = !isOpen"
                     class="p-2 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring"
@@ -167,17 +168,12 @@
                     class="absolute w-48 max-w-md mt-3 transform bg-white rounded-md shadow-lg -translate-x-3/4 min-w-max"
                   >
                     <div class="p-4 font-medium border-b">
-                      <span class="text-gray-800">Notification</span>
+                      <span class="text-gray-800">Notifications</span>
                     </div>
                     <ul class="flex flex-col p-2 my-2 space-y-1">
-                      <li>
-                        <a href="#" class="block px-2 py-1 transition rounded-md hover:bg-gray-100">Link</a>
-                      </li>
-                      <li>
-                        <a href="#" class="block px-2 py-1 transition rounded-md hover:bg-gray-100">Another Link</a>
-                      </li>
+                     <li>Nothing new!</li>
                     </ul>
-                    <div class="flex items-center justify-center p-4 text-blue-700 underline border-t">
+                    <div class="flex items-center justify-center p-4 text-blue-700 border-t">
                       <a href="#">See All</a>
                     </div>
                   </div>
@@ -232,7 +228,7 @@
                 <input
                   class="w-9/12 bg-gray-200 rounded-full px-3 py-2"
                   name="postText"
-                  placeholder="What's on your mind, Ross?"
+                  placeholder="What's on your mind, john?"
                 />
                 <input class="transition duration-500 ease-in-out hover:bg-red-600 transform w-2/12 rounded-full p-2 bg-gray-800 cursor-pointer text-gray-200" type="submit" value="Post">
               </form>
@@ -255,7 +251,6 @@
           </div>
 
           <div class="w-7/8 p-3 pl-0">
-            <!-- <div class="text-xs text-grey-dark">Reposted</div> -->
             <div class="flex justify-between">
               <div>
                 <span class="font-bold"
@@ -287,14 +282,7 @@
                     ><i class="fa fa-comment fa-lg mr-2"></i> <%=
                     post.commentList.length %></a
                   ></span
-                >
-                <span class="mr-8"
-                  ><a
-                    href="#"
-                    class="text-grey-dark hover:no-underline hover:text-green"
-                    ><i class="fa fa-retweet fa-lg mr-2"></i> <%=
-                    post.reposts %></a
-                  ></span
+                
                 >
                 <span class="mr-8"
                   ><a

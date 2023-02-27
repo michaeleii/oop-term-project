@@ -7,7 +7,6 @@ interface IPost {
   createdAt: Date;
   commentList?: Array<IComment>;
   likes: number;
-  reposts: number;
   comments: number;
 }
 

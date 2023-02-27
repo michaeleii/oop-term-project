@@ -17,7 +17,6 @@ const database: IDatabase = {
           message: "Microsoft is a nice company",
           createdAt: new Date(),
           likes: 3,
-          reposts: 5,
           comments: 0,
           commentList: [
             {
@@ -30,7 +29,6 @@ const database: IDatabase = {
         },
       ],
       following: [],
-      reposts: [],
     },
     {
       id: "2",
@@ -46,7 +44,6 @@ const database: IDatabase = {
           message: "A post by james",
           createdAt: new Date(),
           likes: 30,
-          reposts: 50,
           comments: 12,
           commentList: [
             {
@@ -63,7 +60,6 @@ const database: IDatabase = {
           message: "Nice weather today in Vancouver",
           createdAt: new Date(),
           likes: 30,
-          reposts: 50,
           comments: 12,
           commentList: [
             {
@@ -76,7 +72,6 @@ const database: IDatabase = {
         },
       ],
       following: [],
-      reposts: [],
     },
   ],
 };
@@ -102,15 +97,14 @@ const userDatabase = [
 ];
 
 const post = {
-  postId: "1",
-  userId: "billgates",
-  createdAt: "Thursday, March 2nd",
-  message: "I'm seriously considering acquiring devHouse for 6 billion dollars...",
-  comments: "0",
-  reposts: "0",
-  likes: "0",
-  commentList: [],
-};
+  postId: 5,
+  userId: "john",
+  createdAt: new Date(),
+  message: "Hi there",
+  comments: "1",
+  likes: "2",
+  commentList: ["cool post"],
+}
 
 const posts = [
   {
@@ -118,20 +112,18 @@ const posts = [
     userId: "john",
     createdAt: new Date(),
     message: "Hi there",
-    comments: "4",
-    reposts: "2",
+    comments: "1",
     likes: "2",
-    commentList: [],
+    commentList: ["cool post"],
   },
   {
     postId: 4,
     userId: "john",
     createdAt: new Date(),
     message: "this is a new post by me",
-    comments: "4",
-    reposts: "2",
+    comments: "1",
     likes: "2",
-    commentList: [],
+    commentList: ["cool post"],
   },
 ];
 

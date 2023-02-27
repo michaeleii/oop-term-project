@@ -15,7 +15,7 @@ class AuthenticationController implements IController {
     this.router.post(`${this.path}/register`, this.registration);
     this.router.get(`${this.path}/login`, this.showLoginPage);
     this.router.post(`${this.path}/login`, this.login);
-    this.router.get(`${this.path}/logout`, this.logout);
+    this.router.post(`${this.path}/logout`, this.logout);
   }
 
   private showLoginPage = (_: express.Request, res: express.Response) => {
