@@ -8,6 +8,9 @@ export class MockAuthenticationService implements IAuthenticationService {
 
   public async getUserByEmailAndPassword(email: string, password: string): Promise<IUser | null> {
     let user = await this.findUserByEmail(email);
+    if (!user) {
+      throw new Error("User with that email does not exists");
+    }
     if (user && user.password === password) {
       return user;
     } else {
@@ -29,7 +32,7 @@ export class MockAuthenticationService implements IAuthenticationService {
     if (user) {
       return user;
     } else {
-      throw new Error("User with that email does not exists");
+      return null;
     }
   }
 
