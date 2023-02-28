@@ -10,7 +10,7 @@ export class MockAuthenticationService implements IAuthenticationService {
   }
 
   public async findUserByEmail(email: String): Promise<null | IUser> {
-    throw new Error("Method not implemented");
+    return await this._db.users.find((user) => user.email === email);
   }
 
   public async createUser(user: any): Promise<IUser> {
