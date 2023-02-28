@@ -3,6 +3,12 @@ import passport from "passport";
 import IController from "../../../interfaces/controller.interface";
 import { IAuthenticationService } from "../services";
 
+declare module "express-session" {
+  interface SessionData {
+    messages: string[];
+  }
+}
+
 class AuthenticationController implements IController {
   public path = "/auth";
   public router = express.Router();
@@ -24,8 +30,10 @@ class AuthenticationController implements IController {
     this.router.post(`${this.path}/logout`, this.logout);
   }
 
-  private showLoginPage = (_: express.Request, res: express.Response) => {
-    res.render("authentication/views/login");
+  private showLoginPage = (req: express.Request, res: express.Response) => {
+    const error = req.session.messages;
+    req.session.messages = [];
+    res.render("authentication/views/login", { error });
   };
 
   private showRegistrationPage = (_: express.Request, res: express.Response) => {
