@@ -32,7 +32,20 @@ export class MockAuthenticationService implements IAuthenticationService {
     }
   }
 
-  public async createUser(user: any): Promise<IUser> {
-    throw new Error("Method not implemented");
+  public async createUser(user: IUser): Promise<IUser> {
+    const { username, firstName, lastName, email, password } = user;
+    const userAlreadyExists = await this.findUserByEmail(email);
+    if (userAlreadyExists) {
+      throw new Error(`User with email ${email} already exists`);
+    } else {
+      return {
+        id: String(this._db.users.length + 1),
+        username,
+        firstName,
+        lastName,
+        email,
+        password,
+      };
+    }
   }
 }
