@@ -3,14 +3,13 @@
 //----------------------------------------
 // 🚀 Configure Passport.js Local Authentication in this file
 //    Ensure code is fully typed wherever possible (unless inference can be made)
+import IUser from "../../../interfaces/user.interface";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { MockAuthenticationService } from "../services/Authentication.service.mock";
 declare global {
   namespace Express {
-    interface User {
-      id: string;
-    }
+    interface User extends IUser {}
   }
 }
 
