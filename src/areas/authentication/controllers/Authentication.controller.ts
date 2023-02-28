@@ -1,3 +1,4 @@
+import EmailAlreadyExistsException from "../../../exceptions/EmailAlreadyExists";
 import express from "express";
 import passport from "passport";
 import IController from "../../../interfaces/controller.interface";
@@ -6,6 +7,7 @@ import { IAuthenticationService } from "../services";
 declare module "express-session" {
   interface SessionData {
     messages: string[];
+    error: string;
   }
 }
 declare global {
@@ -45,17 +47,21 @@ class AuthenticationController implements IController {
     res.render("authentication/views/login", { error });
   };
 
-  private showRegistrationPage = (_: express.Request, res: express.Response) => {
-    res.render("authentication/views/register");
+  private showRegistrationPage = (req: express.Request, res: express.Response) => {
+    const error = req.session.error;
+    req.session.error = "";
+    res.render("authentication/views/register", { error });
   };
 
   // 🔑 These Authentication methods needs to be implemented by you
   private login = passport.authenticate("local", this.localStrategyOptions);
   private registration = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
-      await this.service.createUser(req.body);
+      let user = await this.service.createUser(req.body);
       res.redirect("/auth/login");
     } catch (error) {
+      req.session.error = error.message;
+      res.redirect("/auth/register");
       next(error);
     }
   };

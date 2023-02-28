@@ -1,6 +1,7 @@
 import { database } from "../../../model/fakeDB";
 import IUser from "../../../interfaces/user.interface";
 import { IAuthenticationService } from "./IAuthentication.service";
+import EmailAlreadyExistsException from "../../../exceptions/EmailAlreadyExists";
 
 export class MockAuthenticationService implements IAuthenticationService {
   readonly _db = database;
@@ -36,7 +37,7 @@ export class MockAuthenticationService implements IAuthenticationService {
     const { username, firstName, lastName, email, password } = user;
     const userAlreadyExists = await this.findUserByEmail(email);
     if (userAlreadyExists) {
-      throw new Error(`User with email ${email} already exists`);
+      throw new EmailAlreadyExistsException(email);
     } else {
       return {
         id: String(this._db.users.length + 1),
