@@ -18,23 +18,25 @@ export default class PassportConfig {
   private _name: string;
   private _strategy: LocalStrategy;
   private _authenticationService: MockAuthenticationService;
-  constructor(name: string) {
+  constructor(name: string, authenticationService: MockAuthenticationService) {
+    this._authenticationService = authenticationService;
     this._name = name;
     this._strategy = new LocalStrategy(
       {
         usernameField: "email",
         passwordField: "password",
       },
-      (email: string, password: string, done) => {
+      async (email: string, password: string, done) => {
         try {
-          new MockAuthenticationService();
-          const user = this._authenticationService.getUserByEmailAndPassword(email, password);
+          const user = await this._authenticationService.getUserByEmailAndPassword(email, password);
+          console.log(user);
           return done(null, user);
         } catch (error: any) {
           return done(null, false, error);
         }
       }
     );
+    this.registerStrategy(passport);
   }
   registerStrategy(passport: passport.PassportStatic) {
     passport.use(this._name, this._strategy);

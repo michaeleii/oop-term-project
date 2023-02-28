@@ -8,7 +8,7 @@ class AuthenticationController implements IController {
   public router = express.Router();
   public localStrategyOptions = {
     successRedirect: "/posts",
-    failureRedirect: "/auth/login",
+    failureRedirect: `${this.path}/login`,
     failureMessage: true,
   };
 
