@@ -10,15 +10,25 @@ export class MockAuthenticationService implements IAuthenticationService {
     if (user && user.password === password) {
       return user;
     } else {
-      return null;
+      throw new Error("Invalid password");
     }
   }
   async getUserById(id: string): Promise<null | IUser> {
-    return await this._db.users.find((user) => user.id === id);
+    let user = await this._db.users.find((user) => user.id === id);
+    if (user) {
+      return user;
+    } else {
+      throw new Error("User with that id does not exists");
+    }
   }
 
   public async findUserByEmail(email: String): Promise<null | IUser> {
-    return await this._db.users.find((user) => user.email === email);
+    let user = await this._db.users.find((user) => user.email === email);
+    if (user) {
+      return user;
+    } else {
+      throw new Error("User with that email does not exists");
+    }
   }
 
   public async createUser(user: any): Promise<IUser> {

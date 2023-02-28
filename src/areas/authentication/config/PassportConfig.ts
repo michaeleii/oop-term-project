@@ -17,6 +17,7 @@ declare global {
 export default class PassportConfig {
   private _name: string;
   private _strategy: LocalStrategy;
+  private _authenticationService: MockAuthenticationService;
   constructor(name: string) {
     this._name = name;
     this._strategy = new LocalStrategy(
@@ -26,10 +27,11 @@ export default class PassportConfig {
       },
       (email: string, password: string, done) => {
         try {
-          console.log("email: ", email);
-          console.log("password: ", password);
+          new MockAuthenticationService();
+          const user = this._authenticationService.getUserByEmailAndPassword(email, password);
+          return done(null, user ? user : false);
         } catch (error: any) {
-          console.log("error: ", error);
+          return done(null, false, error);
         }
       }
     );
@@ -44,8 +46,7 @@ export default class PassportConfig {
   }
   deserializeUser(passport: passport.PassportStatic) {
     passport.deserializeUser((id: string, done) => {
-      const authentication = new MockAuthenticationService();
-      let user = authentication.getUserById(id);
+      let user = this._authenticationService.getUserById(id);
       if (user) {
         done(null, user as any);
       } else {

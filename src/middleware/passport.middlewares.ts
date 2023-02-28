@@ -4,6 +4,6 @@ import PassportConfig from "../areas/authentication/config/PassportConfig";
 module.exports = (app) => {
   app.use(passport.initialize());
   app.use(passport.session());
-  // Use PassportConfig class here
-  app.use(new PassportConfig("local"));
+  // Use PassportConfig class here;
+  new PassportConfig("local").registerStrategy(passport);
 };
