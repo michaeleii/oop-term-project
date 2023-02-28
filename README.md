@@ -32,6 +32,13 @@ I worked on the following tasks:
 2. Add image to the homepage.
    - This task is responsible for adding content to the homepage.
 
+### Hani
+
+I worked on the following tasks:
+
+1. Add content to Section 3 on the homepage.
+   - This task is responsible for adding content to the homepage.
+
 <!-- Example below:
     March 9th (First Sprint Complete)
     Amy Chan:
