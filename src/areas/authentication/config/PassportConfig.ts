@@ -26,9 +26,9 @@ export default class PassportConfig {
       }
     );
   }
-  registerStrategy() {
+  registerStrategy(passport: passport.PassportStatic) {
     passport.use(this._name, this._strategy);
   }
-  serializeUser() {}
-  deserializeUser() {}
+  serializeUser(passport: passport.PassportStatic) {}
+  deserializeUser(passport: passport.PassportStatic) {}
 }
