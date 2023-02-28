@@ -29,7 +29,7 @@ export default class PassportConfig {
         try {
           new MockAuthenticationService();
           const user = this._authenticationService.getUserByEmailAndPassword(email, password);
-          return done(null, user ? user : false);
+          return done(null, user);
         } catch (error: any) {
           return done(null, false, error);
         }

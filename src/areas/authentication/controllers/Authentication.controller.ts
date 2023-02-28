@@ -6,6 +6,11 @@ import { IAuthenticationService } from "../services";
 class AuthenticationController implements IController {
   public path = "/auth";
   public router = express.Router();
+  public localStrategyOptions = {
+    successRedirect: "/posts",
+    failureRedirect: "/auth/login",
+    failureMessage: true,
+  };
 
   constructor(service: IAuthenticationService) {
     this.initializeRoutes();
@@ -28,11 +33,7 @@ class AuthenticationController implements IController {
   };
 
   // 🔑 These Authentication methods needs to be implemented by you
-  private login = passport.authenticate("local", {
-    successRedirect: "/posts",
-    failureRedirect: "/auth/login",
-    failureMessage: true,
-  });
+  private login = passport.authenticate("local", this.localStrategyOptions);
   private registration = async (req: express.Request, res: express.Response, next: express.NextFunction) => {};
   private logout = async (req: express.Request, res: express.Response) => {};
 }

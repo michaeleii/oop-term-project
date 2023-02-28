@@ -5,7 +5,7 @@ import { IAuthenticationService } from "./IAuthentication.service";
 export class MockAuthenticationService implements IAuthenticationService {
   readonly _db = database;
 
-  public async getUserByEmailAndPassword(email: string, password: string): Promise<null | IUser> {
+  public async getUserByEmailAndPassword(email: string, password: string): Promise<IUser | null> {
     let user = await this.findUserByEmail(email);
     if (user && user.password === password) {
       return user;
@@ -13,7 +13,8 @@ export class MockAuthenticationService implements IAuthenticationService {
       throw new Error("Invalid password");
     }
   }
-  async getUserById(id: string): Promise<null | IUser> {
+
+  public async getUserById(id: string): Promise<IUser | null> {
     let user = await this._db.users.find((user) => user.id === id);
     if (user) {
       return user;
@@ -22,7 +23,7 @@ export class MockAuthenticationService implements IAuthenticationService {
     }
   }
 
-  public async findUserByEmail(email: String): Promise<null | IUser> {
+  public async findUserByEmail(email: String): Promise<IUser | null> {
     let user = await this._db.users.find((user) => user.email === email);
     if (user) {
       return user;
