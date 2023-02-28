@@ -5,6 +5,14 @@
 //    Ensure code is fully typed wherever possible (unless inference can be made)
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
+import { MockAuthenticationService } from "../services/Authentication.service.mock";
+declare global {
+  namespace Express {
+    interface User {
+      id: string;
+    }
+  }
+}
 
 export default class PassportConfig {
   private _name: string;
@@ -31,12 +39,18 @@ export default class PassportConfig {
   }
   serializeUser(passport: passport.PassportStatic) {
     passport.serializeUser((user, done) => {
-      done(null, user);
+      done(null, user.id);
     });
   }
   deserializeUser(passport: passport.PassportStatic) {
-    passport.deserializeUser((user, done) => {
-      done(null, user);
+    passport.deserializeUser((id: string, done) => {
+      const authentication = new MockAuthenticationService();
+      let user = authentication.getUserById(id);
+      if (user) {
+        done(null, user as any);
+      } else {
+        done({ message: "User not found" }, null);
+      }
     });
   }
 }
