@@ -5,6 +5,9 @@ import { appendFile } from "fs/promises";
 const errorMiddleware = (error: HttpException, request: Request, response: Response, next: NextFunction) => {
   const status = error.status || 500;
   const message = error.message || "An error has occured";
+
+  const currentDate = new Date(Date.now());
+
   console.log(status, message);
 };
 
