@@ -8,6 +8,13 @@ declare module "express-session" {
     messages: string[];
   }
 }
+declare global {
+  namespace Express {
+    interface Request {
+      logout(done: (err: any) => void): void;
+    }
+  }
+}
 
 class AuthenticationController implements IController {
   public path = "/auth";
@@ -43,7 +50,18 @@ class AuthenticationController implements IController {
   // 🔑 These Authentication methods needs to be implemented by you
   private login = passport.authenticate("local", this.localStrategyOptions);
   private registration = async (req: express.Request, res: express.Response, next: express.NextFunction) => {};
-  private logout = async (req: express.Request, res: express.Response) => {};
+  private _logout = async (req: express.Request, res: express.Response) => {
+    req.logout((err) => {
+      if (err) console.log(err);
+    });
+    res.redirect("/auth/login");
+  };
+  public get logout() {
+    return this._logout;
+  }
+  public set logout(value) {
+    this._logout = value;
+  }
 }
 
 export default AuthenticationController;

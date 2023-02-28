@@ -6,7 +6,7 @@ const database: IDatabase = {
     {
       id: "1",
       email: "gates@gmail.com",
-      password: "gates123",
+      password: "gates123!",
       firstName: "Bill",
       lastName: "Gates",
       username: "billgates",
@@ -34,7 +34,7 @@ const database: IDatabase = {
       id: "2",
       username: "james123",
       email: "james123@gmail.com",
-      password: "james123",
+      password: "james123!",
       firstName: "James",
       lastName: "Smith",
       posts: [
@@ -104,7 +104,7 @@ const post = {
   comments: "1",
   likes: "2",
   commentList: ["cool post"],
-}
+};
 
 const posts = [
   {
