@@ -13,19 +13,25 @@ export class MockPostService implements IPostService {
     });
   }
   getAllPosts(userId: number): IPost[] {
-    return this._db.posts
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-      .filter((post) => post.creator === userId);
+    return this.sortPosts(this._db.posts).filter((post) => post.creator === userId);
+  }
+  sortPosts(posts: IPost[]): IPost[] {
+    return this._db.posts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
   findById(id: number): IPost {
     return this._db.posts.find((post) => post.id === id);
   }
-  addCommentToPost(message: { id: string; createdAt: string; userId: string; message: string }, postId: string): void {
-    // 🚀 Implement this yourself.
-    throw new Error("Method not implemented.");
+  likePost(postId: number, userId: number): void {
+    this._db.likes.push({
+      id: this._db.likes.length + 1,
+      postId: postId,
+      userId: userId,
+    });
   }
-
-  sortPosts(posts: IPost[]): IPost[] {
+  unlikePost(postId: number, userId: number): void {
+    this._db.likes = this._db.likes.filter((like) => like.postId !== postId && like.userId !== userId);
+  }
+  addCommentToPost(message: { id: string; createdAt: string; userId: string; message: string }, postId: string): void {
     // 🚀 Implement this yourself.
     throw new Error("Method not implemented.");
   }
