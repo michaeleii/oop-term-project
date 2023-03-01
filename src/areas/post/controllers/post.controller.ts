@@ -27,7 +27,7 @@ class PostController implements IController {
   // 🚀 This method should use your postService and pull from your actual fakeDB, not the temporary posts object
   private getAllPosts = async (req: Request, res: Response) => {
     const user = await req.user;
-    const posts = this.postService.getAllPosts(user.id);
+    const posts = await this.postService.getAllPosts(user.id);
     const postsFormatted = posts.map((post) => new PostViewModel(post, user.id));
     console.log(postsFormatted);
 
@@ -38,7 +38,7 @@ class PostController implements IController {
   private getPostById = async (req: Request, res: Response, next: NextFunction) => {
     const id = +req.params.id;
     const userId = await req.user.id;
-    const post = this.postService.findById(id);
+    const post = await this.postService.findById(id);
     const postFormatted = new PostViewModel(post, userId);
 
     res.render("post/views/post", { post: postFormatted });
@@ -47,7 +47,7 @@ class PostController implements IController {
   private likePostById = async (req: Request, res: Response, next: NextFunction) => {
     const user = await req.user;
     const postId = +req.params.id;
-    const post = new PostViewModel(this.postService.findById(postId), user.id);
+    const post = new PostViewModel(await this.postService.findById(postId), user.id);
     const likedPost = post.userLiked;
     if (likedPost) {
       this.postService.unlikePost(postId, user.id);
