@@ -19,18 +19,26 @@ import ILike from "../../../interfaces/like.interface";
 export class PostViewModel {
   readonly _db = database;
   public postId: number;
-  public creator: number;
+  public creator: string;
   public message: string;
   public createdAt: string;
   public comments: IComment[];
+  public commentsCount: number;
   public likes: ILike[];
+  public likesCount: number;
 
   constructor(post: IPost) {
     this.postId = post.id;
-    this.creator = post.creator;
+    this.creator = this.getUser(post.creator);
     this.createdAt = DateFormatter.format(post.createdAt);
     this.message = post.message;
     this.comments = this.getComments();
+    this.commentsCount = this.comments.length;
+    this.likes = this.getLikes();
+    this.likesCount = this.likes.length;
+  }
+  getUser(creator: number): string {
+    return this._db.users.find((user) => user.id === creator).username;
   }
   getComments(): IComment[] {
     return this._db.comments.filter((comment) => comment.postId === this.postId);

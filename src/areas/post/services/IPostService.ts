@@ -4,7 +4,7 @@ import IPost from "../../../interfaces/post.interface";
 // ⭐️ Feel free to change this interface in any way you like. It is simply an example...
 export default interface IPostService {
   readonly _db: IDatabase;
-  addPost(post: IPost, username: string): void;
+  addPost(message: string, userId: number): void;
 
   sortPosts(posts: IPost[]): IPost[];
 
