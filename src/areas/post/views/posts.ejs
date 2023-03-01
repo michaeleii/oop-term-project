@@ -170,9 +170,9 @@
 								<p class="mb-6"><%= post.message %></p>
 							</div>
 							<div class="pb-2">
-								<span class="mr-8"><a href="/posts/<%= post.id %>" class="text-grey-dark hover:no-underline hover:text-blue-light"><i class="fa fa-comment fa-lg mr-2"></i> <%=
+								<span class="mr-8"><a href="/posts/<%= post.id %>" class="text-grey-dark hover:no-underline hover:text-blue-500"><i class="fa fa-comment fa-lg mr-2"></i> <%=
                     post.commentsCount %></a></span>
-								<span class="mr-8"><a href="/posts/<%= post.id %>/like" class="text-grey-dark hover:no-underline hover:text-red-600"><i class="fa fa-heart fa-lg mr-2"></i> <%= post.likesCount %></a></span>
+								<span class="mr-8"><a href="/posts/<%= post.id %>/like" class="hover:no-underline <%= post.userLiked ? "text-red-600 hover:text-grey-dark": "text-grey-dark hover:text-red-600" %>"><i class="fa fa-heart fa-lg mr-2"></i> <%= post.likesCount %></a></span>
 							</div>
 						</div>
 					</div>

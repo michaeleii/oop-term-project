@@ -24,18 +24,18 @@ export class PostViewModel {
   public createdAt: string;
   public comments: CommentViewModel[];
   public commentsCount: number;
-  public likes: ILike[];
+  public userLiked: boolean;
   public likesCount: number;
 
-  constructor(post: IPost) {
+  constructor(post: IPost, userId: number) {
     this.id = post.id;
     this.creator = this.getUser(post.creator);
     this.createdAt = DateFormatter.format(post.createdAt);
     this.message = post.message;
     this.comments = this.getComments();
     this.commentsCount = this.comments.length;
-    this.likes = this.getLikes();
-    this.likesCount = this.likes.length;
+    this.userLiked = this.getUserLiked(userId);
+    this.likesCount = this.getLikes().length;
   }
   getUser(creator: number): string {
     return this._db.users.find((user) => user.id === creator).username;
@@ -47,5 +47,8 @@ export class PostViewModel {
   }
   getLikes(): ILike[] {
     return this._db.likes.filter((like) => like.postId === this.id);
+  }
+  getUserLiked(userId: number): boolean {
+    return this._db.likes.some((like) => like.postId === this.id && like.userId === userId);
   }
 }
