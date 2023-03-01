@@ -5,30 +5,31 @@ import morgan from "morgan";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-declare module "dotenv" {
-  interface ProcessEnv {
-    REDIS_PASSWORD: string;
-    REDIS_HOST: string;
-    REDIS_PORT: string;
-    NODE_ENV: string;
-  }
-}
+// declare module "dotenv" {
+//   interface ProcessEnv {
+//     REDIS_PASSWORD: string;
+//     REDIS_HOST: string;
+//     REDIS_PORT: string;
+//     NODE_ENV: string;
+//   }
+// }
 
-let RedisStore = require("connect-redis")(session);
-const Redis = require("ioredis");
+// let RedisStore = require("connect-redis")(session);
+// const Redis = require("ioredis");
 
-const { NODE_ENV, REDIS_PASSWORD, REDIS_HOST, REDIS_PORT } = process.env;
+// let { NODE_ENV, REDIS_PASSWORD, REDIS_HOST, REDIS_PORT } = process.env;
 
-let redisClient = new Redis({
-  port: REDIS_PORT,
-  host: REDIS_HOST,
-  password: REDIS_PASSWORD,
-});
+// let redisClient = new Redis({
+//   port: REDIS_PORT,
+//   host: REDIS_HOST,
+//   password: REDIS_PASSWORD,
+// });
 
-const redisStore = new RedisStore({ client: redisClient });
-const memoryStore = new session.MemoryStore();
+// const redisStore = new RedisStore({ client: redisClient });
+// const memoryStore = new session.MemoryStore();
 
-const sessionStore = NODE_ENV === "production" ? redisStore : memoryStore;
+// const sessionStore = NODE_ENV === "production" ? redisStore : memoryStore;
+const sessionStore = new session.MemoryStore();
 
 module.exports = (app) => {
   // Static File Serving and Post Body Parsing

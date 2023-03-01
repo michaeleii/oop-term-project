@@ -2,7 +2,7 @@ import express from "express";
 import errorMiddleware from "./middleware/error.middleware";
 import Controller from "./interfaces/controller.interface";
 import dotenv from "dotenv";
-import { debuggerMiddleware } from "./middleware/debug.middleware";
+import debuggerMiddleware from "./middleware/debug.middleware";
 
 class App {
   private _app: express.Application;

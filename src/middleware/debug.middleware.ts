@@ -1,6 +1,6 @@
 import { database } from "../model/fakeDB";
 
-export const debuggerMiddleware = (req, res, next) => {
+const debuggerMiddleware = (req, res, next) => {
   const DEBUG_DATABASE = true;
   if (req.session) {
     console.log(`Session Details:`);
@@ -16,3 +16,4 @@ export const debuggerMiddleware = (req, res, next) => {
   }
   next();
 };
+export default debuggerMiddleware;
