@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction, Router } from "express";
 import IController from "../../../interfaces/controller.interface";
 import ISettingService from "../services/ISettingService";
-import { post, posts } from "../../../model/fakeDB";
 import { ensureAuthenticated } from "../../../middleware/authentication.middleware";
 
 class SettingController implements IController {
