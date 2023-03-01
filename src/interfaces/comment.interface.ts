@@ -1,8 +1,9 @@
 interface IComment {
-  id: string;
+  id: number;
+  postId: number;
+  creator: number;
   message: string;
-  userId: string;
-  createdAt: string;
+  createdAt: Date;
 }
 
 export default IComment;
