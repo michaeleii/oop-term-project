@@ -10,7 +10,7 @@ export default interface IPostService {
 
   getAllPosts(userId: number): IPost[];
 
-  findById(id: string): IPost | undefined;
+  findById(id: number): IPost | undefined;
 
   addCommentToPost(
     message: { id: string; createdAt: string; userId: string; message: string },

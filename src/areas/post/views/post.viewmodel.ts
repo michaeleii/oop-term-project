@@ -1,8 +1,8 @@
 import { database } from "../../../model/fakeDB";
 import DateFormatter from "../../../helper/DateFormatter";
-import IComment from "../../../interfaces/comment.interface";
 import IPost from "../../../interfaces/post.interface";
 import ILike from "../../../interfaces/like.interface";
+import { CommentViewModel } from "../comment.viewmodel";
 
 // The following is an (incomplete) example of what a view model may look like
 // The purpose of a view model is to format the incoming data from the database
@@ -18,17 +18,17 @@ import ILike from "../../../interfaces/like.interface";
 
 export class PostViewModel {
   readonly _db = database;
-  public postId: number;
+  public id: number;
   public creator: string;
   public message: string;
   public createdAt: string;
-  public comments: IComment[];
+  public comments: CommentViewModel[];
   public commentsCount: number;
   public likes: ILike[];
   public likesCount: number;
 
   constructor(post: IPost) {
-    this.postId = post.id;
+    this.id = post.id;
     this.creator = this.getUser(post.creator);
     this.createdAt = DateFormatter.format(post.createdAt);
     this.message = post.message;
@@ -40,10 +40,12 @@ export class PostViewModel {
   getUser(creator: number): string {
     return this._db.users.find((user) => user.id === creator).username;
   }
-  getComments(): IComment[] {
-    return this._db.comments.filter((comment) => comment.postId === this.postId);
+  getComments(): CommentViewModel[] {
+    return this._db.comments
+      .filter((comment) => comment.postId === this.id)
+      .map((comment) => new CommentViewModel(comment));
   }
   getLikes(): ILike[] {
-    return this._db.likes.filter((like) => like.postId === this.postId);
+    return this._db.likes.filter((like) => like.postId === this.id);
   }
 }
