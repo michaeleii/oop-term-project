@@ -17,9 +17,8 @@ export class MockPostService implements IPostService {
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
       .filter((post) => post.creator === userId);
   }
-  findById(id: string): IPost {
-    // 🚀 Implement this yourself.
-    throw new Error("Method not implemented.");
+  findById(id: number): IPost {
+    return this._db.posts.find((post) => post.id === id);
   }
   addCommentToPost(message: { id: string; createdAt: string; userId: string; message: string }, postId: string): void {
     // 🚀 Implement this yourself.
