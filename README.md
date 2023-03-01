@@ -39,6 +39,29 @@ I worked on the following tasks:
 1. Add content to Section 3 on the homepage.
    - This task is responsible for adding content to the homepage.
 
+## Feb 28 (Second Sprint Complete)
+
+### Michael Lei
+
+I worked on the following tasks:
+
+1. Implement Register
+   - This task is responsible for registering users.
+
+### Brian
+
+I worked on the following tasks:
+
+1. Normalize the database
+   - This task is responsible for making data in the database easily accessible.
+
+### Hani
+
+I worked on the following tasks:
+
+1. Create Settings EJS Page
+   - This task is responsible for showing users a settings page when users click on settings.
+
 <!-- Example below:
     March 9th (First Sprint Complete)
     Amy Chan:
