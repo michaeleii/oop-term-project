@@ -16,7 +16,9 @@ class SearchController implements IController {
   private initializeRoutes() {
     this.router.get(this.path, ensureAuthenticated, this.search);
   }
-  private search = async (req: Request, res: Response, next: NextFunction) => {};
+  private search = async (req: Request, res: Response, next: NextFunction) => {
+    res.render("search/views/search");
+  };
 }
 
 export default SearchController;
