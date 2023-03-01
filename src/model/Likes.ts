@@ -1,11 +1,3 @@
-interface Like {
-      id: string;
-      userId: string;
-      postId: string;
-      liked: boolean;
-    }
-    
-    const likes: Like[] = [];
-    
-    export { Like, likes };
-    
+import { ILike } from "../interfaces/like.interface";
+
+export const Likes: ILike[] = [];
