@@ -30,8 +30,6 @@ class PostController implements IController {
     const user = await req.user;
     const posts = await this.postService.getAllPosts(user.id);
     const postsFormatted = posts.map((post) => new PostViewModel(post, user.id));
-    console.log(postsFormatted);
-
     res.render("post/views/posts", { posts: postsFormatted, user });
   };
 
