@@ -3,8 +3,15 @@ import path from "path";
 import session from "express-session";
 import morgan from "morgan";
 import * as dotenv from "dotenv";
+import bcrypt from "bcrypt";
 dotenv.config();
 
+(async () => {
+  const myPlaintextPassword = "james123!";
+  const saltRounds = 10;
+  const hash = await bcrypt.hash(myPlaintextPassword, saltRounds);
+  console.log(hash);
+})();
 // declare module "dotenv" {
 //   interface ProcessEnv {
 //     REDIS_PASSWORD: string;
