@@ -1,6 +1,6 @@
 import IComment from "../interfaces/comment.interface";
 
-export const comments: IComment[] = [
+export const Comments: IComment[] = [
   {
     id: "1",
     createdAt: "2012-01-09T11:25:13Z",
