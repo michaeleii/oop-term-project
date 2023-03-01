@@ -2,6 +2,7 @@ import { database } from "../../../model/fakeDB";
 import IUser from "../../../interfaces/user.interface";
 import { IAuthenticationService } from "./IAuthentication.service";
 import EmailAlreadyExistsException from "../../../exceptions/EmailAlreadyExists";
+import bcrypt from "bcrypt";
 
 export class MockAuthenticationService implements IAuthenticationService {
   readonly _db = database;
@@ -11,10 +12,13 @@ export class MockAuthenticationService implements IAuthenticationService {
     if (!user) {
       throw new Error("User with that email does not exists");
     }
-    if (user && user.password === password) {
-      return user;
-    } else {
-      throw new Error("Invalid password");
+    if (user) {
+      const correctPassword = await bcrypt.compare(password, user.password);
+      if (correctPassword) {
+        return user;
+      } else {
+        throw new Error("Incorrect password");
+      }
     }
   }
 
@@ -42,13 +46,14 @@ export class MockAuthenticationService implements IAuthenticationService {
     if (userAlreadyExists) {
       throw new EmailAlreadyExistsException(email);
     } else {
+      const hash = await bcrypt.hash(password, 10);
       const newUser = {
         id: this._db.users.length + 1,
         username,
         firstName,
         lastName,
         email,
-        password,
+        password: hash,
       };
       this._db.users.push(newUser);
       return newUser;

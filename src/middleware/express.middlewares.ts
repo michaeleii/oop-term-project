@@ -5,6 +5,15 @@ import morgan from "morgan";
 import * as dotenv from "dotenv";
 dotenv.config();
 
+// (async () => {
+//   const myPlaintextPassword = "gates123!";
+//   const saltRounds = 10;
+//   const hash = await bcrypt.hash(myPlaintextPassword, saltRounds);
+//   const match = await bcrypt.compare(myPlaintextPassword, hash);
+//   console.log(hash);
+//   console.log(match);
+// })();
+//
 // declare module "dotenv" {
 //   interface ProcessEnv {
 //     REDIS_PASSWORD: string;
