@@ -12,11 +12,13 @@ class SettingController implements IController {
   }
 
   private initializeRoutes() {
+    this.router.get(`${this.path}/`, ensureAuthenticated, this.getSettingsPage);
+    this.router.get(`${this.path}/:id`, ensureAuthenticated, this.getSettingsPage);
+    this.router.get(`${this.path}/:id`, ensureAuthenticated, this.getSettingsPage);
     this.router.get(`${this.path}/:id`, ensureAuthenticated, this.getSettingsPage);
   }
   private getSettingsPage = async (request: Request, res: Response, next: NextFunction) => {
     const user = await request.user;
-
     res.render("setting/views/setting", { user });
   };
 }
