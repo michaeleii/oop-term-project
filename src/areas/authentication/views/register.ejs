@@ -27,12 +27,18 @@
 				<% } %>
 				<form class="flex flex-col pt-3 md:pt-8" method="post" action="/auth/register">
 					<div class="flex flex-col pt-4">
-						<label for="firstName" class="text-lg">First Name</label>
-						<input type="text" id="firstName" name="firstName" placeholder="First Name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline" required />
+						<label for="firstName" class="text-lg">Username</label>
+						<input type="text" id="username" name="username" placeholder="Username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline" required />
 					</div>
-					<div class="flex flex-col pt-4">
-						<label for="lastName" class="text-lg">Last Name</label>
-						<input type="text" id="lastName" name="lastName" placeholder="Last Name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline" required />
+					<div class=" md:flex">
+						<div class="md:w-1/2 pt-4 pr-3">
+							<label for="firstName" class="text-lg">First Name</label>
+							<input type="text" id="firstName" name="firstName" placeholder="First Name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline" required />
+						</div>
+						<div class="md:w-1/2 pt-4 pl-3">
+							<label for="lastName" class="text-lg">Last Name</label>
+							<input type="text" id="lastName" name="lastName" placeholder="Last Name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline" required />
+						</div>
 					</div>
 					<div class="flex flex-col pt-4">
 						<label for="email" class="text-lg">Email</label>
