@@ -1,4 +1,5 @@
 import express from "express";
+import { forwardAuthenticated } from "../../../middleware/authentication.middleware";
 import IController from "../../../interfaces/controller.interface";
 
 class LandingController implements IController {
@@ -10,7 +11,7 @@ class LandingController implements IController {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}/`, this.showLandingPage);
+    this.router.get(`${this.path}/`, forwardAuthenticated, this.showLandingPage);
   }
 
   private showLandingPage = (_: express.Request, res: express.Response) => {
