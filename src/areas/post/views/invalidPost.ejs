@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>devHouse</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" />
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+</head>
+
+<body class="bg-grey-light font-sans">
+	<section class="h-screen w-screen bg-gray-200 flex flex-col-reverse sm:flex-row min-h-0 min-w-0 overflow-hidden">
+
+		<main class="sm:h-full flex-1 flex flex-col min-h-0 min-w-0 overflow-auto">
+			<nav class="border-b bg-white px-6 py-2 flex items-center min-w-0 h-14">
+				<h1 class="font-semibold text-lg"></h1>
+				<span><a href="/posts" class="text-grey-dark hover:no-underline hover:text-green"><i class="fa fa-arrow-left fa-lg mr-2"></i> Back</a></span>
+				<span class="flex-1"></span>
+			</nav>
+			<section class="flex-1 pt-3 md:p-6 lg:mb-0 lg:min-h-0 lg:min-w-0">
+				<div class="flex flex-col lg:flex-column items-center justify-center h-full w-full">
+					<h1 class="text-6xl mb-10">404 Not Found</h1>
+					<h2 class="text-lg">Sorry, We Can't find a post with an id number of <%= id %>.</h2>
+				</div>
+			</section>
+
+		</main>
+	</section>
+
+</body>
+
+</html>
