@@ -17,7 +17,10 @@ class SearchController implements IController {
     this.router.get(this.path, ensureAuthenticated, this.search);
   }
   private search = async (req: Request, res: Response, next: NextFunction) => {
-    res.render("search/views/search");
+    const searchTerm = String(req.query.searchTerm);
+    const users = this.searchService.searchUsers(searchTerm);
+    const posts = this.searchService.searchPosts(searchTerm);
+    res.render("search/views/search", { users, posts });
   };
 }
 

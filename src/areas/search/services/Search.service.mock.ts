@@ -6,9 +6,9 @@ import IPost from "../../../interfaces/post.interface";
 export class MockSearchService implements ISearchService {
   readonly _db = database;
   searchUsers(searchTerm: string): IUser[] {
-    throw new Error("Method not implemented.");
+    return this._db.users.filter((user) => user.firstName.includes(searchTerm) || user.lastName.includes(searchTerm));
   }
   searchPosts(searchTerm: string): IPost[] {
-    throw new Error("Method not implemented.");
+    return this._db.posts.filter((post) => post.message.includes(searchTerm));
   }
 }
