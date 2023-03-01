@@ -47,6 +47,8 @@ I worked on the following tasks:
 
 1. Implement Register
    - This task is responsible for registering users.
+2. Implement Error Messages
+   - This task is responsible for displaying error messages on the login and sign up page as well in the appending the errors to the error.log file.
 
 ### Brian
 
