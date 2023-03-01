@@ -1,6 +1,8 @@
-export interface ILike {
-  id: string;
-  userId: string;
-  postId: string;
+interface ILike {
+  id: number;
+  userId: number;
+  postId: number;
   liked: boolean;
 }
+
+export default ILike;

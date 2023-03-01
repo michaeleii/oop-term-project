@@ -1,9 +1,7 @@
-import IComment from "./comment.interface";
-
 interface IPost {
-  id: string;
+  id: number;
   message: string;
-  userId: string;
+  creator: number;
   createdAt: Date;
 }
 

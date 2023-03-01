@@ -18,7 +18,7 @@ export class MockAuthenticationService implements IAuthenticationService {
     }
   }
 
-  public async getUserById(id: string): Promise<IUser | null> {
+  public async getUserById(id: number): Promise<IUser | null> {
     let user = await this._db.users.find((user) => user.id === id);
     if (user) {
       return user;
@@ -43,7 +43,7 @@ export class MockAuthenticationService implements IAuthenticationService {
       throw new EmailAlreadyExistsException(email);
     } else {
       return {
-        id: String(this._db.users.length + 1),
+        id: this._db.users.length + 1,
         username,
         firstName,
         lastName,

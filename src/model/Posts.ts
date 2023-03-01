@@ -2,20 +2,20 @@ import IPost from "../interfaces/post.interface";
 
 export const Posts: IPost[] = [
   {
-    id: "abc1",
-    userId: "billgates",
+    id: 1,
+    creator: 1,
     message: "Microsoft is a nice company",
     createdAt: new Date(),
   },
   {
-    id: "abc3",
-    userId: "james123",
+    id: 2,
+    creator: 2,
     message: "A post by james",
     createdAt: new Date(),
   },
   {
-    id: "abc5",
-    userId: "james123",
+    id: 3,
+    creator: 2,
     message: "Nice weather today in Vancouver",
     createdAt: new Date(),
   },
