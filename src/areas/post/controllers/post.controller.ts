@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction, Router } from "express";
 import IController from "../../../interfaces/controller.interface";
 import IPostService from "../services/IPostService";
-import { post, posts } from "../../../model/fakeDB";
 import { ensureAuthenticated } from "../../../middleware/authentication.middleware";
 import { PostViewModel } from "../views/post.viewmodel";
+import PostNotFoundException from "../../../exceptions/PostNotFoundException";
 
 class PostController implements IController {
   public path = "/posts";
@@ -17,17 +17,18 @@ class PostController implements IController {
 
   private initializeRoutes() {
     this.router.get(this.path, ensureAuthenticated, this.getAllPosts);
-    this.router.get(`${this.path}/:id`, this.getPostById);
-    this.router.get(`${this.path}/:id/delete`, this.deletePost);
-    this.router.post(`${this.path}/:id/comment`, this.createComment);
-    this.router.get(`${this.path}/:id/like`, this.likePostById);
-    this.router.post(`${this.path}`, this.createPost);
+    this.router.get(`${this.path}/:id`, ensureAuthenticated, this.getPostById);
+    this.router.get(`${this.path}/:id/delete`, ensureAuthenticated, this.deletePost);
+    this.router.post(`${this.path}/:id/comment`, ensureAuthenticated, this.createComment);
+    this.router.get(`${this.path}/:id/like`, ensureAuthenticated, this.likePostById);
+    this.router.post(`${this.path}`, ensureAuthenticated, this.createPost);
+    this.router.get(`${this.path}/:id/invalidPost`, ensureAuthenticated, this.showInvalidPost);
   }
 
   // 🚀 This method should use your postService and pull from your actual fakeDB, not the temporary posts object
   private getAllPosts = async (req: Request, res: Response) => {
     const user = await req.user;
-    const posts = this.postService.getAllPosts(user.id);
+    const posts = await this.postService.getAllPosts(user.id);
     const postsFormatted = posts.map((post) => new PostViewModel(post, user.id));
     console.log(postsFormatted);
 
@@ -38,21 +39,33 @@ class PostController implements IController {
   private getPostById = async (req: Request, res: Response, next: NextFunction) => {
     const id = +req.params.id;
     const userId = await req.user.id;
-    const post = this.postService.findById(id);
-    const postFormatted = new PostViewModel(post, userId);
-
-    res.render("post/views/post", { post: postFormatted });
+    try {
+      const post = await this.postService.findById(id);
+      if (!post) {
+        res.redirect(`/posts/${id}/invalidPost`);
+        next(new PostNotFoundException(id));
+      } else {
+        const postFormatted = new PostViewModel(post, userId);
+        res.render("post/views/post", { post: postFormatted });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  private showInvalidPost = async (req: Request, res: Response) => {
+    const id = req.params.id;
+    res.render("post/views/invalidPost", { id });
   };
 
   private likePostById = async (req: Request, res: Response, next: NextFunction) => {
     const user = await req.user;
     const postId = +req.params.id;
-    const post = new PostViewModel(this.postService.findById(postId), user.id);
+    const post = new PostViewModel(await this.postService.findById(postId), user.id);
     const likedPost = post.userLiked;
     if (likedPost) {
-      this.postService.unlikePost(postId, user.id);
+      await this.postService.unlikePost(postId, user.id);
     } else {
-      this.postService.likePost(postId, user.id);
+      await this.postService.likePost(postId, user.id);
     }
     res.redirect("back");
   };
@@ -63,7 +76,7 @@ class PostController implements IController {
   private createPost = async (req: Request, res: Response, next: NextFunction) => {
     const user = await req.user;
     const message: string = req.body.postText;
-    this.postService.addPost(message, user.id);
+    await this.postService.addPost(message, user.id);
     res.redirect("/posts");
   };
   private deletePost = async (req: Request, res: Response, next: NextFunction) => {};

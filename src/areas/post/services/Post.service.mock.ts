@@ -4,7 +4,7 @@ import IPostService from "./IPostService";
 
 export class MockPostService implements IPostService {
   readonly _db = database;
-  addPost(message: string, userId: number): void {
+  async addPost(message: string, userId: number): Promise<void> {
     this._db.posts.push({
       id: this._db.posts.length + 1,
       creator: userId,
@@ -13,19 +13,20 @@ export class MockPostService implements IPostService {
     });
   }
 
-  getAllPosts(userId: number): IPost[] {
-    return this.sortPosts(this._db.posts).filter((post) => post.creator === userId);
+  async getAllPosts(userId: number): Promise<IPost[]> {
+    const sortedPosts = await this.sortPosts(this._db.posts);
+    return sortedPosts.filter((post) => post.creator === userId);
   }
 
-  sortPosts(posts: IPost[]): IPost[] {
+  async sortPosts(posts: IPost[]): Promise<IPost[]> {
     return this._db.posts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
 
-  findById(id: number): IPost {
+  async findById(id: number): Promise<IPost> {
     return this._db.posts.find((post) => post.id === id);
   }
 
-  likePost(postId: number, userId: number): void {
+  async likePost(postId: number, userId: number): Promise<void> {
     this._db.likes.push({
       id: this._db.likes.length + 1,
       postId: postId,
@@ -33,11 +34,14 @@ export class MockPostService implements IPostService {
     });
   }
 
-  unlikePost(postId: number, userId: number): void {
+  async unlikePost(postId: number, userId: number): Promise<void> {
     this._db.likes = this._db.likes.filter((like) => like.postId !== postId && like.userId !== userId);
   }
 
-  addCommentToPost(message: { id: string; createdAt: string; userId: string; message: string }, postId: string): void {
+  async addCommentToPost(
+    message: { id: string; createdAt: string; userId: string; message: string },
+    postId: string
+  ): Promise<void> {
     // 🚀 Implement this yourself.
     throw new Error("Method not implemented.");
   }
