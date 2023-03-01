@@ -19,12 +19,9 @@ class SearchController implements IController {
     this.router.get(this.path, ensureAuthenticated, this.search);
   }
   private search = async (req: Request, res: Response, next: NextFunction) => {
-    const searchTerm = String(req.query.query);
-    console.log(searchTerm);
-
+    const searchTerm = String(req.query.query).toLowerCase();
     const users = this.searchService.searchUsers(searchTerm);
     const posts = this.searchService.searchPosts(searchTerm);
-    console.log(users);
 
     const usersFormatted = users.map((user) => new SearchUserViewModel(user));
     const postsFormatted = posts.map((post) => new SearchPostViewModel(post));
