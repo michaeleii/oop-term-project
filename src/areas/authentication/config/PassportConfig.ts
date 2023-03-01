@@ -7,6 +7,7 @@ import IUser from "../../../interfaces/user.interface";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { MockAuthenticationService } from "../services/Authentication.service.mock";
+import FormValidater from "../../../helper/FormValidater";
 declare global {
   namespace Express {
     interface User extends IUser {}
@@ -27,6 +28,8 @@ export default class PassportConfig {
       },
       async (email: string, password: string, done) => {
         try {
+          if (FormValidater.IsEmpty(email)) throw new Error("Email is required");
+          if (FormValidater.IsEmpty(password)) throw new Error("Password is required");
           const user = await this._authenticationService.getUserByEmailAndPassword(email, password);
           return done(null, user);
         } catch (error: any) {
