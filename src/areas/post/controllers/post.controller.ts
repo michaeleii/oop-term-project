@@ -20,7 +20,7 @@ class PostController implements IController {
     this.router.get(`${this.path}/:id`, this.getPostById);
     this.router.get(`${this.path}/:id/delete`, this.deletePost);
     this.router.post(`${this.path}/:id/comment`, this.createComment);
-    this.router.post(`${this.path}/:id/like`, this.likePostById);
+    this.router.get(`${this.path}/:id/like`, this.likePostById);
     this.router.post(`${this.path}`, this.createPost);
   }
 
