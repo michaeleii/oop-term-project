@@ -3,6 +3,7 @@ import express from "express";
 import passport from "passport";
 import IController from "../../../interfaces/controller.interface";
 import { IAuthenticationService } from "../services";
+import FormValidater from "../../../helper/FormValidater";
 
 declare module "express-session" {
   interface SessionData {
@@ -57,7 +58,11 @@ class AuthenticationController implements IController {
   private login = passport.authenticate("local", this.localStrategyOptions);
   private registration = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
-      let user = await this.service.createUser(req.body);
+      if (FormValidater.IsEmpty(req.body.firstName)) throw new Error("First Name is required");
+      if (FormValidater.IsEmpty(req.body.lastName)) throw new Error("Last Name is required");
+      if (FormValidater.IsEmpty(req.body.email)) throw new Error("Email is required");
+      if (FormValidater.IsEmpty(req.body.password)) throw new Error("Password is required");
+      await this.service.createUser(req.body);
       res.redirect("/auth/login");
     } catch (error) {
       req.session.error = error.message;
