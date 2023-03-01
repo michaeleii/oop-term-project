@@ -2,6 +2,8 @@ import { Request, Response, NextFunction, Router } from "express";
 import IController from "../../../interfaces/controller.interface";
 import { ensureAuthenticated } from "../../../middleware/authentication.middleware";
 import ISearchService from "../services/ISearchService";
+import { SearchPostViewModel } from "../views/search.post.viewmodel";
+import { SearchUserViewModel } from "../views/search.user.viewmodel";
 
 class SearchController implements IController {
   public path = "/search";
@@ -17,10 +19,16 @@ class SearchController implements IController {
     this.router.get(this.path, ensureAuthenticated, this.search);
   }
   private search = async (req: Request, res: Response, next: NextFunction) => {
-    const searchTerm = String(req.query.searchTerm);
+    const searchTerm = String(req.query.query);
+    console.log(searchTerm);
+
     const users = this.searchService.searchUsers(searchTerm);
     const posts = this.searchService.searchPosts(searchTerm);
-    res.render("search/views/search", { users, posts });
+    console.log(users);
+
+    const usersFormatted = users.map((user) => new SearchUserViewModel(user));
+    const postsFormatted = posts.map((post) => new SearchPostViewModel(post));
+    res.render("search/views/search", { users: usersFormatted, posts: postsFormatted });
   };
 }
 
