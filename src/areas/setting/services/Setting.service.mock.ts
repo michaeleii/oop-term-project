@@ -1,13 +1,15 @@
+import { database } from "../../../model/fakeDB";
 import ISettingService from "../services/ISettingService";
 
 export class MockSettingService implements ISettingService {
-  changeUsername(username: string): void {
+  readonly _db = database;
+  changeUsername(userId: number, username: string): void {
     throw new Error("Method not implemented.");
   }
-  changeEmail(email: string): void {
+  changeEmail(userId: number, email: string): void {
     throw new Error("Method not implemented.");
   }
-  changePassword(currentPassword: string, newPassword: string): void {
+  changePassword(userId: number, currentPassword: string, newPassword: string): void {
     throw new Error("Method not implemented.");
   }
 }

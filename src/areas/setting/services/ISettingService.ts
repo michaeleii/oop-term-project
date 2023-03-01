@@ -1,5 +1,5 @@
 export default interface ISettingService {
-  changeUsername(username: string): void;
-  changeEmail(email: string): void;
-  changePassword(currentPassword: string, newPassword: string): void;
+  changeUsername(userId: number, username: string): void;
+  changeEmail(userId: number, email: string): void;
+  changePassword(userId: number, currentPassword: string, newPassword: string): void;
 }
