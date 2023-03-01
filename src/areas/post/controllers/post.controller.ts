@@ -20,6 +20,7 @@ class PostController implements IController {
     this.router.get(`${this.path}/:id`, this.getPostById);
     this.router.get(`${this.path}/:id/delete`, this.deletePost);
     this.router.post(`${this.path}/:id/comment`, this.createComment);
+    this.router.get(`${this.path}/:id/like`, this.likePostById);
     this.router.post(`${this.path}`, this.createPost);
   }
 
@@ -27,20 +28,38 @@ class PostController implements IController {
   private getAllPosts = async (req: Request, res: Response) => {
     const user = await req.user;
     const posts = this.postService.getAllPosts(user.id);
-    const postsFormatted = posts.map((post) => new PostViewModel(post));
+    const postsFormatted = posts.map((post) => new PostViewModel(post, user.id));
+    console.log(postsFormatted);
+
     res.render("post/views/posts", { posts: postsFormatted, user });
   };
 
   // 🚀 This method should use your postService and pull from your actual fakeDB, not the temporary post object
-  private getPostById = async (request: Request, res: Response, next: NextFunction) => {
-    const id = request.params.id;
-    const post = this.postService.findById(parseInt(id));
-    const postFormatted = new PostViewModel(post);
+  private getPostById = async (req: Request, res: Response, next: NextFunction) => {
+    const id = +req.params.id;
+    const userId = await req.user.id;
+    const post = this.postService.findById(id);
+    const postFormatted = new PostViewModel(post, userId);
+
     res.render("post/views/post", { post: postFormatted });
+  };
+
+  private likePostById = async (req: Request, res: Response, next: NextFunction) => {
+    const user = await req.user;
+    const postId = +req.params.id;
+    const post = new PostViewModel(this.postService.findById(postId), user.id);
+    const likedPost = post.userLiked;
+    if (likedPost) {
+      this.postService.unlikePost(postId, user.id);
+    } else {
+      this.postService.likePost(postId, user.id);
+    }
+    res.redirect("back");
   };
 
   // 🚀 These post methods needs to be implemented by you
   private createComment = async (req: Request, res: Response, next: NextFunction) => {};
+
   private createPost = async (req: Request, res: Response, next: NextFunction) => {
     const user = await req.user;
     const message: string = req.body.postText;
