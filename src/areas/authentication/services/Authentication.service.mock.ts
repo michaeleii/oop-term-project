@@ -42,7 +42,7 @@ export class MockAuthenticationService implements IAuthenticationService {
     if (userAlreadyExists) {
       throw new EmailAlreadyExistsException(email);
     } else {
-      return {
+      const newUser = {
         id: this._db.users.length + 1,
         username,
         firstName,
@@ -50,6 +50,8 @@ export class MockAuthenticationService implements IAuthenticationService {
         email,
         password,
       };
+      this._db.users.push(newUser);
+      return newUser;
     }
   }
 }
