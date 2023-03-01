@@ -28,7 +28,6 @@ export default class PassportConfig {
       async (email: string, password: string, done) => {
         try {
           const user = await this._authenticationService.getUserByEmailAndPassword(email, password);
-          console.log(user);
           return done(null, user);
         } catch (error: any) {
           return done(null, false, error);
@@ -46,7 +45,7 @@ export default class PassportConfig {
     });
   }
   deserializeUser(passport: passport.PassportStatic) {
-    passport.deserializeUser((id: string, done) => {
+    passport.deserializeUser((id: number, done) => {
       let user = this._authenticationService.getUserById(id);
       if (user) {
         done(null, user as any);
