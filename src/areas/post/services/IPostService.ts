@@ -12,6 +12,10 @@ export default interface IPostService {
 
   findById(id: number): IPost | undefined;
 
+  likePost(postId: number, userId: number): void;
+
+  unlikePost(postId: number, userId: number): void;
+
   addCommentToPost(
     message: { id: string; createdAt: string; userId: string; message: string },
     postId: string
