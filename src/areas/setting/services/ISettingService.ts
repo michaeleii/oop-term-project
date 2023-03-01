@@ -1,5 +1,5 @@
 export default interface ISettingService {
-  changeUsername(username: string): Promise<void>;
-  changeEmail(email: string): Promise<void>;
-  changePassword(currentPassword: string, newPassword: string): Promise<void>;
+  changeUsername(username: string): void;
+  changeEmail(email: string): void;
+  changePassword(currentPassword: string, newPassword: string): void;
 }

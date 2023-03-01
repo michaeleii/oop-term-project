@@ -13,13 +13,22 @@ class SettingController implements IController {
 
   private initializeRoutes() {
     this.router.get(`${this.path}/`, ensureAuthenticated, this.getSettingsPage);
-    this.router.get(`${this.path}/:id`, ensureAuthenticated, this.getSettingsPage);
-    this.router.get(`${this.path}/:id`, ensureAuthenticated, this.getSettingsPage);
-    this.router.get(`${this.path}/:id`, ensureAuthenticated, this.getSettingsPage);
+    //Route to change username
+    //Route to change email
+    //Route to change password
   }
   private getSettingsPage = async (request: Request, res: Response, next: NextFunction) => {
     const user = await request.user;
     res.render("setting/views/setting", { user });
+  };
+  private changeUsername = async (request: Request, res: Response, next: NextFunction) => {
+    const user = await request.user;
+  };
+  private changeEmail = async (request: Request, res: Response, next: NextFunction) => {
+    const user = await request.user;
+  };
+  private changePassword = async (request: Request, res: Response, next: NextFunction) => {
+    const user = await request.user;
   };
 }
 
