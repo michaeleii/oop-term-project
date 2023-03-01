@@ -3,7 +3,7 @@ import PostController from "./areas/post/controllers/post.controller";
 import LandingController from "./areas/landing/controllers/Landing.controller";
 import AuthenticationController from "./areas/authentication/controllers/Authentication.controller";
 import { MockAuthenticationService } from "./areas/authentication/services/Authentication.service.mock";
-import { PostService, MockPostService } from "./areas/post/services";
+import { /*PostService,*/ MockPostService } from "./areas/post/services";
 import { MockSettingService } from "./areas/setting/services";
 import SettingController from "./areas/setting/controllers/setting.controller";
 

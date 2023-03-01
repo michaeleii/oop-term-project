@@ -1,15 +1,21 @@
+import { database } from "../../../model/fakeDB";
 import IPost from "../../../interfaces/post.interface";
 import IPostService from "./IPostService";
 
-// ⭐️ Feel free to change this class in any way you like. It is simply an example...
 export class MockPostService implements IPostService {
-  addPost(post: IPost, username: string): void {
-    // 🚀 Implement this yourself.
-    throw new Error("Method not implemented.");
+  readonly _db = database;
+  addPost(message: string, userId: number): void {
+    this._db.posts.push({
+      id: this._db.posts.length + 1,
+      creator: userId,
+      message: message,
+      createdAt: new Date(Date.now()),
+    });
   }
-  getAllPosts(username: string): IPost[] {
-    // 🚀 Implement this yourself.
-    throw new Error("Method not implemented.");
+  getAllPosts(userId: number): IPost[] {
+    return this._db.posts
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      .filter((post) => post.creator === userId);
   }
   findById(id: string): IPost {
     // 🚀 Implement this yourself.
