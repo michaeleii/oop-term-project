@@ -18,7 +18,7 @@ import ILike from "../../../interfaces/like.interface";
 
 export class PostViewModel {
   readonly _db = database;
-  public postId: number;
+  public id: number;
   public creator: string;
   public message: string;
   public createdAt: string;
@@ -28,7 +28,7 @@ export class PostViewModel {
   public likesCount: number;
 
   constructor(post: IPost) {
-    this.postId = post.id;
+    this.id = post.id;
     this.creator = this.getUser(post.creator);
     this.createdAt = DateFormatter.format(post.createdAt);
     this.message = post.message;
@@ -41,9 +41,9 @@ export class PostViewModel {
     return this._db.users.find((user) => user.id === creator).username;
   }
   getComments(): IComment[] {
-    return this._db.comments.filter((comment) => comment.postId === this.postId);
+    return this._db.comments.filter((comment) => comment.postId === this.id);
   }
   getLikes(): ILike[] {
-    return this._db.likes.filter((like) => like.postId === this.postId);
+    return this._db.likes.filter((like) => like.postId === this.id);
   }
 }
