@@ -4,6 +4,7 @@ import passport from "passport";
 import IController from "../../../interfaces/controller.interface";
 import { IAuthenticationService } from "../services";
 import FormValidater from "../../../helper/FormValidater";
+import { ensureAuthenticated, forwardAuthenticated } from "../../../middleware/authentication.middleware";
 
 declare module "express-session" {
   interface SessionData {
@@ -35,11 +36,11 @@ class AuthenticationController implements IController {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}/register`, this.showRegistrationPage);
-    this.router.post(`${this.path}/register`, this.registration);
-    this.router.get(`${this.path}/login`, this.showLoginPage);
-    this.router.post(`${this.path}/login`, this.login);
-    this.router.post(`${this.path}/logout`, this.logout);
+    this.router.get(`${this.path}/register`, forwardAuthenticated, this.showRegistrationPage);
+    this.router.post(`${this.path}/register`, forwardAuthenticated, this.registration);
+    this.router.get(`${this.path}/login`, ensureAuthenticated, this.showLoginPage);
+    this.router.post(`${this.path}/login`, ensureAuthenticated, this.login);
+    this.router.post(`${this.path}/logout`, ensureAuthenticated, this.logout);
   }
 
   private showLoginPage = (req: express.Request, res: express.Response) => {
