@@ -5,6 +5,7 @@ import IPost from "../../../interfaces/post.interface";
 export default interface IPostService {
   readonly _db: IDatabase;
   addPost(message: string, userId: number): Promise<void>;
+  deletePost(postId: number): Promise<void>;
 
   sortPosts(posts: IPost[]): Promise<IPost[]>;
 

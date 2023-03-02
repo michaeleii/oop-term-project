@@ -12,6 +12,9 @@ export class MockPostService implements IPostService {
       createdAt: new Date(Date.now()),
     });
   }
+  async deletePost(postId: number): Promise<void> {
+    this._db.posts = this._db.posts.filter((post) => post.id !== postId);
+  }
 
   async getAllPosts(userId: number): Promise<IPost[]> {
     const sortedPosts = await this.sortPosts(this._db.posts);
