@@ -60,7 +60,6 @@ class PostController implements IController {
     const postId = +req.params.id;
     const post = new PostViewModel(await this.postService.findById(postId), user.id);
     const likedPost = post.userLiked;
-
     if (likedPost) {
       await this.postService.unlikePost(postId, user.id);
     } else {

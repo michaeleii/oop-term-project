@@ -16,6 +16,11 @@
 <body class="bg-grey-light font-sans">
 	<section class="h-screen w-screen bg-gray-200 flex flex-col-reverse sm:flex-row min-h-0 min-w-0 overflow-hidden">
 		<main class="sm:h-full flex-1 flex flex-col min-h-0 min-w-0 overflow-auto">
+			<nav class="border-b bg-white px-6 py-2 flex items-center min-w-0 h-14">
+				<h1 class="font-semibold text-lg"></h1>
+				<span><a href="/posts" class="text-grey-dark hover:no-underline hover:text-green"><i class="fa fa-arrow-left fa-lg mr-2"></i> Back</a></span>
+				<span class="flex-1"></span>
+			</nav>
 			<div id="menu" class="container mx-auto px-4 lg:pt-24 lg:pb-34">
 				<div class="flex flex-wrap text-center justify-center">
 					<div class="w-full lg:w-6/12 px-4">
@@ -31,17 +36,23 @@
 					<% } else {%>
 					<% users.forEach(user => { %>
 					<div class="grid grid-cols-1 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-4">
-						<div class="col-span-2 sm:col-span-1 xl:col-span-1">
+						<div class="col-span-2 sm:col-span-1 xl:col-span-1 items-center">
 							<img class="object-cover h-24 w-24 mx-auto rounded-full" src="https://user-images.githubusercontent.com/76543451/103982284-0a6f0b00-5138-11eb-872b-0b9e70fc5c25.gif" alt="john doe" />
 						</div>
-						<div class="col-span-2 sm:col-span-4 xl:col-span-4">
-							<p><%= user.firstName %> <%= user.lastName %></p>
+						<div class="col-span-2 sm:col-span-4 xl:col-span-4 items-center">
+							<p class="text-2xl"><%= user.firstName %> <%= user.lastName %></p>
 						</div>
-						<div class="col-span-2 sm:col-span-1 xl:col-span-1 italic">
-							<button class="text-pink-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all 0.15s ease">
+						<form action="/search/<%= user.id %>/follow" method="get" class="italic">
+							<% if (user.following) { %>
+							<button class="text-pink-500 hover:bg-gray-800 hover:text-white rounded-full background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1" style="transition: all 0.15s ease">
 								<i class="fa fa-heart mr-2"></i> Following
 							</button>
-						</div>
+							<% } else {%>
+							<button class="text-pink-500 hover:bg-pink-500 hover:text-white rounded-full background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1" style="transition: all 0.15s ease">
+								<i class="fa fa-heart-o mr-2"></i>Follow
+							</button>
+							<% } %>
+						</form>
 						<% }) %>
 						<!-- <div class="col-span-2 sm:col-span-1 xl:col-span-1">
 							<img alt="..." src="https://sewausa.org/resources/Sewa%20USA%20Images/Projects/Sewa%20Aspire/Volunteer%20list/9.png" class="h-24 w-24 rounded mx-auto" />

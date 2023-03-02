@@ -5,12 +5,33 @@ import IPost from "../../../interfaces/post.interface";
 
 export class MockSearchService implements ISearchService {
   readonly _db = database;
-  searchUsers(searchTerm: string): IUser[] {
+
+  async getUser(id: number): Promise<IUser> {
+    return await this._db.users.find((user) => user.id === id);
+  }
+  async searchUsers(searchTerm: string): Promise<IUser[]> {
     return this._db.users.filter(
       (user) => user.firstName.toLowerCase().includes(searchTerm) || user.lastName.toLowerCase().includes(searchTerm)
     );
   }
-  searchPosts(searchTerm: string): IPost[] {
+  async searchPosts(searchTerm: string): Promise<IPost[]> {
     return this._db.posts.filter((post) => post.message.toLowerCase().includes(searchTerm));
+  }
+  async isFollowing(personThatIsFollowing: number, personThatIsBeingFollowed: number): Promise<boolean> {
+    return this._db.followers.some(
+      (f) => f.followerId === personThatIsFollowing && f.followedId === personThatIsBeingFollowed
+    );
+  }
+  async followUser(personThatIsFollowing: number, personThatIsBeingFollowed: number): Promise<void> {
+    this._db.followers.push({
+      id: this._db.followers.length + 1,
+      followerId: personThatIsFollowing,
+      followedId: personThatIsBeingFollowed,
+    });
+  }
+  async unfollowUser(personThatIsFollowing: number, personThatIsBeingFollowed: number): Promise<void> {
+    this._db.followers = this._db.followers.filter(
+      (f) => f.followerId == personThatIsFollowing && f.followedId !== personThatIsBeingFollowed
+    );
   }
 }
