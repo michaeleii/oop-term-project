@@ -1,5 +1,6 @@
 import IDatabase from "../../../interfaces/database.interface.ts";
 import IPost from "../../../interfaces/post.interface";
+import IComment from "../../../interfaces/comment.interface";
 
 // ⭐️ Feel free to change this interface in any way you like. It is simply an example...
 export default interface IPostService {
@@ -17,8 +18,5 @@ export default interface IPostService {
 
   unlikePost(postId: number, userId: number): Promise<void>;
 
-  addCommentToPost(
-    message: { id: string; createdAt: string; userId: string; message: string },
-    postId: string
-  ): Promise<IPost | void>;
+  addCommentToPost(creator: number, message: string, postId: number): Promise<IComment | void>;
 }

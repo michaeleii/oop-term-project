@@ -70,7 +70,13 @@ class PostController implements IController {
   };
 
   // 🚀 These post methods needs to be implemented by you
-  private createComment = async (req: Request, res: Response, next: NextFunction) => {};
+  private createComment = async (req: Request, res: Response, next: NextFunction) => {
+    const user = await req.user;
+    const postId = +req.params.id;
+    const message: string = req.body.commentText;
+    await this.postService.addCommentToPost(user.id, message, postId);
+    res.redirect("back");
+  };
 
   private createPost = async (req: Request, res: Response, next: NextFunction) => {
     const user = await req.user;
