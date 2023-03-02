@@ -1,6 +1,8 @@
+import { database } from "../../../model/fakeDB";
 import IUser from "../../../interfaces/user.interface";
 
 export class SearchUserViewModel {
+  private readonly _db = database;
   id: number;
   firstName: string;
   lastName: string;
@@ -9,6 +11,9 @@ export class SearchUserViewModel {
     this.id = user.id;
     this.firstName = user.firstName;
     this.lastName = user.lastName;
-    this.following = false;
+    this.following = this.getfollowingStatus();
+  }
+  getfollowingStatus(): boolean {
+    return true;
   }
 }
