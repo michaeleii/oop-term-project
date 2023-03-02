@@ -7,13 +7,13 @@ export class SearchUserViewModel {
   firstName: string;
   lastName: string;
   following: boolean;
-  constructor(user: IUser) {
-    this.id = user.id;
-    this.firstName = user.firstName;
-    this.lastName = user.lastName;
-    this.following = this.getfollowingStatus();
+  constructor(searchedUser: IUser, currentUserId: number) {
+    this.id = searchedUser.id;
+    this.firstName = searchedUser.firstName;
+    this.lastName = searchedUser.lastName;
+    this.following = this.isFollowing(currentUserId, this.id);
   }
-  getfollowingStatus(): boolean {
-    return true;
+  isFollowing(follower: number, followed: number): boolean {
+    return this._db.followers.some((f) => f.followerId === follower && f.followedId === followed);
   }
 }

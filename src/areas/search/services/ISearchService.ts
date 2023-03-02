@@ -9,4 +9,5 @@ export default interface ISearchService {
   followUser(follower: number, following: number): Promise<void>;
   unfollowUser(follower: number, following: number): Promise<void>;
   isFollowing(id: number, followingId: number): Promise<boolean>;
+  getUser(id: number): Promise<IUser>;
 }

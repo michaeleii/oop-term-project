@@ -23,18 +23,21 @@ class SearchController implements IController {
     const searchTerm = String(req.query.query).toLowerCase();
     const users = await this.searchService.searchUsers(searchTerm);
     const posts = await this.searchService.searchPosts(searchTerm);
-    const usersFormatted = users.map((user) => new SearchUserViewModel(user));
+    const currentUser = await req.user;
+    const usersFormatted = users.map((searchedUser) => new SearchUserViewModel(searchedUser, currentUser.id));
     const postsFormatted = posts.map((post) => new SearchPostViewModel(post));
     res.render("search/views/search", { users: usersFormatted, posts: postsFormatted });
   };
   private followUser = async (req: Request, res: Response, next: NextFunction) => {
     const followingId = +req.params.id;
-    const user = await req.user;
-    const userFollowed = await this.searchService.isFollowing(user.id, followingId);
-    if (userFollowed) {
-      await this.searchService.unfollowUser(user.id, followingId);
+    const currentUser = await req.user;
+    const user = new SearchUserViewModel(await this.searchService.getUser(followingId), currentUser.id);
+    const isFollowing = user.following;
+
+    if (isFollowing) {
+      await this.searchService.unfollowUser(currentUser.id, followingId);
     } else {
-      await this.searchService.followUser(user.id, followingId);
+      await this.searchService.followUser(currentUser.id, followingId);
     }
     res.redirect("back");
   };

@@ -6,6 +6,9 @@ import IPost from "../../../interfaces/post.interface";
 export class MockSearchService implements ISearchService {
   readonly _db = database;
 
+  async getUser(id: number): Promise<IUser> {
+    return await this._db.users.find((user) => user.id === id);
+  }
   async searchUsers(searchTerm: string): Promise<IUser[]> {
     return this._db.users.filter(
       (user) => user.firstName.toLowerCase().includes(searchTerm) || user.lastName.toLowerCase().includes(searchTerm)
@@ -28,7 +31,7 @@ export class MockSearchService implements ISearchService {
   }
   async unfollowUser(personThatIsFollowing: number, personThatIsBeingFollowed: number): Promise<void> {
     this._db.followers = this._db.followers.filter(
-      (f) => f.followerId !== personThatIsFollowing && f.followedId !== personThatIsBeingFollowed
+      (f) => f.followerId == personThatIsFollowing && f.followedId !== personThatIsBeingFollowed
     );
   }
 }
