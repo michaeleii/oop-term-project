@@ -35,10 +35,11 @@ export class MockPostService implements IPostService {
       postId: postId,
       userId: userId,
     });
+    console.log(this._db.likes);
   }
 
   async unlikePost(postId: number, userId: number): Promise<void> {
-    this._db.likes = this._db.likes.filter((like) => like.postId !== postId && like.userId !== userId);
+    this._db.likes = this._db.likes.filter((like) => like.postId !== postId && like.userId === userId);
   }
 
   async addCommentToPost(
