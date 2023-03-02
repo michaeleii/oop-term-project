@@ -43,6 +43,7 @@ export class PostViewModel {
   getComments(): CommentViewModel[] {
     return this._db.comments
       .filter((comment) => comment.postId === this.id)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
       .map((comment) => new CommentViewModel(comment));
   }
   getLikes(): ILike[] {
