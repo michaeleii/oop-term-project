@@ -14,6 +14,7 @@ export class MockPostService implements IPostService {
   }
   async deletePost(postId: number): Promise<void> {
     this._db.posts = this._db.posts.filter((post) => post.id !== postId);
+    this._db.comments = this._db.comments.filter((comment) => comment.postId !== postId);
   }
 
   async getAllPosts(userId: number): Promise<IPost[]> {
