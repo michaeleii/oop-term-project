@@ -129,12 +129,12 @@
 			</header>
 
 			<div class="p-5">
-				<div class="bg-white  mx-auto w-full sm:w-11/12 md:w-8/12 lg:w-6/12 rounded">
+				<div class="bg-white  mx-auto w-full sm:w-11/12 md:w-8/12 rounded mb-3">
 					<div class="flex items-center justify-start gap-3 py-2 mx-3 border-b">
 						<img class="w-12 h-12 rounded-full" src="https://user-images.githubusercontent.com/76543451/103982284-0a6f0b00-5138-11eb-872b-0b9e70fc5c25.gif" />
 						<form class="w-full" action="/posts" method="POST">
-							<input class="w-9/12 bg-gray-200 rounded-full px-3 py-2" name="postText" placeholder="What's on your mind, <%= user.firstName %>?" />
-							<input class="transition duration-500 ease-in-out hover:bg-red-600 transform w-2/12 rounded-full p-2 bg-gray-800 cursor-pointer text-gray-200" type="submit" value="Post">
+							<input class="w-9/12 bg-gray-200 rounded-full px-3 py-2 focus:outline-none" name="postText" placeholder="What's on your mind, <%= user.firstName %>?" required />
+							<input class="transition duration-500 ease-in-out hover:bg-blue-600 transform w-2/12 rounded-full p-2 bg-gray-800 cursor-pointer text-gray-200" type="submit" value="Post">
 						</form>
 					</div>
 					<div></div>
@@ -158,7 +158,7 @@
 								<span class="inline-block">
 									<form action="/posts/<%= post.id %>/delete" method="post">
 
-										<button type="submit"><i class="transition duration-500 ease-in-out hover:bg-red-100 hover:text-red-600 transform p-5 rounded-full fa fa-trash"></i></button>
+										<button type="submit"><i class="ml-3 hover:bg-red-100 hover:text-red-600 transform rounded-full fa fa-trash"></i></button>
 									</form>
 
 								</span>

@@ -74,15 +74,19 @@ class PostController implements IController {
     const user = await req.user;
     const postId = +req.params.id;
     const message: string = req.body.commentText;
-    await this.postService.addCommentToPost(user.id, message, postId);
+    if (message.trim() !== "") {
+      await this.postService.addCommentToPost(user.id, message, postId);
+    }
     res.redirect("back");
   };
 
   private createPost = async (req: Request, res: Response, next: NextFunction) => {
     const user = await req.user;
     const message: string = req.body.postText;
-    await this.postService.addPost(message, user.id);
-    res.redirect("/posts");
+    if (message.trim() !== "") {
+      await this.postService.addPost(message, user.id);
+    }
+    res.redirect("back");
   };
   private deletePost = async (req: Request, res: Response, next: NextFunction) => {
     const postId = +req.params.id;
