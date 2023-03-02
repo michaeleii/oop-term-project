@@ -35,18 +35,19 @@ export class MockPostService implements IPostService {
       postId: postId,
       userId: userId,
     });
-    console.log(this._db.likes);
   }
 
   async unlikePost(postId: number, userId: number): Promise<void> {
     this._db.likes = this._db.likes.filter((like) => like.postId !== postId && like.userId === userId);
   }
 
-  async addCommentToPost(
-    message: { id: string; createdAt: string; userId: string; message: string },
-    postId: string
-  ): Promise<void> {
-    // 🚀 Implement this yourself.
-    throw new Error("Method not implemented.");
+  async addCommentToPost(creator: number, message: string, postId: number): Promise<void> {
+    this._db.comments.push({
+      id: this._db.comments.length + 1,
+      postId: postId,
+      createdAt: new Date(Date.now()),
+      creator: creator,
+      message: message,
+    });
   }
 }
