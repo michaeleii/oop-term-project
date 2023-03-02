@@ -8,7 +8,7 @@ import DateFormatter from "../../helper/DateFormatter";
 
 // Please feel free to change this in any way you like.
 export class CommentViewModel {
-  readonly _db = database;
+  private readonly _db = database;
   id: number;
   postId: number;
   creator: string;

@@ -3,7 +3,7 @@ import IPost from "../../../interfaces/post.interface";
 import IUser from "../../../interfaces/user.interface";
 
 export class SearchPostViewModel {
-  readonly _db = database;
+  private readonly _db = database;
   id: number;
   creatorFirstName: string;
   creatorLastName: string;

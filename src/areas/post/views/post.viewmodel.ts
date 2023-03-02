@@ -5,7 +5,7 @@ import ILike from "../../../interfaces/like.interface";
 import { CommentViewModel } from "../comment.viewmodel";
 
 export class PostViewModel {
-  readonly _db = database;
+  private readonly _db = database;
   public id: number;
   public creator: string;
   public message: string;
