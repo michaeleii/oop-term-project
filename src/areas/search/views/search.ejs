@@ -30,42 +30,28 @@
 						</p>
 					</div>
 				</div>
-				<div class="flex flex-wrap mt-12 justify-center">
+				<div class="flex flex-col mt-10 items-center">
 					<% if (users.length == 0) { %>
 					<p class="">No users that match with your search query.</p>
 					<% } else {%>
 					<% users.forEach(user => { %>
-					<div class="grid grid-cols-1 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6">
-						<div class="col-span-2 sm:col-span-1 xl:col-span-1 items-center">
-							<img class="object-cover h-24 w-24 mx-auto rounded-full" src="https://user-images.githubusercontent.com/76543451/103982284-0a6f0b00-5138-11eb-872b-0b9e70fc5c25.gif" alt="john doe" />
+					<div class="flex flex-wrap items-center justify-center gap-4 px-5">
+						<img class="object-cover h-24 w-24 rounded-full" src="https://user-images.githubusercontent.com/76543451/103982284-0a6f0b00-5138-11eb-872b-0b9e70fc5c25.gif" alt="<%= user.firstName %> <%= user.lastName %>" />
+						<div class="flex flex-col gap-5 justify-center">
+							<p class="text-2xl text-center"><%= user.firstName %> <%= user.lastName %></p>
+							<form action="/search/<%= user.id %>/follow" method="get">
+								<% if (user.following) { %>
+								<button class="text-pink-500 hover:bg-gray-800 hover:text-white rounded-full background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1" style="transition: all 0.1s ease-in;">
+									<i class="fa fa-heart mr-2"></i>Following
+								</button>
+								<% } else {%>
+								<button class="text-pink-500 hover:bg-pink-500 hover:text-white rounded-full background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mb-1" style="transition: all 0.1s ease-in;">
+									<i class="fa fa-heart-o mr-2"></i>Follow
+								</button>
+								<% } %>
+							</form>
 						</div>
-						<div class="col-span-2 sm:col-span-4 xl:col-span-4 items-center">
-							<p class="text-2xl"><%= user.firstName %> <%= user.lastName %></p>
-						</div>
-						<form action="/search/<%= user.id %>/follow" method="get" class="italic">
-							<% if (user.following) { %>
-							<button class="text-pink-500 hover:bg-gray-800 hover:text-white rounded-full background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 text-sm" style="transition: all 0.15s ease-in-out">
-								<i class="fa fa-heart mr-2"></i>Following
-							</button>
-							<% } else {%>
-							<button class="text-pink-500 hover:bg-pink-500 hover:text-white rounded-full background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-8 mb-1 tex-sm" style="transition: all 0.15s ease-in-out">
-								<i class="fa fa-heart-o mr-2"></i>Follow
-							</button>
-							<% } %>
-						</form>
 						<% }) %>
-						<!-- <div class="col-span-2 sm:col-span-1 xl:col-span-1">
-							<img alt="..." src="https://sewausa.org/resources/Sewa%20USA%20Images/Projects/Sewa%20Aspire/Volunteer%20list/9.png" class="h-24 w-24 rounded mx-auto" />
-						</div>
-						<div class="col-span-2 sm:col-span-4 xl:col-span-4">
-							<p>John Smith</p>
-						</div>
-						<div class="col-span-2 sm:col-span-1 xl:col-span-1 italic">
-							<button class="text-pink-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all 0.15s ease">
-								<i class="fa fa-heart-o mr-2"></i>Follow
-							</button>
-						</div> -->
-
 						<% }  %>
 					</div>
 				</div>
