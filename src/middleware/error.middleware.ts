@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import HttpException from "../exceptions/HttpException";
 import { appendFile } from "fs/promises";
 import DateFormatter from "../helper/DateFormatter";
-import Path from "../helper/PathJoiner";
+import Path from "../helper/pathJoiner";
 import { EOL } from "os";
 
 const errorMiddleware = async (err: HttpException, req: Request, res: Response, next: NextFunction) => {
