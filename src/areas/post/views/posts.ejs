@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="h-full">
 
 <head>
 	<meta charset="utf-8" />
@@ -13,16 +13,29 @@
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 </head>
 
-<body class="bg-grey-light font-sans">
-	<div class="container mx-auto flex flex-col lg:flex-row mt-3 text-sm leading-normal">
-		<div class="w-full bg-white mb-4">
+<body class="bg-gray-300 font-sans">
+	<div class="mx-auto flex flex-col lg:flex-row  text-sm leading-normal">
+		<div class="w-full mb-4">
 			<header class="flex-shrink-0 border-b" x-data="setup()">
-				<div class="flex items-center justify-between p-2">
+				<div class="flex items-center bg-white justify-between py-2 px-10">
 					<!-- Navbar left -->
 					<div class="flex items-center space-x-3">
 						<a href="#" class="flex items-center mb-5 font-medium text-gray-900 lg:w-auto lg:items-center lg:justify-center md:mb-0">
 							<span class="mx-auto text-xl font-black leading-none text-gray-900 select-none">DevHouse<span class="text-blue-500">.</span></span>
 						</a>
+						<!-- Desktop search box -->
+						<div class="items-center hidden px-2 space-x-2  md:flex md:justify-start  md:ml-5">
+							<!-- search icon -->
+							<span>
+								<svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+								</svg>
+							</span>
+							<form action="/search">
+								<input type="text" name="query" placeholder="Search" class="px-4 py-3 rounded-md hover:bg-gray-100 lg:max-w-sm md:py-2 md:flex-1 focus:outline-none md:focus:bg-gray-100 md:focus:shadow md:focus:border" />
+								<button hidden type="submit"></button>
+							</form>
+						</div>
 					</div>
 
 					<!-- Mobile search box -->
@@ -46,25 +59,14 @@
 						</div>
 					</div>
 
-					<!-- Desktop search box -->
-					<div class="items-center hidden px-2 space-x-2  md:flex  md:ml-5">
-						<!-- search icon -->
-						<span>
-							<svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-							</svg>
-						</span>
-						<form action="/search">
-							<input type="text" name="query" placeholder="Search" class="px-4 py-3 rounded-md hover:bg-gray-100 lg:max-w-sm md:py-2 md:flex-1 focus:outline-none md:focus:bg-gray-100 md:focus:shadow md:focus:border" />
-							<button hidden type="submit"></button>
-						</form>
-					</div>
-					<div class="flex gap-5 mr-auto ml-auto text-xl">
-						<a class="hover:text-blue-500" href="/posts/">My Posts</a>
-						<a class="hover:text-blue-500" href="/posts/following">Following</a>
-					</div>
+
+
 					<!-- Navbar right -->
-					<div class="relative flex items-center space-x-3">
+					<div class="relative flex items-center space-x-10">
+						<div class="flex gap-5 justify-center text-xl bg-white">
+							<a class="hover:text-blue-500" href="/posts/">My Posts</a>
+							<a class="hover:text-blue-500" href="/posts/following">Following</a>
+						</div>
 						<!-- Search button -->
 						<button @click="isSearchBoxOpen = true" class="p-2 bg-gray-100 rounded-full md:hidden focus:outline-none focus:ring hover:bg-gray-200">
 							<svg class="w-6 h-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -131,13 +133,13 @@
 				</div>
 			</header>
 
-			<div class="p-5">
-				<div class="bg-white  mx-auto w-full sm:w-11/12 md:w-8/12 rounded mb-3">
-					<div class="flex items-center justify-start gap-3 py-2 mx-3 border-b">
-						<img class="w-12 h-12 rounded-full" src="https://user-images.githubusercontent.com/76543451/103982284-0a6f0b00-5138-11eb-872b-0b9e70fc5c25.gif" />
+			<div class="container mx-auto pt-3">
+				<div class="mx-auto w-full sm:w-11/12 md:w-8/12 rounded mb-3">
+					<div class="flex items-center justify-start gap-3 py-2 mx-3">
+						<img class="w-12 h-12 rounded-full object-cover" src="https://user-images.githubusercontent.com/76543451/103982284-0a6f0b00-5138-11eb-872b-0b9e70fc5c25.gif" />
 						<form class="w-full" action="/posts" method="POST">
-							<input class="w-9/12 bg-gray-200 rounded-full px-3 py-2 focus:outline-none focus:ring" name="postText" placeholder="What's on your mind, <%= user.firstName %>?" required />
-							<input class="transition duration-500 ease-in-out hover:bg-blue-600 transform w-2/12 rounded-full p-2 bg-gray-800 cursor-pointer text-gray-200" type="submit" value="Post">
+							<input class="w-9/12 bg-gray-100 rounded-full px-3 py-2 focus:outline-none focus:ring" name="postText" placeholder="What's on your mind, <%= user.firstName %>?" required />
+							<input class="transition duration-500 ease-in-out hover:bg-blue-600 transform w-2/12 rounded-full p-2 bg-gray-800 cursor-pointer text-gray-200 text-lg" type="submit" value="Post">
 						</form>
 					</div>
 					<div></div>
@@ -145,7 +147,7 @@
 
 				<!-- Post begins -->
 				<% posts.forEach(post => { %>
-				<div class="flex bg-gray-100 mb-4 rounded-lg">
+				<div class="flex bg-white shadow mb-4 pl-3 py-2 rounded-lg">
 					<div class="w-1/8 text-right pl-3 pt-3">
 						<div>
 							<a href="#"><img src="https://user-images.githubusercontent.com/76543451/103982284-0a6f0b00-5138-11eb-872b-0b9e70fc5c25.gif" alt="avatar" class="rounded-full h-12 w-12 mr-2" /></a>

@@ -37,8 +37,6 @@ class PostController implements IController {
     const user = await req.user;
     const followers = await this.postService.getUserFollowers(user.id);
     const posts = await this.postService.getAllPostsByUserFollowers(followers);
-    console.log(posts);
-
     const postsFormatted = posts.map((post) => new PostViewModel(post, user.id));
     res.render("post/views/posts", { posts: postsFormatted, user });
   };

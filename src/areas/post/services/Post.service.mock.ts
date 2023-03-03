@@ -28,7 +28,6 @@ export class MockPostService implements IPostService {
       const followersPosts = await this.getAllPosts(follower.followingId);
       allFollowersPosts.push(...followersPosts);
     });
-
     return allFollowersPosts;
   }
   async getUserFollowers(userId: number): Promise<IFollower[]> {
