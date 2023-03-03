@@ -16,7 +16,8 @@ class PostController implements IController {
   }
 
   private initializeRoutes() {
-    this.router.get(this.path, ensureAuthenticated, this.getAllFollowerPosts);
+    this.router.get(this.path, ensureAuthenticated, this.getAllMyPosts);
+    this.router.get(`${this.path}/following`, ensureAuthenticated, this.getAllFollowerPosts);
     this.router.get(`${this.path}/:id`, ensureAuthenticated, this.getPostById);
     this.router.post(`${this.path}/:id/delete`, ensureAuthenticated, this.deletePost);
     this.router.post(`${this.path}/:id/comment`, ensureAuthenticated, this.createComment);
@@ -26,7 +27,7 @@ class PostController implements IController {
   }
 
   // 🚀 This method should use your postService and pull from your actual fakeDB, not the temporary posts object
-  private getAllPosts = async (req: Request, res: Response) => {
+  private getAllMyPosts = async (req: Request, res: Response) => {
     const user = await req.user;
     const posts = await this.postService.getAllPosts(user.id);
     const postsFormatted = posts.map((post) => new PostViewModel(post, user.id));
