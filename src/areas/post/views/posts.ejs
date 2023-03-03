@@ -14,7 +14,7 @@
 </head>
 
 <body class="bg-grey-light font-sans">
-	<div class="container mx-auto flex flex-col lg:flex-row mt-3 text-sm leading-normal">
+	<div class="mx-auto flex flex-col lg:flex-row mt-3 text-sm leading-normal">
 		<div class="w-full bg-white mb-4">
 			<header class="flex-shrink-0 border-b" x-data="setup()">
 				<div class="flex items-center justify-between p-2">
@@ -47,7 +47,7 @@
 					</div>
 
 					<!-- Desktop search box -->
-					<div class="items-center hidden px-2 space-x-2  md:flex  md:ml-5">
+					<div class="items-center hidden px-2 space-x-2  md:flex mr-auto  md:ml-5">
 						<!-- search icon -->
 						<span>
 							<svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -59,10 +59,7 @@
 							<button hidden type="submit"></button>
 						</form>
 					</div>
-					<div class="flex gap-5 mr-auto ml-auto text-xl">
-						<a class="hover:text-blue-500" href="/posts/">My Posts</a>
-						<a class="hover:text-blue-500" href="/posts/following">Following</a>
-					</div>
+
 					<!-- Navbar right -->
 					<div class="relative flex items-center space-x-3">
 						<!-- Search button -->
@@ -130,10 +127,13 @@
 					</div>
 				</div>
 			</header>
-
-			<div class="p-5">
+			<div class="p-3 flex gap-5 justify-center text-xl border-b">
+				<a class="hover:text-blue-500" href="/posts/">My Posts</a>
+				<a class="hover:text-blue-500" href="/posts/following">Following</a>
+			</div>
+			<div class="container mx-auto pt-3">
 				<div class="bg-white  mx-auto w-full sm:w-11/12 md:w-8/12 rounded mb-3">
-					<div class="flex items-center justify-start gap-3 py-2 mx-3 border-b">
+					<div class="flex items-center justify-start gap-3 py-2 mx-3">
 						<img class="w-12 h-12 rounded-full" src="https://user-images.githubusercontent.com/76543451/103982284-0a6f0b00-5138-11eb-872b-0b9e70fc5c25.gif" />
 						<form class="w-full" action="/posts" method="POST">
 							<input class="w-9/12 bg-gray-200 rounded-full px-3 py-2 focus:outline-none focus:ring" name="postText" placeholder="What's on your mind, <%= user.firstName %>?" required />
