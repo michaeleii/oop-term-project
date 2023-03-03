@@ -7,7 +7,7 @@ export class MockSearchService implements ISearchService {
   readonly _db = database;
 
   async getUser(id: number): Promise<IUser> {
-    return await this._db.users.find((user) => user.id === id);
+    return this._db.users.find((user) => user.id === id);
   }
   async searchUsers(searchTerm: string): Promise<IUser[]> {
     return this._db.users.filter(
@@ -17,17 +17,17 @@ export class MockSearchService implements ISearchService {
   async searchPosts(searchTerm: string): Promise<IPost[]> {
     return this._db.posts.filter((post) => post.message.toLowerCase().includes(searchTerm));
   }
-  async isFollowing(userId: number, following: number): Promise<boolean> {
-    return this._db.followers.some((f) => f.userId === userId && f.followingId === following);
+  async isFollowing(userId: number, followingId: number): Promise<boolean> {
+    return this._db.followers.some((f) => f.userId === userId && f.followingId === followingId);
   }
-  async followUser(userId: number, following: number): Promise<void> {
+  async followUser(userId: number, followingId: number): Promise<void> {
     this._db.followers.push({
       id: this._db.followers.length + 1,
       userId: userId,
-      followingId: following,
+      followingId: followingId,
     });
   }
-  async unfollowUser(userId: number, following: number): Promise<void> {
-    this._db.followers = this._db.followers.filter((f) => f.userId == userId && f.followingId !== following);
+  async unfollowUser(userId: number, followingId: number): Promise<void> {
+    this._db.followers = this._db.followers.filter((f) => f.userId === userId && f.followingId !== followingId);
   }
 }
