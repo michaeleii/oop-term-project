@@ -1,6 +1,7 @@
 import { database } from "../../../model/fakeDB";
 import IPost from "../../../interfaces/post.interface";
 import IPostService from "./IPostService";
+import IFollower from "../../../interfaces/follower.interface";
 
 export class MockPostService implements IPostService {
   readonly _db = database;
@@ -18,11 +19,23 @@ export class MockPostService implements IPostService {
   }
 
   async getAllPosts(userId: number): Promise<IPost[]> {
-    const sortedPosts = await this.sortPosts(this._db.posts);
+    const sortedPosts = await this.sortPosts();
     return sortedPosts.filter((post) => post.creator === userId);
   }
+  async getAllPostsByUserFollowers(followers: IFollower[]): Promise<IPost[]> {
+    const allFollowersPosts: IPost[] = [];
+    await followers.forEach(async (follower) => {
+      const followersPosts = await this.getAllPosts(follower.followingId);
+      allFollowersPosts.push(...followersPosts);
+    });
 
-  async sortPosts(posts: IPost[]): Promise<IPost[]> {
+    return allFollowersPosts;
+  }
+  async getUserFollowers(userId: number): Promise<IFollower[]> {
+    return this._db.followers.filter((f) => f.userId === userId);
+  }
+
+  async sortPosts(): Promise<IPost[]> {
     return this._db.posts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
 
