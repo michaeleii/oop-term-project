@@ -17,21 +17,17 @@ export class MockSearchService implements ISearchService {
   async searchPosts(searchTerm: string): Promise<IPost[]> {
     return this._db.posts.filter((post) => post.message.toLowerCase().includes(searchTerm));
   }
-  async isFollowing(personThatIsFollowing: number, personThatIsBeingFollowed: number): Promise<boolean> {
-    return this._db.followers.some(
-      (f) => f.followerId === personThatIsFollowing && f.followedId === personThatIsBeingFollowed
-    );
+  async isFollowing(userId: number, following: number): Promise<boolean> {
+    return this._db.followers.some((f) => f.userId === userId && f.followingId === following);
   }
-  async followUser(personThatIsFollowing: number, personThatIsBeingFollowed: number): Promise<void> {
+  async followUser(userId: number, following: number): Promise<void> {
     this._db.followers.push({
       id: this._db.followers.length + 1,
-      followerId: personThatIsFollowing,
-      followedId: personThatIsBeingFollowed,
+      userId: userId,
+      followingId: following,
     });
   }
-  async unfollowUser(personThatIsFollowing: number, personThatIsBeingFollowed: number): Promise<void> {
-    this._db.followers = this._db.followers.filter(
-      (f) => f.followerId == personThatIsFollowing && f.followedId !== personThatIsBeingFollowed
-    );
+  async unfollowUser(userId: number, following: number): Promise<void> {
+    this._db.followers = this._db.followers.filter((f) => f.userId == userId && f.followingId !== following);
   }
 }

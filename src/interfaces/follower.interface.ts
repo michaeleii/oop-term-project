@@ -1,6 +1,6 @@
 interface IFollower {
   id: number;
-  followerId: number;
-  followedId: number;
+  userId: number;
+  followingId: number;
 }
 export default IFollower;
