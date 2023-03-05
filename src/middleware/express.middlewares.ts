@@ -13,32 +13,29 @@ dotenv.config();
 //   console.log(hash);
 //   console.log(match);
 // })();
-//
-// declare module "dotenv" {
-//   interface ProcessEnv {
-//     REDIS_PASSWORD: string;
-//     REDIS_HOST: string;
-//     REDIS_PORT: string;
-//     NODE_ENV: string;
-//   }
-// }
 
-// let RedisStore = require("connect-redis")(session);
-// const Redis = require("ioredis");
+declare module "dotenv" {
+  interface ProcessEnv {
+    REDIS_PASSWORD: string;
+    REDIS_HOST: string;
+    REDIS_PORT: string;
+    NODE_ENV: string;
+  }
+}
 
-// let { NODE_ENV, REDIS_PASSWORD, REDIS_HOST, REDIS_PORT } = process.env;
+let { NODE_ENV, REDIS_PASSWORD, REDIS_HOST, REDIS_PORT } = process.env;
+let sessionStore = new session.MemoryStore();
 
-// let redisClient = new Redis({
-//   port: REDIS_PORT,
-//   host: REDIS_HOST,
-//   password: REDIS_PASSWORD,
-// });
-
-// const redisStore = new RedisStore({ client: redisClient });
-// const memoryStore = new session.MemoryStore();
-
-// const sessionStore = NODE_ENV === "production" ? redisStore : memoryStore;
-const sessionStore = new session.MemoryStore();
+if (NODE_ENV === "production") {
+  let RedisStore = require("connect-redis")(session);
+  const Redis = require("ioredis");
+  let redisClient = new Redis({
+    port: REDIS_PORT,
+    host: REDIS_HOST,
+    password: REDIS_PASSWORD,
+  });
+  sessionStore = new RedisStore({ client: redisClient });
+}
 
 module.exports = (app) => {
   // Static File Serving and Post Body Parsing
