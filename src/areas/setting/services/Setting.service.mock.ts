@@ -5,12 +5,22 @@ import bcrypt from "bcrypt";
 export class MockSettingService implements ISettingService {
   readonly _db = database;
   async changeUsername(userId: number, username: string): Promise<void> {
-    const user = await this._db.users.find((user) => user.id === userId);
-    user.username = username;
+    const alreadyExistingUsername = await this._db.users.find((user) => user.username == username);
+    if (alreadyExistingUsername) {
+      throw new Error("Username already exists.");
+    } else {
+      const user = await this._db.users.find((user) => user.id === userId);
+      user.username = username;
+    }
   }
   async changeEmail(userId: number, email: string): Promise<void> {
-    const user = await this._db.users.find((user) => user.id === userId);
-    user.email = email;
+    const alreadyExistingEmail = await this._db.users.find((user) => user.email == email);
+    if (alreadyExistingEmail) {
+      throw new Error("Email already exists.");
+    } else {
+      const user = await this._db.users.find((user) => user.id === userId);
+      user.email = email;
+    }
   }
   async changePassword(userId: number, currentPassword: string, newPassword: string): Promise<void> {
     const user = this._db.users.find((user) => user.id === userId);

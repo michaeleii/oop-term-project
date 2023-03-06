@@ -15,9 +15,16 @@
   			</div>
   			<div class="bg-white rounded-lg shadow-lg p-10">
   				<h1 class="text-3xl font-bold mb-3">Settings</h1>
+  				<% if (error) { %>
   				<div class="bg-red-100 rounded-lg p-2 text-red-500 text-center mb-3">
-  					<p class="text-center">Username Already Exists!</p>
+  					<p class="text-center"><%= error %></p>
   				</div>
+  				<% } %>
+  				<% if (success) { %>
+  				<div class="bg-green-100 rounded-lg p-2 text-green-500 text-center mb-3">
+  					<p class="text-center"><%= success %></p>
+  				</div>
+  				<% } %>
   				<form action="/setting/change-username" method="post">
   					<div class="col-span-6 sm:col-span-3">
   						<div class="mb-4">

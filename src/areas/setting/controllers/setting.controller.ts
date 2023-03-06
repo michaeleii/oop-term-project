@@ -19,27 +19,56 @@ class SettingController implements IController {
     this.router.post(`${this.path}/change-email`, ensureAuthenticated, this.changeEmail);
     this.router.post(`${this.path}/change-password`, ensureAuthenticated, this.changePassword);
   }
-  private getSettingsPage = async (request: Request, res: Response, next: NextFunction) => {
-    const user = await request.user;
-    res.render("setting/views/setting", { user });
+  private getSettingsPage = async (req: Request, res: Response, next: NextFunction) => {
+    const user = await req.user;
+    const error = req.session.error;
+    const success = req.session.success;
+    req.session.error = "";
+    req.session.success = "";
+    res.render("setting/views/setting", { user, error, success });
   };
   private changeUsername = async (req: Request, res: Response, next: NextFunction) => {
-    const user = await req.user;
-    const { newUsername } = req.body;
-    this.settingService.changeUsername(user.id, newUsername);
-    res.redirect("/setting");
+    try {
+      const user = await req.user;
+      const { newUsername } = req.body;
+      if (newUsername === user.username) throw new Error("New username is the same as the old one.");
+      if (newUsername.trim() === "") throw new Error("Username cannot be empty.");
+      await this.settingService.changeUsername(user.id, newUsername);
+      req.session.success = `Your username was successfully changed to ${newUsername}.`;
+      res.redirect("/setting");
+    } catch (error) {
+      req.session.error = error.message;
+      next(error);
+      res.redirect("/setting");
+    }
   };
   private changeEmail = async (req: Request, res: Response, next: NextFunction) => {
-    const user = await req.user;
-    const { newEmail } = req.body;
-    this.settingService.changeEmail(user.id, newEmail);
-    res.redirect("/setting");
+    try {
+      const user = await req.user;
+      const { newEmail } = req.body;
+      if (newEmail === user.email) throw new Error("New email is the same as the old one.");
+      if (newEmail.trim() === "") throw new Error("Email cannot be empty.");
+      await this.settingService.changeEmail(user.id, newEmail);
+      req.session.success = `Your email was successfully changed to ${newEmail}.`;
+      res.redirect("/setting");
+    } catch (error) {
+      req.session.error = error.message;
+      res.redirect("/setting");
+      next(error);
+    }
   };
   private changePassword = async (req: Request, res: Response, next: NextFunction) => {
-    const user = await req.user;
-    const { currentPassword, newPassword } = req.body;
-    await this.settingService.changePassword(user.id, currentPassword, newPassword);
-    res.redirect("/setting");
+    try {
+      const user = await req.user;
+      const { currentPassword, newPassword } = req.body;
+      await this.settingService.changePassword(user.id, currentPassword, newPassword);
+      req.session.success = "Password changed successfully";
+      res.redirect("/setting");
+    } catch (error) {
+      req.session.error = error.message;
+      res.redirect("/setting");
+      next(error);
+    }
   };
 }
 

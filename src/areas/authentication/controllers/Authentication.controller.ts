@@ -10,6 +10,7 @@ declare module "express-session" {
   interface SessionData {
     messages: string[];
     error: string;
+    success: string;
   }
 }
 declare global {

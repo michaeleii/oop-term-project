@@ -1,7 +1,7 @@
 import { database } from "../model/fakeDB";
 
 const debuggerMiddleware = (req, res, next) => {
-  const DEBUG_DATABASE = true;
+  const DEBUG_DATABASE = false;
   if (req.session) {
     console.log(`Session Details:`);
     console.log(`${req.session}`);
