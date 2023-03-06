@@ -4,12 +4,12 @@ import bcrypt from "bcrypt";
 
 export class MockSettingService implements ISettingService {
   readonly _db = database;
-  changeUsername(userId: number, username: string): void {
-    const user = this._db.users.find((user) => user.id === userId);
+  async changeUsername(userId: number, username: string): Promise<void> {
+    const user = await this._db.users.find((user) => user.id === userId);
     user.username = username;
   }
-  changeEmail(userId: number, email: string): void {
-    const user = this._db.users.find((user) => user.id === userId);
+  async changeEmail(userId: number, email: string): Promise<void> {
+    const user = await this._db.users.find((user) => user.id === userId);
     user.email = email;
   }
   async changePassword(userId: number, currentPassword: string, newPassword: string): Promise<void> {

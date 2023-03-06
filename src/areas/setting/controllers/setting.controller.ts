@@ -25,14 +25,14 @@ class SettingController implements IController {
   };
   private changeUsername = async (req: Request, res: Response, next: NextFunction) => {
     const user = await req.user;
-    const { username } = req.body;
-    this.settingService.changeUsername(user.id, username);
+    const { newUsername } = req.body;
+    this.settingService.changeUsername(user.id, newUsername);
     res.redirect("/setting");
   };
   private changeEmail = async (req: Request, res: Response, next: NextFunction) => {
     const user = await req.user;
-    const { email } = req.body;
-    this.settingService.changeEmail(user.id, email);
+    const { newEmail } = req.body;
+    this.settingService.changeEmail(user.id, newEmail);
     res.redirect("/setting");
   };
   private changePassword = async (req: Request, res: Response, next: NextFunction) => {
