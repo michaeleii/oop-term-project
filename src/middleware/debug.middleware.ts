@@ -12,7 +12,7 @@ const debuggerMiddleware = (req, res, next) => {
   }
   if (DEBUG_DATABASE) {
     console.log(`Database Details:`);
-    console.log(database);
+    console.log(database.users);
   }
   next();
 };
