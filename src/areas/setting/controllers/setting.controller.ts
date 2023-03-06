@@ -38,7 +38,7 @@ class SettingController implements IController {
   private changePassword = async (req: Request, res: Response, next: NextFunction) => {
     const user = await req.user;
     const { currentPassword, newPassword } = req.body;
-    this.settingService.changePassword(user.id, currentPassword, newPassword);
+    await this.settingService.changePassword(user.id, currentPassword, newPassword);
     res.redirect("/setting");
   };
 }
