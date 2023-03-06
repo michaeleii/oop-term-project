@@ -7,6 +7,9 @@ export class MockSettingService implements ISettingService {
     const user = this._db.users.find((user) => user.id === userId);
     user.username = username;
   }
-  changeEmail(userId: number, email: string): void {}
+  changeEmail(userId: number, email: string): void {
+    const user = this._db.users.find((user) => user.id === userId);
+    user.email = email;
+  }
   changePassword(userId: number, currentPassword: string, newPassword: string): void {}
 }
