@@ -15,9 +15,9 @@ class SettingController implements IController {
 
   private initializeRoutes() {
     this.router.get(`${this.path}/`, ensureAuthenticated, this.getSettingsPage);
-    this.router.post(`Route to change username`, ensureAuthenticated, this.changeUsername);
-    this.router.post(`Route to change email`, ensureAuthenticated, this.changeEmail);
-    this.router.post(`Route to change password`, ensureAuthenticated, this.changePassword);
+    this.router.post(`${this.path}/change-username`, ensureAuthenticated, this.changeUsername);
+    this.router.post(`${this.path}/change-email`, ensureAuthenticated, this.changeEmail);
+    this.router.post(`${this.path}/change-password`, ensureAuthenticated, this.changePassword);
   }
   private getSettingsPage = async (request: Request, res: Response, next: NextFunction) => {
     const user = await request.user;
@@ -25,20 +25,20 @@ class SettingController implements IController {
   };
   private changeUsername = async (req: Request, res: Response, next: NextFunction) => {
     const user = await req.user;
-    console.log(req.body);
-    // this.settingService.changeUsername();
+    const { username } = req.body;
+    this.settingService.changeUsername(user.id, username);
     res.redirect("/setting");
   };
   private changeEmail = async (req: Request, res: Response, next: NextFunction) => {
     const user = await req.user;
-    console.log(req.body);
-    // this.settingService.changeEmail();
+    const { email } = req.body;
+    this.settingService.changeEmail(user.id, email);
     res.redirect("/setting");
   };
   private changePassword = async (req: Request, res: Response, next: NextFunction) => {
     const user = await req.user;
-    console.log(req.body);
-    // this.settingService.changePassword();
+    const { currentPassword, newPassword } = req.body;
+    this.settingService.changePassword(user.id, currentPassword, newPassword);
     res.redirect("/setting");
   };
 }
