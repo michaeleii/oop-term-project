@@ -12,6 +12,7 @@ export class CommentViewModel {
   id: number;
   postId: number;
   creator: string;
+  profilePic: string;
   createdAt: string;
   message: string;
 
