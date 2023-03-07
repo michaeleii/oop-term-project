@@ -8,6 +8,7 @@ export class PostViewModel {
   private readonly _db = database;
   public id: number;
   public creator: string;
+  private profilePic: string;
   public message: string;
   public createdAt: string;
   public comments: CommentViewModel[];
@@ -18,6 +19,7 @@ export class PostViewModel {
   constructor(post: IPost, userId: number) {
     this.id = post.id;
     this.creator = this.getUser(post.creator);
+    this.profilePic = this.getProfilePic(post.creator);
     this.createdAt = DateFormatter.format(post.createdAt);
     this.message = post.message;
     this.comments = this.getComments();
@@ -27,6 +29,10 @@ export class PostViewModel {
   }
   getUser(creator: number): string {
     return this._db.users.find((user) => user.id === creator).username;
+  }
+  getProfilePic(creator: number): string {
+    const { firstName, lastName } = this._db.users.find((user) => user.id === creator);
+    return `https://api.dicebear.com/5.x/initials/svg?seed=${firstName[0]}${lastName[0]}`;
   }
   getComments(): CommentViewModel[] {
     return this._db.comments

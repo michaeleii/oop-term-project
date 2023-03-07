@@ -12,6 +12,7 @@ export class CommentViewModel {
   id: number;
   postId: number;
   creator: string;
+  profilePic: string;
   createdAt: string;
   message: string;
 
@@ -19,10 +20,15 @@ export class CommentViewModel {
     this.id = comment.id;
     this.postId = comment.postId;
     this.creator = this.getUser(comment.creator);
+    this.profilePic = this.getProfilePic(comment.creator);
     this.createdAt = DateFormatter.format(comment.createdAt);
     this.message = comment.message;
   }
   getUser(creator: number): string {
     return this._db.users.find((user) => user.id === creator).username;
+  }
+  getProfilePic(creator: number): string {
+    const { firstName, lastName } = this._db.users.find((user) => user.id === creator);
+    return `https://api.dicebear.com/5.x/initials/svg?seed=${firstName[0]}${lastName[0]}`;
   }
 }

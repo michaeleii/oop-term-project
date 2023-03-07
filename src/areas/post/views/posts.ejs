@@ -105,7 +105,7 @@
 						<!-- avatar button -->
 						<div class="relative" x-data="{ isOpen: false }">
 							<button @click="isOpen = !isOpen" class="p-1 bg-gray-200 rounded-full focus:outline-none focus:ring">
-								<img class="object-cover w-8 h-8 rounded-full" src="https://user-images.githubusercontent.com/76543451/103982284-0a6f0b00-5138-11eb-872b-0b9e70fc5c25.gif" alt="john doe" />
+								<img class="object-cover w-8 h-8 rounded-full" src="https://api.dicebear.com/5.x/initials/svg?seed=<%= user.firstName[0] %><%= user.lastName[0] %>" alt="john doe" />
 							</button>
 							<!-- green dot -->
 							<div class="absolute right-0 p-1 bg-green-400 rounded-full bottom-3 animate-ping"></div>
@@ -136,7 +136,7 @@
 			<div class="container mx-auto pt-3">
 				<div class="mx-auto w-full sm:w-11/12 md:w-8/12 rounded mb-3">
 					<div class="flex items-center justify-start gap-3 py-2 mx-3">
-						<img class="w-12 h-12 rounded-full object-cover" src="https://user-images.githubusercontent.com/76543451/103982284-0a6f0b00-5138-11eb-872b-0b9e70fc5c25.gif" />
+						<img class="w-12 h-12 rounded-full object-cover" src="https://api.dicebear.com/5.x/initials/svg?seed=<%= user.firstName[0] %><%= user.lastName[0] %>" />
 						<form class="w-full" action="/posts" method="POST">
 							<input class="w-9/12 bg-gray-100 rounded-full px-3 py-2 focus:outline-none focus:ring" name="postText" placeholder="What's on your mind, <%= user.firstName %>?" required />
 							<input class="transition duration-500 ease-in-out hover:bg-blue-600 transform w-2/12 rounded-full p-2 bg-gray-800 cursor-pointer text-gray-200 text-lg" type="submit" value="Post">
@@ -148,13 +148,13 @@
 				<!-- Post begins -->
 				<% posts.forEach(post => { %>
 				<div class="flex bg-white shadow-lg mb-5 pl-3 py-2 rounded-sm">
-					<div class="w-1/8 text-right pl-3 pt-3">
+					<div class="w-1/8 text-right pl-3 pt-5">
 						<div>
-							<a href="#"><img src="https://user-images.githubusercontent.com/76543451/103982284-0a6f0b00-5138-11eb-872b-0b9e70fc5c25.gif" alt="avatar" class="rounded-full h-12 w-12 mr-2" /></a>
+							<a href="#"><img src="<%= post.profilePic %>" alt="avatar" class="rounded-full h-12 w-12 mr-2" /></a>
 						</div>
 					</div>
 
-					<div class="w-7/8 p-3 pl-0">
+					<div class="w-7/8 p-3 pl-3">
 						<div class="flex justify-between">
 							<div>
 								<span class="font-bold"><a href="#" class="text-black"><%= post.creator %></a></span>
