@@ -7,10 +7,19 @@ import IPostService from "./IPostService";
 export class PostService implements IPostService {
   readonly _db: DBClient = DBClient.getInstance();
   async addPost(message: string, userId: number): Promise<void> {
-    throw new Error("Method not implemented.");
+    await this._db.prisma.post.create({
+      data: {
+        message: message,
+        creatorId: userId,
+      },
+    });
   }
   async deletePost(postId: number): Promise<void> {
-    throw new Error("Method not implemented.");
+    await this._db.prisma.post.delete({
+      where: {
+        id: postId,
+      },
+    });
   }
   async getAllPosts(userId: number): Promise<IPost[]> {
     throw new Error("Method not implemented.");
