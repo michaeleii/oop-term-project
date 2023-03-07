@@ -1,28 +1,39 @@
+import IFollower from "../../../interfaces/follower.interface";
 import IPost from "../../../interfaces/post.interface";
+import DBClient from "../../../PrismaClient";
 import IPostService from "./IPostService";
 
 // ❗️ Implement this class much later, once everything works fine with your mock db
-// export class PostService implements IPostService {
-//   // readonly _db = "";
-//   addPost(post: IPost, username: string): void {
-//     // 🚀 Implement this yourself.
-//     throw new Error("Method not implemented.");
-//   }
-//   getAllPosts(userId: number): IPost[] {
-//     // 🚀 Implement this yourself.
-//     throw new Error("Method not implemented.");
-//   }
-//   findById(id: string): IPost {
-//     // 🚀 Implement this yourself.
-//     throw new Error("Method not implemented.");
-//   }
-//   addCommentToPost(message: { id: string; createdAt: string; userId: string; message: string }, postId: string): void {
-//     // 🚀 Implement this yourself.
-//     throw new Error("Method not implemented.");
-//   }
-
-//   sortPosts(posts: IPost[]): IPost[] {
-//     // 🚀 Implement this yourself.
-//     throw new Error("Method not implemented.");
-//   }
-// }
+export class PostService implements IPostService {
+  readonly _db: DBClient = DBClient.getInstance();
+  async addPost(message: string, userId: number): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+  async deletePost(postId: number): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+  async getAllPosts(userId: number): Promise<IPost[]> {
+    throw new Error("Method not implemented.");
+  }
+  async getAllPostsByUserFollowers(followers: IFollower[]): Promise<IPost[]> {
+    throw new Error("Method not implemented.");
+  }
+  async getUserFollowers(userId: number): Promise<IFollower[]> {
+    throw new Error("Method not implemented.");
+  }
+  async sortPosts(): Promise<IPost[]> {
+    throw new Error("Method not implemented.");
+  }
+  async findById(id: number): Promise<IPost> {
+    throw new Error("Method not implemented.");
+  }
+  async likePost(postId: number, userId: number): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+  async unlikePost(postId: number, userId: number): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+  async addCommentToPost(creator: number, message: string, postId: number): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+}
