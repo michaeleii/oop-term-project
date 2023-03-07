@@ -11,19 +11,25 @@ datasource db {
 }
 
 model User {
-  id        Int    @id @default(autoincrement())
-  username  String @unique
-  email     String @unique
+  id        Int        @id @default(autoincrement())
+  username  String     @unique
+  email     String     @unique
   password  String
   firstName String
   lastName  String
+  posts     Post[]
+  Follower  Follower[]
+  Like      Like[]
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  creator   Int
+  id        Int       @id @default(autoincrement())
   message   String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  creator   User?     @relation(fields: [creatorId], references: [id])
+  creatorId Int?
+  comments  Comment[]
+  Like      Like[]
 }
 
 model Comment {
@@ -32,16 +38,20 @@ model Comment {
   creator   Int
   createdAt DateTime @default(now())
   message   String
+  Post      Post     @relation(fields: [postId], references: [id])
 }
 
 model Follower {
-  id          Int @id @default(autoincrement())
+  id          Int  @id @default(autoincrement())
+  User        User @relation(fields: [userId], references: [id])
   userId      Int
   followingId Int
 }
 
 model Like {
-  id     Int @id @default(autoincrement())
+  id     Int  @id @default(autoincrement())
   postId Int
+  post   Post @relation(fields: [postId], references: [id])
   userId Int
+  User   User @relation(fields: [userId], references: [id])
 }
