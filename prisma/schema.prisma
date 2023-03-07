@@ -26,8 +26,8 @@ model Post {
   id        Int       @id @default(autoincrement())
   message   String
   createdAt DateTime  @default(now())
-  creator   User?     @relation(fields: [creatorId], references: [id])
-  creatorId Int?
+  creator   User      @relation(fields: [creatorId], references: [id])
+  creatorId Int
   comments  Comment[]
   Like      Like[]
 }

@@ -1,4 +1,3 @@
-import EmailAlreadyExistsException from "../../../exceptions/EmailAlreadyExists";
 import express from "express";
 import passport from "passport";
 import IController from "../../../interfaces/controller.interface";

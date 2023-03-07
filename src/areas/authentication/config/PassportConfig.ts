@@ -6,7 +6,7 @@
 import IUser from "../../../interfaces/user.interface";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { MockAuthenticationService } from "../services/Authentication.service.mock";
+import { IAuthenticationService } from "../services/IAuthentication.service";
 import FormValidater from "../../../helper/FormValidater";
 declare global {
   namespace Express {
@@ -17,8 +17,8 @@ declare global {
 export default class PassportConfig {
   private _name: string;
   private _strategy: LocalStrategy;
-  private _authenticationService: MockAuthenticationService;
-  constructor(name: string, authenticationService: MockAuthenticationService) {
+  private _authenticationService: IAuthenticationService;
+  constructor(name: string, authenticationService: IAuthenticationService) {
     this._authenticationService = authenticationService;
     this._name = name;
     this._strategy = new LocalStrategy(
