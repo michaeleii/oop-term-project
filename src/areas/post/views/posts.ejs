@@ -161,10 +161,12 @@
 								<span class="text-grey-dark">&middot;</span>
 								<span class="text-grey-dark"><%= post.createdAt %></span>
 								<span class="inline-block">
+									<% if (user.username === post.creator) { %>
 									<form action="/posts/<%= post.id %>/delete" method="post">
 
 										<button type="submit"><i class="ml-3 hover:bg-red-100 hover:text-red-600 transform rounded-full fa fa-trash"></i></button>
 									</form>
+									<% } %>
 
 								</span>
 							</div>

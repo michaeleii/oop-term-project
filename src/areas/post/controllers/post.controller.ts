@@ -97,8 +97,12 @@ class PostController implements IController {
   };
   private deletePost = async (req: Request, res: Response, next: NextFunction) => {
     const postId = +req.params.id;
-    await this.postService.deletePost(postId);
-    res.redirect("/posts");
+    const user = await req.user;
+    const post = await this.postService.findById(postId);
+    if (post.creator === user.id) {
+      await this.postService.deletePost(postId);
+    }
+    res.redirect("back");
   };
 }
 

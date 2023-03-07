@@ -64,6 +64,47 @@ I worked on the following tasks:
 1. Create Settings EJS Page
    - This task is responsible for showing users a settings page when users click on settings.
 
+## Mar 1 (Third Sprint Complete)
+
+### Michael Lei
+
+I worked on the following tasks:
+
+1. Implement Search
+   - This task is responsible for searching for users and posts.
+2. Implement Likes
+
+   - This task is responsible for liking posts.
+
+3. Implement Follow
+   - This task is responsible for following users.
+
+### Brian
+
+I worked on the following tasks:
+
+1. Implement Search
+   - This task is responsible for searching for users and posts.
+2. Implement Likes
+
+   - This task is responsible for liking posts.
+
+3. Implement Follow
+   - This task is responsible for following users.
+
+### Hani
+
+I worked on the following tasks:
+
+1. Implement Search
+   - This task is responsible for searching for users and posts.
+2. Implement Likes
+
+   - This task is responsible for liking posts.
+
+3. Implement Follow
+   - This task is responsible for following users.
+
 <!-- Example below:
     March 9th (First Sprint Complete)
     Amy Chan:
