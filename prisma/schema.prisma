@@ -20,6 +20,7 @@ model User {
   posts     Post[]
   Follower  Follower[]
   Like      Like[]
+  Comment   Comment[]
 }
 
 model Post {
@@ -35,10 +36,11 @@ model Post {
 model Comment {
   id        Int      @id @default(autoincrement())
   postId    Int
-  creator   Int
+  creator   User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   message   String
   Post      Post     @relation(fields: [postId], references: [id])
+  userId    Int
 }
 
 model Follower {

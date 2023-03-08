@@ -65,8 +65,31 @@ export class PostService implements IPostService {
       },
     });
   }
-  async unlikePost(postId: number, userId: number): Promise<void> {}
-  async addCommentToPost(creator: number, message: string, postId: number): Promise<void> {
-    throw new Error("Method not implemented.");
+  async unlikePost(postId: number, userId: number): Promise<void> {
+    const like = await this._db.prisma.like.findUnique({
+      where: {
+        postId_userId: {
+          postId: postId,
+          userId: userId,
+        },
+      },
+    });
+
+    if (like) {
+      await this._db.prisma.like.delete({
+        where: {
+          id: like.id,
+        },
+      });
+    }
+  }
+  async addCommentToPost(creatorId: number, message: string, postId: number): Promise<void> {
+    await this._db.prisma.comment.create({
+      data: {
+        creator: creatorId,
+        message: message,
+        postId: postId,
+      },
+    });
   }
 }
