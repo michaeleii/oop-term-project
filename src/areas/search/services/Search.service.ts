@@ -39,15 +39,19 @@ export class SearchService implements ISearchService {
     });
   }
   async unfollowUser(userId: number, followingId: number): Promise<void> {
-    // this._db.prisma.follower.delete({
-    //   where: {
-    //     userId_followingId: {
-    //       userId: userId,
-    //       followingId: followingId,
-    //     },
-    //   },
-    // });
-    throw new Error("Method not implemented.");
+    const follow = await this._db.prisma.follower.findUnique({
+      where: {
+        userId_followingId: {
+          userId: userId,
+          followingId: followingId,
+        },
+      },
+    });
+    this._db.prisma.follower.delete({
+      where: {
+        id: follow.id,
+      },
+    });
   }
   async isFollowing(id: number, followingId: number): Promise<boolean> {
     const follow = await this._db.prisma.follower.findFirst({
