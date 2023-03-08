@@ -46,6 +46,7 @@ class SearchController implements IController {
     const user = new SearchUserViewModel();
     await user.init(await this.searchService.getUser(followingId), currentUser.id);
     const isFollowing = user.following;
+    console.log(isFollowing);
 
     if (isFollowing) {
       await this.searchService.unfollowUser(currentUser.id, followingId);
