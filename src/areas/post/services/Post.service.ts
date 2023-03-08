@@ -78,7 +78,7 @@ export class PostService implements IPostService {
     });
   }
   async unlikePost(postId: number, userId: number): Promise<void> {
-    const like = await this._db.prisma.like.findUnique({
+    await this._db.prisma.like.delete({
       where: {
         postId_userId: {
           postId,
@@ -86,14 +86,6 @@ export class PostService implements IPostService {
         },
       },
     });
-
-    if (like) {
-      await this._db.prisma.like.delete({
-        where: {
-          id: like.id,
-        },
-      });
-    }
   }
   async addCommentToPost(creatorId: number, message: string, postId: number): Promise<void> {
     await this._db.prisma.comment.create({

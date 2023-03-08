@@ -13,6 +13,8 @@ export class SearchService implements ISearchService {
             firstName: {
               contains: searchTerm,
             },
+          },
+          {
             lastName: {
               contains: searchTerm,
             },
@@ -39,17 +41,12 @@ export class SearchService implements ISearchService {
     });
   }
   async unfollowUser(userId: number, followingId: number): Promise<void> {
-    const follow = await this._db.prisma.follower.findUnique({
+    this._db.prisma.follower.delete({
       where: {
         userId_followingId: {
           userId: userId,
           followingId: followingId,
         },
-      },
-    });
-    this._db.prisma.follower.delete({
-      where: {
-        id: follow.id,
       },
     });
   }
