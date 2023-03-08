@@ -24,9 +24,20 @@ const main = async () => {
     });
     users.push(user);
   }
-  // Create 50 posts for a random user.
+  // Generate random followers and following
+  for (let i = 0; i < 1000; i++) {
+    const follower = faker.helpers.arrayElement(users);
+    const following = faker.helpers.arrayElement(users.filter((u) => u.id !== follower.id));
+    await prisma.follower.create({
+      data: {
+        userId: follower.id,
+        followingId: following.id,
+      },
+    });
+  }
+  // Create 10000 posts for a random user.
   const posts = [];
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 1000; i++) {
     const user = users[Math.floor(Math.random() * users.length)];
     const message = faker.lorem.sentence();
     const post = await prisma.post.create({
