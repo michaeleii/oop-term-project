@@ -1,5 +1,3 @@
-// import { database } from "../model/fakeDB";
-
 const debuggerMiddleware = async (req, res, next) => {
   const DEBUG_DATABASE = false;
   if (req.session) {

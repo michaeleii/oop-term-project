@@ -1,4 +1,3 @@
-// import { database } from "../../model/fakeDB";
 import IComment from "../../interfaces/comment.interface";
 import DateFormatter from "../../helper/DateFormatter";
 import DBClient from "../../PrismaClient";

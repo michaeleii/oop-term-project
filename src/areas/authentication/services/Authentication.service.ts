@@ -3,9 +3,7 @@ import { IAuthenticationService } from "./IAuthentication.service";
 import DBClient from "../../../PrismaClient";
 import EmailAlreadyExistsException from "../../../exceptions/EmailAlreadyExists";
 
-// ❗️ Implement this class much later, once everything works fine with your mock db
 export class AuthenticationService implements IAuthenticationService {
-  // ⭐️ _db should be a reference to your real database driver
   readonly _db: DBClient = DBClient.getInstance();
 
   async findUserByEmail(email: string): Promise<IUser> {

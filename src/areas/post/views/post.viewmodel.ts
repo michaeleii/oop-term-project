@@ -1,5 +1,3 @@
-// import { database } from "../../../model/fakeDB";
-// import ILike from "../../../interfaces/like.interface";
 import DBClient from "../../../PrismaClient";
 import DateFormatter from "../../../helper/DateFormatter";
 import IPost from "../../../interfaces/post.interface";

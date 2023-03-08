@@ -1,4 +1,3 @@
-// import { database } from "../../../model/fakeDB";
 import DBClient from "../../../PrismaClient";
 import IPost from "../../../interfaces/post.interface";
 import IUser from "../../../interfaces/user.interface";
