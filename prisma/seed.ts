@@ -6,8 +6,8 @@ const prisma = new PrismaClient();
 const main = async () => {
   console.log("Seeding database...");
   const users = [];
-  // Create 100 random users.
-  for (let i = 0; i < 100; i++) {
+  // Create 30 random users.
+  for (let i = 0; i < 30; i++) {
     const firstName = faker.name.firstName();
     const lastName = faker.name.lastName();
     const email = faker.internet.email(firstName, lastName);
@@ -25,19 +25,24 @@ const main = async () => {
     users.push(user);
   }
   // Generate random followers and following
-  for (let i = 0; i < 1000; i++) {
+  const followerPairs = new Set();
+  while (followerPairs.size < 100) {
     const follower = faker.helpers.arrayElement(users);
     const following = faker.helpers.arrayElement(users.filter((u) => u.id !== follower.id));
-    await prisma.follower.create({
-      data: {
-        userId: follower.id,
-        followingId: following.id,
-      },
-    });
+    const pair = `${follower.id}-${following.id}`;
+    if (!followerPairs.has(pair)) {
+      await prisma.follower.create({
+        data: {
+          userId: follower.id,
+          followingId: following.id,
+        },
+      });
+      followerPairs.add(pair);
+    }
   }
-  // Create 10000 posts for a random user.
+  // Create 100 random posts by random users.
   const posts = [];
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 100; i++) {
     const user = users[Math.floor(Math.random() * users.length)];
     const message = faker.lorem.sentence();
     const post = await prisma.post.create({
@@ -52,9 +57,8 @@ const main = async () => {
     });
     posts.push(post);
   }
-  // Create 100 comments for a random post.
-  // Generate random comments for a random subset of posts and users
-  for (let i = 0; i < 100; i++) {
+  // Create 200 random comments for random posts by random users.
+  for (let i = 0; i < 200; i++) {
     const user = users[Math.floor(Math.random() * users.length)];
     const post = posts[Math.floor(Math.random() * posts.length)];
     const message = faker.lorem.sentence();
