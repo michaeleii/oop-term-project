@@ -14,6 +14,16 @@ export class PostService implements IPostService {
     });
   }
   async deletePost(postId: number): Promise<void> {
+    await this._db.prisma.comment.deleteMany({
+      where: {
+        postId,
+      },
+    });
+    await this._db.prisma.like.deleteMany({
+      where: {
+        postId,
+      },
+    });
     await this._db.prisma.post.delete({
       where: {
         id: postId,
@@ -24,6 +34,9 @@ export class PostService implements IPostService {
     return await this._db.prisma.post.findMany({
       where: {
         creatorId: userId,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
   }
@@ -38,29 +51,29 @@ export class PostService implements IPostService {
   async getUserFollowers(userId: number): Promise<IFollower[]> {
     return await this._db.prisma.follower.findMany({
       where: {
-        userId: userId,
+        userId,
       },
     });
   }
   async sortPosts(): Promise<IPost[]> {
     return await this._db.prisma.post.findMany({
       orderBy: {
-        createdAt: "desc",
+        createdAt: "asc",
       },
     });
   }
   async findById(id: number): Promise<IPost> {
     return await this._db.prisma.post.findUnique({
       where: {
-        id: id,
+        id,
       },
     });
   }
   async likePost(postId: number, userId: number): Promise<void> {
     await this._db.prisma.like.create({
       data: {
-        postId: postId,
-        userId: userId,
+        postId,
+        userId,
       },
     });
   }
@@ -68,8 +81,8 @@ export class PostService implements IPostService {
     const like = await this._db.prisma.like.findUnique({
       where: {
         postId_userId: {
-          postId: postId,
-          userId: userId,
+          postId,
+          userId,
         },
       },
     });
@@ -85,9 +98,9 @@ export class PostService implements IPostService {
   async addCommentToPost(creatorId: number, message: string, postId: number): Promise<void> {
     await this._db.prisma.comment.create({
       data: {
-        creator: creatorId,
-        message: message,
-        postId: postId,
+        creatorId,
+        message,
+        postId,
       },
     });
   }

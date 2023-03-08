@@ -27,7 +27,7 @@ let { NODE_ENV, REDIS_PASSWORD, REDIS_HOST, REDIS_PORT } = process.env;
 let sessionStore = new session.MemoryStore();
 
 if (NODE_ENV === "production") {
-  let RedisStore = require("connect-redis")(session);
+  const RedisStore = require("connect-redis")(session);
   const Redis = require("ioredis");
   let redisClient = new Redis({
     port: REDIS_PORT,

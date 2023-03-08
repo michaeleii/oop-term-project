@@ -10,21 +10,20 @@ export class CommentViewModel {
   profilePic: string;
   createdAt: string;
   message: string;
-
-  constructor(comment: IComment) {
+  async init(comment: IComment) {
     this.id = comment.id;
     this.postId = comment.postId;
-    this.getUser(comment.creatorId).then((user) => (this.creator = user));
-    this.getProfilePic(comment.creator).then((picURL) => (this.profilePic = picURL));
     this.createdAt = DateFormatter.format(comment.createdAt);
     this.message = comment.message;
+    await this.getUser(comment.creatorId);
+    await this.getProfilePic(comment.creatorId);
   }
-  async getUser(creator: number): Promise<string> {
-    const user = await this._db.prisma.user.findUnique({ where: { id: creator } });
-    return user.username;
+  async getUser(creator: number): Promise<void> {
+    const { username } = await this._db.prisma.user.findUnique({ where: { id: creator } });
+    this.creator = username;
   }
-  async getProfilePic(creator: number): Promise<string> {
+  async getProfilePic(creator: number): Promise<void> {
     const { firstName, lastName } = await this._db.prisma.user.findUnique({ where: { id: creator } });
-    return `https://api.dicebear.com/5.x/initials/svg?seed=${firstName[0]}${lastName[0]}`;
+    this.profilePic = `https://api.dicebear.com/5.x/initials/svg?seed=${firstName[0]}${lastName[0]}`;
   }
 }
