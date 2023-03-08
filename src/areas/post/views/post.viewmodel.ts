@@ -33,7 +33,9 @@ export class PostViewModel {
     return user.username;
   }
   async getProfilePic(creator: number): Promise<string> {
-    const { firstName, lastName } = await this._db.prisma.user.findUnique({ where: { id: creator } });
+    const user = await this._db.prisma.user.findUnique({ where: { id: creator } });
+    const firstName = user.firstName;
+    const lastName = user.lastName;
     return `https://api.dicebear.com/5.x/initials/svg?seed=${firstName[0]}${lastName[0]}`;
   }
   async getComments(): Promise<CommentViewModel[]> {
