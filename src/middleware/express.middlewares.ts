@@ -3,6 +3,7 @@ import path from "path";
 import session from "express-session";
 import morgan from "morgan";
 import * as dotenv from "dotenv";
+import redisStore from "connect-redis";
 dotenv.config();
 
 // (async () => {
@@ -24,10 +25,11 @@ declare module "dotenv" {
 }
 
 let { NODE_ENV, REDIS_PASSWORD, REDIS_HOST, REDIS_PORT } = process.env;
-let sessionStore = new session.MemoryStore();
+type SessionStore = session.MemoryStore | redisStore.RedisStore;
+let sessionStore: SessionStore = new session.MemoryStore();
 
 if (NODE_ENV === "production") {
-  const RedisStore = require("connect-redis")(session);
+  let RedisStore = redisStore(session);
   const Redis = require("ioredis");
   let redisClient = new Redis({
     port: REDIS_PORT,
