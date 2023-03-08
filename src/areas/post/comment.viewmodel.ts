@@ -14,7 +14,7 @@ export class CommentViewModel {
   constructor(comment: IComment) {
     this.id = comment.id;
     this.postId = comment.postId;
-    this.getUser(comment.creator).then((user) => (this.creator = user));
+    this.getUser(comment.creatorId).then((user) => (this.creator = user));
     this.getProfilePic(comment.creator).then((picURL) => (this.profilePic = picURL));
     this.createdAt = DateFormatter.format(comment.createdAt);
     this.message = comment.message;
