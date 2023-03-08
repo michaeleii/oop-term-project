@@ -1,33 +1,68 @@
-import { database } from "../../../model/fakeDB";
 import ISearchService from "./ISearchService";
 import IUser from "../../../interfaces/user.interface";
 import IPost from "../../../interfaces/post.interface";
+import DBClient from "../../../PrismaClient";
 
-export class MockSearchService implements ISearchService {
-  readonly _db = database;
-
-  async getUser(id: number): Promise<IUser> {
-    return this._db.users.find((user) => user.id === id);
-  }
+export class SearchService implements ISearchService {
+  readonly _db: DBClient = DBClient.getInstance();
   async searchUsers(searchTerm: string): Promise<IUser[]> {
-    return this._db.users.filter(
-      (user) => user.firstName.toLowerCase().includes(searchTerm) || user.lastName.toLowerCase().includes(searchTerm)
-    );
+    return await this._db.prisma.user.findMany({
+      where: {
+        OR: [
+          {
+            firstName: {
+              contains: searchTerm,
+            },
+            lastName: {
+              contains: searchTerm,
+            },
+          },
+        ],
+      },
+    });
   }
   async searchPosts(searchTerm: string): Promise<IPost[]> {
-    return this._db.posts.filter((post) => post.message.toLowerCase().includes(searchTerm));
-  }
-  async isFollowing(userId: number, followingId: number): Promise<boolean> {
-    return this._db.followers.some((f) => f.userId === userId && f.followingId === followingId);
+    return await this._db.prisma.post.findMany({
+      where: {
+        message: {
+          contains: searchTerm,
+        },
+      },
+    });
   }
   async followUser(userId: number, followingId: number): Promise<void> {
-    this._db.followers.push({
-      id: this._db.followers.length + 1,
-      userId: userId,
-      followingId: followingId,
+    this._db.prisma.follower.create({
+      data: {
+        userId: userId,
+        followingId: followingId,
+      },
     });
   }
   async unfollowUser(userId: number, followingId: number): Promise<void> {
-    this._db.followers = this._db.followers.filter((f) => f.userId === userId && f.followingId !== followingId);
+    // this._db.prisma.follower.delete({
+    //   where: {
+    //     userId_followingId: {
+    //       userId: userId,
+    //       followingId: followingId,
+    //     },
+    //   },
+    // });
+    throw new Error("Method not implemented.");
+  }
+  async isFollowing(id: number, followingId: number): Promise<boolean> {
+    const follow = await this._db.prisma.follower.findFirst({
+      where: {
+        userId: id,
+        followingId: followingId,
+      },
+    });
+    return follow ? true : false;
+  }
+  async getUser(id: number): Promise<IUser> {
+    return await this._db.prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
   }
 }
