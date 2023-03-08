@@ -1,7 +1,8 @@
-import { database } from "../model/fakeDB";
+// import { database } from "../model/fakeDB";
+import DBClient from "../PrismaClient";
 
-const debuggerMiddleware = (req, res, next) => {
-  const DEBUG_DATABASE = false;
+const debuggerMiddleware = async (req, res, next) => {
+  const DEBUG_DATABASE = true;
   if (req.session) {
     console.log(`Session Details:`);
     console.log(`${req.session}`);
@@ -11,8 +12,8 @@ const debuggerMiddleware = (req, res, next) => {
     console.log(`${req.user}`);
   }
   if (DEBUG_DATABASE) {
+    const db = DBClient.getInstance();
     console.log(`Database Details:`);
-    console.log(database.users);
   }
   next();
 };

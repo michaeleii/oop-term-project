@@ -29,7 +29,6 @@ export class AuthenticationService implements IAuthenticationService {
   }
   async getUserByEmailAndPassword(email: string, password: string): Promise<IUser> {
     let user = await this.findUserByEmail(email);
-    console.log(user);
 
     if (!user) {
       throw new Error("User with that email does not exists");
