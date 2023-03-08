@@ -22,26 +22,50 @@ export class PostService implements IPostService {
     });
   }
   async getAllPosts(userId: number): Promise<IPost[]> {
-    throw new Error("Method not implemented.");
+    return await this._db.prisma.post.findMany({
+      where: {
+        creatorId: userId,
+      },
+    });
   }
   async getAllPostsByUserFollowers(followers: IFollower[]): Promise<IPost[]> {
-    throw new Error("Method not implemented.");
+    const allFollowersPosts: IPost[] = [];
+    await followers.forEach(async (follower) => {
+      const followersPosts = await this.getAllPosts(follower.followingId);
+      allFollowersPosts.push(...followersPosts);
+    });
+    return allFollowersPosts;
   }
   async getUserFollowers(userId: number): Promise<IFollower[]> {
-    throw new Error("Method not implemented.");
+    return await this._db.prisma.follower.findMany({
+      where: {
+        userId: userId,
+      },
+    });
   }
   async sortPosts(): Promise<IPost[]> {
-    throw new Error("Method not implemented.");
+    return await this._db.prisma.post.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
   }
   async findById(id: number): Promise<IPost> {
-    throw new Error("Method not implemented.");
+    return await this._db.prisma.post.findUnique({
+      where: {
+        id: id,
+      },
+    });
   }
   async likePost(postId: number, userId: number): Promise<void> {
-    throw new Error("Method not implemented.");
+    await this._db.prisma.like.create({
+      data: {
+        postId: postId,
+        userId: userId,
+      },
+    });
   }
-  async unlikePost(postId: number, userId: number): Promise<void> {
-    throw new Error("Method not implemented.");
-  }
+  async unlikePost(postId: number, userId: number): Promise<void> {}
   async addCommentToPost(creator: number, message: string, postId: number): Promise<void> {
     throw new Error("Method not implemented.");
   }
