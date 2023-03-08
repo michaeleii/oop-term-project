@@ -30,6 +30,7 @@ class PostController implements IController {
   private getAllMyPosts = async (req: Request, res: Response) => {
     const user = await req.user;
     const posts = await this.postService.getAllPosts(user.id);
+
     const postsFormatted = posts.map((post) => new PostViewModel(post, user.id));
     res.render("post/views/posts", { posts: postsFormatted, user });
   };
@@ -99,7 +100,7 @@ class PostController implements IController {
     const postId = +req.params.id;
     const user = await req.user;
     const post = await this.postService.findById(postId);
-    if (post.creator === user.id) {
+    if (post.creatorId === user.id) {
       await this.postService.deletePost(postId);
     }
     res.redirect("back");

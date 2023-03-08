@@ -3,7 +3,6 @@ import IPost from "../../../interfaces/post.interface";
 import DBClient from "../../../PrismaClient";
 import IPostService from "./IPostService";
 
-// ❗️ Implement this class much later, once everything works fine with your mock db
 export class PostService implements IPostService {
   readonly _db: DBClient = DBClient.getInstance();
   async addPost(message: string, userId: number): Promise<void> {
