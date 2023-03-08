@@ -24,7 +24,7 @@ export class PostViewModel {
     this.createdAt = DateFormatter.format(post.createdAt);
     this.message = post.message;
     this.getComments().then((comments) => (this.comments = comments));
-    this.commentsCount = this.comments.length;
+    this.getCommentCount(post.id).then((count) => (this.commentsCount = count));
     this.getUserLiked(userId).then((liked) => (this.userLiked = liked));
     this.getLikes().then((count) => (this.likesCount = count));
   }
@@ -38,9 +38,13 @@ export class PostViewModel {
   }
   async getComments(): Promise<CommentViewModel[]> {
     const comments = await this._db.prisma.comment.findMany({ where: { postId: this.id } });
+
     return comments
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
       .map((comment) => new CommentViewModel(comment));
+  }
+  async getCommentCount(postId: number): Promise<number> {
+    return await this._db.prisma.comment.count({ where: { postId: this.id } });
   }
   async getLikes(): Promise<number> {
     return await this._db.prisma.like.count({ where: { postId: this.id } });
