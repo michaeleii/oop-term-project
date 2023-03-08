@@ -7,14 +7,14 @@ import { PostService } from "./areas/post/services/Post.service";
 import { SearchService } from "./areas/search/services/Search.service";
 import SearchController from "./areas/search/controllers/search.controller";
 import SettingController from "./areas/setting/controllers/setting.controller";
-import { MockSettingService } from "./areas/setting/services";
+import { SettingService } from "./areas/setting/services/Setting.service";
 
 const server = new App([
   new LandingController(),
   new PostController(new PostService()),
   new AuthenticationController(new AuthenticationService()),
   new SearchController(new SearchService()),
-  new SettingController(new MockSettingService()),
+  new SettingController(new SettingService()),
 ]);
 
 server.start();
