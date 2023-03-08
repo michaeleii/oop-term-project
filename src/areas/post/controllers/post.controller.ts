@@ -26,7 +26,6 @@ class PostController implements IController {
     this.router.get(`${this.path}/:id/invalidPost`, ensureAuthenticated, this.showInvalidPost);
   }
 
-  // 🚀 This method should use your postService and pull from your actual fakeDB, not the temporary posts object
   private getAllMyPosts = async (req: Request, res: Response) => {
     const user = await req.user;
     const posts = await this.postService.getAllPosts(user.id);
@@ -44,16 +43,18 @@ class PostController implements IController {
     const user = await req.user;
     const followers = await this.postService.getUserFollowers(user.id);
     const posts = await this.postService.getAllPostsByUserFollowers(followers);
-    const postsFormatted = posts.map(async (post) => {
-      const postViewModel = new PostViewModel();
-      await postViewModel.init(post, user.id);
-      return postViewModel;
-    });
+
+    const postsFormatted = await Promise.all(
+      posts.map(async (post) => {
+        const postViewModel = new PostViewModel();
+        await postViewModel.init(post, user.id);
+        return postViewModel;
+      })
+    );
 
     res.render("post/views/posts", { posts: postsFormatted, user });
   };
 
-  // 🚀 This method should use your postService and pull from your actual fakeDB, not the temporary post object
   private getPostById = async (req: Request, res: Response, next: NextFunction) => {
     const id = +req.params.id;
     const userId = await req.user.id;
@@ -90,7 +91,6 @@ class PostController implements IController {
     res.redirect("back");
   };
 
-  // 🚀 These post methods needs to be implemented by you
   private createComment = async (req: Request, res: Response, next: NextFunction) => {
     const user = await req.user;
     const postId = +req.params.id;

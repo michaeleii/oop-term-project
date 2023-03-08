@@ -42,10 +42,10 @@ export class PostService implements IPostService {
   }
   async getAllPostsByUserFollowers(followers: IFollower[]): Promise<IPost[]> {
     const allFollowersPosts: IPost[] = [];
-    await followers.forEach(async (follower) => {
+    for await (const follower of followers) {
       const followersPosts = await this.getAllPosts(follower.followingId);
       allFollowersPosts.push(...followersPosts);
-    });
+    }
     return allFollowersPosts;
   }
   async getUserFollowers(userId: number): Promise<IFollower[]> {
