@@ -1,8 +1,8 @@
-import IDatabase from "../../../interfaces/database.interface.ts";
 import IPost from "../../../interfaces/post.interface";
 import IComment from "../../../interfaces/comment.interface";
 import IFollower from "../../../interfaces/follower.interface";
 import DBClient from "../../../PrismaClient";
+import IDatabase from "../../../interfaces/database.interface.ts";
 
 export default interface IPostService {
   readonly _db: DBClient | IDatabase;
