@@ -1,21 +1,27 @@
-import { database } from "../../../model/fakeDB";
+// import { database } from "../../../model/fakeDB";
+import DBClient from "../../../PrismaClient";
 import IPost from "../../../interfaces/post.interface";
 import IUser from "../../../interfaces/user.interface";
 
 export class SearchPostViewModel {
-  private readonly _db = database;
+  private readonly _db: DBClient = DBClient.getInstance();
   id: number;
   creatorFirstName: string;
   creatorLastName: string;
   message: string;
-  constructor(post: IPost) {
+
+  async init(post: IPost) {
     this.id = post.id;
     this.message = post.message;
-    const creator = this.getUser(post.creator);
+    const creator = await this.getUser(post.creatorId);
     this.creatorFirstName = creator.firstName;
     this.creatorLastName = creator.lastName;
   }
-  getUser(creator: number): IUser {
-    return this._db.users.find((user) => user.id === creator);
+  async getUser(creator: number): Promise<IUser> {
+    return await this._db.prisma.user.findUnique({
+      where: {
+        id: creator,
+      },
+    });
   }
 }
