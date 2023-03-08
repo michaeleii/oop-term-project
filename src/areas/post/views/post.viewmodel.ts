@@ -39,7 +39,7 @@ export class PostViewModel {
     const comments = await this._db.prisma.comment.findMany({
       where: { postId: this.id },
       orderBy: {
-        createdAt: "asc",
+        createdAt: "desc",
       },
     });
 
