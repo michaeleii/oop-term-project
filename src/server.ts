@@ -13,8 +13,8 @@ const server = new App([
   new LandingController(),
   new PostController(new PostService()),
   new AuthenticationController(new AuthenticationService()),
-  new SettingController(new MockSettingService()),
   new SearchController(new SearchService()),
+  new SettingController(new MockSettingService()),
 ]);
 
 server.start();
