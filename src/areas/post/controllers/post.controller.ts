@@ -30,19 +30,11 @@ class PostController implements IController {
   private getAllMyPosts = async (req: Request, res: Response) => {
     const user = await req.user;
     const posts = await this.postService.getAllPosts(user.id);
-
-    // const postsFormatted = [];
-    // for await (const post of posts) {
-    //   const postViewmodel = new PostViewModel();
-    //   await postViewmodel.init(post, user.id);
-    //   postsFormatted.push(postViewmodel);
-    // }
-
     const postsFormatted = await Promise.all(
       posts.map(async (post) => {
-        let postFormatted = new PostViewModel();
-        await postFormatted.init(post, user.id);
-        return postFormatted;
+        const postViewModel = new PostViewModel();
+        await postViewModel.init(post, user.id);
+        return postViewModel;
       })
     );
 
@@ -53,11 +45,9 @@ class PostController implements IController {
     const followers = await this.postService.getUserFollowers(user.id);
     const posts = await this.postService.getAllPostsByUserFollowers(followers);
     const postsFormatted = posts.map(async (post) => {
-      let postFormatted = new PostViewModel();
-      await postFormatted.init(post, user.id);
-      console.log(postFormatted);
-
-      return postFormatted;
+      const postViewModel = new PostViewModel();
+      await postViewModel.init(post, user.id);
+      return postViewModel;
     });
 
     res.render("post/views/posts", { posts: postsFormatted, user });
