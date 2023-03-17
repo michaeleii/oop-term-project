@@ -20,18 +20,31 @@ class SearchController implements IController {
     this.router.get(`${this.path}/:id/follow`, ensureAuthenticated, this.followUser);
   }
   private search = async (req: Request, res: Response, next: NextFunction) => {
-    const searchTerm = String(req.query.query).toLowerCase();
+    const searchTerm = String(req.query.query);
     const users = await this.searchService.searchUsers(searchTerm);
     const posts = await this.searchService.searchPosts(searchTerm);
     const currentUser = await req.user;
-    const usersFormatted = users.map((searchedUser) => new SearchUserViewModel(searchedUser, currentUser.id));
-    const postsFormatted = posts.map((post) => new SearchPostViewModel(post));
+    const usersFormatted = await Promise.all(
+      users.map(async (searchedUser) => {
+        const searchUserViewModel = new SearchUserViewModel();
+        await searchUserViewModel.init(searchedUser, currentUser.id);
+        return searchUserViewModel;
+      })
+    );
+    const postsFormatted = await Promise.all(
+      posts.map(async (post) => {
+        const searchPostViewModel = new SearchPostViewModel();
+        await searchPostViewModel.init(post);
+        return searchPostViewModel;
+      })
+    );
     res.render("search/views/search", { users: usersFormatted, posts: postsFormatted });
   };
   private followUser = async (req: Request, res: Response, next: NextFunction) => {
     const followingId = +req.params.id;
     const currentUser = await req.user;
-    const user = new SearchUserViewModel(await this.searchService.getUser(followingId), currentUser.id);
+    const user = new SearchUserViewModel();
+    await user.init(await this.searchService.getUser(followingId), currentUser.id);
     const isFollowing = user.following;
 
     if (isFollowing) {

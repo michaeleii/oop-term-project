@@ -26,22 +26,35 @@ class PostController implements IController {
     this.router.get(`${this.path}/:id/invalidPost`, ensureAuthenticated, this.showInvalidPost);
   }
 
-  // 🚀 This method should use your postService and pull from your actual fakeDB, not the temporary posts object
   private getAllMyPosts = async (req: Request, res: Response) => {
     const user = await req.user;
     const posts = await this.postService.getAllPosts(user.id);
-    const postsFormatted = posts.map((post) => new PostViewModel(post, user.id));
+    const postsFormatted = await Promise.all(
+      posts.map(async (post) => {
+        const postViewModel = new PostViewModel();
+        await postViewModel.init(post, user.id);
+        return postViewModel;
+      })
+    );
+
     res.render("post/views/posts", { posts: postsFormatted, user });
   };
   private getAllFollowerPosts = async (req: Request, res: Response) => {
     const user = await req.user;
     const followers = await this.postService.getUserFollowers(user.id);
     const posts = await this.postService.getAllPostsByUserFollowers(followers);
-    const postsFormatted = posts.map((post) => new PostViewModel(post, user.id));
+
+    const postsFormatted = await Promise.all(
+      posts.map(async (post) => {
+        const postViewModel = new PostViewModel();
+        await postViewModel.init(post, user.id);
+        return postViewModel;
+      })
+    );
+
     res.render("post/views/posts", { posts: postsFormatted, user });
   };
 
-  // 🚀 This method should use your postService and pull from your actual fakeDB, not the temporary post object
   private getPostById = async (req: Request, res: Response, next: NextFunction) => {
     const id = +req.params.id;
     const userId = await req.user.id;
@@ -51,7 +64,8 @@ class PostController implements IController {
         res.redirect(`/posts/${id}/invalidPost`);
         next(new PostNotFoundException(id));
       } else {
-        const postFormatted = new PostViewModel(post, userId);
+        const postFormatted = new PostViewModel();
+        await postFormatted.init(post, userId);
         res.render("post/views/post", { post: postFormatted });
       }
     } catch (error) {
@@ -66,7 +80,8 @@ class PostController implements IController {
   private likePostById = async (req: Request, res: Response, next: NextFunction) => {
     const user = await req.user;
     const postId = +req.params.id;
-    const post = new PostViewModel(await this.postService.findById(postId), user.id);
+    const post = new PostViewModel();
+    await post.init(await this.postService.findById(postId), user.id);
     const likedPost = post.userLiked;
     if (likedPost) {
       await this.postService.unlikePost(postId, user.id);
@@ -76,7 +91,6 @@ class PostController implements IController {
     res.redirect("back");
   };
 
-  // 🚀 These post methods needs to be implemented by you
   private createComment = async (req: Request, res: Response, next: NextFunction) => {
     const user = await req.user;
     const postId = +req.params.id;
@@ -99,7 +113,7 @@ class PostController implements IController {
     const postId = +req.params.id;
     const user = await req.user;
     const post = await this.postService.findById(postId);
-    if (post.creator === user.id) {
+    if (post.creatorId === user.id) {
       await this.postService.deletePost(postId);
     }
     res.redirect("back");

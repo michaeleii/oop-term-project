@@ -1,11 +1,10 @@
-import { database } from "../../../model/fakeDB";
+import DBClient from "../../../PrismaClient";
 import DateFormatter from "../../../helper/DateFormatter";
 import IPost from "../../../interfaces/post.interface";
-import ILike from "../../../interfaces/like.interface";
 import { CommentViewModel } from "../comment.viewmodel";
 
 export class PostViewModel {
-  private readonly _db = database;
+  private readonly _db: DBClient = DBClient.getInstance();
   public id: number;
   public creator: string;
   private profilePic: string;
@@ -15,35 +14,51 @@ export class PostViewModel {
   public commentsCount: number;
   public userLiked: boolean;
   public likesCount: number;
-
-  constructor(post: IPost, userId: number) {
+  async init(post: IPost, userId: number) {
     this.id = post.id;
-    this.creator = this.getUser(post.creator);
-    this.profilePic = this.getProfilePic(post.creator);
     this.createdAt = DateFormatter.format(post.createdAt);
     this.message = post.message;
-    this.comments = this.getComments();
-    this.commentsCount = this.comments.length;
-    this.userLiked = this.getUserLiked(userId);
-    this.likesCount = this.getLikes().length;
+    await this.getUser(post.creatorId);
+    await this.getProfilePic(post.creatorId);
+    await this.getComments();
+    await this.getCommentCount(post.id);
+    await this.getUserLiked(userId);
+    await this.getLikes();
   }
-  getUser(creator: number): string {
-    return this._db.users.find((user) => user.id === creator).username;
+  async getUser(creator: number): Promise<void> {
+    const user = await this._db.prisma.user.findUnique({ where: { id: creator } });
+    this.creator = user.username;
   }
-  getProfilePic(creator: number): string {
-    const { firstName, lastName } = this._db.users.find((user) => user.id === creator);
-    return `https://api.dicebear.com/5.x/initials/svg?seed=${firstName[0]}${lastName[0]}`;
+  async getProfilePic(creator: number): Promise<void> {
+    const user = await this._db.prisma.user.findUnique({ where: { id: creator } });
+    const firstName = user.firstName;
+    const lastName = user.lastName;
+    this.profilePic = `https://api.dicebear.com/5.x/initials/svg?seed=${firstName[0]}${lastName[0]}`;
   }
-  getComments(): CommentViewModel[] {
-    return this._db.comments
-      .filter((comment) => comment.postId === this.id)
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-      .map((comment) => new CommentViewModel(comment));
+  async getComments(): Promise<void> {
+    const comments = await this._db.prisma.comment.findMany({
+      where: { postId: this.id },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    this.comments = await Promise.all(
+      comments.map(async (comment) => {
+        const commentViewModel = new CommentViewModel();
+        await commentViewModel.init(comment);
+        return commentViewModel;
+      })
+    );
   }
-  getLikes(): ILike[] {
-    return this._db.likes.filter((like) => like.postId === this.id);
+  async getCommentCount(postId: number): Promise<void> {
+    this.commentsCount = await this._db.prisma.comment.count({ where: { postId: this.id } });
   }
-  getUserLiked(userId: number): boolean {
-    return this._db.likes.some((like) => like.postId === this.id && like.userId === userId);
+  async getLikes(): Promise<void> {
+    this.likesCount = await this._db.prisma.like.count({ where: { postId: this.id } });
+  }
+  async getUserLiked(userId: number): Promise<void> {
+    const like = await this._db.prisma.like.findFirst({ where: { postId: this.id, userId: userId } });
+    this.userLiked = like ? true : false;
   }
 }

@@ -1,28 +1,99 @@
+import IFollower from "../../../interfaces/follower.interface";
 import IPost from "../../../interfaces/post.interface";
+import DBClient from "../../../PrismaClient";
 import IPostService from "./IPostService";
 
-// ❗️ Implement this class much later, once everything works fine with your mock db
-// export class PostService implements IPostService {
-//   // readonly _db = "";
-//   addPost(post: IPost, username: string): void {
-//     // 🚀 Implement this yourself.
-//     throw new Error("Method not implemented.");
-//   }
-//   getAllPosts(userId: number): IPost[] {
-//     // 🚀 Implement this yourself.
-//     throw new Error("Method not implemented.");
-//   }
-//   findById(id: string): IPost {
-//     // 🚀 Implement this yourself.
-//     throw new Error("Method not implemented.");
-//   }
-//   addCommentToPost(message: { id: string; createdAt: string; userId: string; message: string }, postId: string): void {
-//     // 🚀 Implement this yourself.
-//     throw new Error("Method not implemented.");
-//   }
-
-//   sortPosts(posts: IPost[]): IPost[] {
-//     // 🚀 Implement this yourself.
-//     throw new Error("Method not implemented.");
-//   }
-// }
+export class PostService implements IPostService {
+  readonly _db: DBClient = DBClient.getInstance();
+  async addPost(message: string, userId: number): Promise<void> {
+    await this._db.prisma.post.create({
+      data: {
+        message: message,
+        creatorId: userId,
+      },
+    });
+  }
+  async deletePost(postId: number): Promise<void> {
+    await this._db.prisma.comment.deleteMany({
+      where: {
+        postId,
+      },
+    });
+    await this._db.prisma.like.deleteMany({
+      where: {
+        postId,
+      },
+    });
+    await this._db.prisma.post.delete({
+      where: {
+        id: postId,
+      },
+    });
+  }
+  async getAllPosts(userId: number): Promise<IPost[]> {
+    return await this._db.prisma.post.findMany({
+      where: {
+        creatorId: userId,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  }
+  async getAllPostsByUserFollowers(followers: IFollower[]): Promise<IPost[]> {
+    const allFollowersPosts: IPost[] = [];
+    for await (const follower of followers) {
+      const followersPosts = await this.getAllPosts(follower.followingId);
+      allFollowersPosts.push(...followersPosts);
+    }
+    return allFollowersPosts;
+  }
+  async getUserFollowers(userId: number): Promise<IFollower[]> {
+    return await this._db.prisma.follower.findMany({
+      where: {
+        userId,
+      },
+    });
+  }
+  async sortPosts(): Promise<IPost[]> {
+    return await this._db.prisma.post.findMany({
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+  }
+  async findById(id: number): Promise<IPost> {
+    return await this._db.prisma.post.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+  async likePost(postId: number, userId: number): Promise<void> {
+    await this._db.prisma.like.create({
+      data: {
+        postId,
+        userId,
+      },
+    });
+  }
+  async unlikePost(postId: number, userId: number): Promise<void> {
+    await this._db.prisma.like.delete({
+      where: {
+        postId_userId: {
+          postId,
+          userId,
+        },
+      },
+    });
+  }
+  async addCommentToPost(creatorId: number, message: string, postId: number): Promise<void> {
+    await this._db.prisma.comment.create({
+      data: {
+        creatorId,
+        message,
+        postId,
+      },
+    });
+  }
+}

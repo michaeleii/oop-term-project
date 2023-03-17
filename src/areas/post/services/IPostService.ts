@@ -1,11 +1,11 @@
-import IDatabase from "../../../interfaces/database.interface.ts";
 import IPost from "../../../interfaces/post.interface";
 import IComment from "../../../interfaces/comment.interface";
 import IFollower from "../../../interfaces/follower.interface";
+import DBClient from "../../../PrismaClient";
+import IDatabase from "../../../interfaces/database.interface.ts";
 
-// ⭐️ Feel free to change this interface in any way you like. It is simply an example...
 export default interface IPostService {
-  readonly _db: IDatabase;
+  readonly _db: DBClient | IDatabase;
   addPost(message: string, userId: number): Promise<void>;
   deletePost(postId: number): Promise<void>;
 

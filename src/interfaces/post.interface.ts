@@ -1,7 +1,7 @@
 interface IPost {
   id: number;
   message: string;
-  creator: number;
+  creatorId: number;
   createdAt: Date;
 }
 

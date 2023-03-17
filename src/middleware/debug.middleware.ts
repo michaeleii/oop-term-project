@@ -1,7 +1,5 @@
-import { database } from "../model/fakeDB";
-
-const debuggerMiddleware = (req, res, next) => {
-  const DEBUG_DATABASE = true;
+const debuggerMiddleware = async (req, res, next) => {
+  const DEBUG_DATABASE = false;
   if (req.session) {
     console.log(`Session Details:`);
     console.log(`${req.session}`);
@@ -12,7 +10,6 @@ const debuggerMiddleware = (req, res, next) => {
   }
   if (DEBUG_DATABASE) {
     console.log(`Database Details:`);
-    console.log(database.users);
   }
   next();
 };

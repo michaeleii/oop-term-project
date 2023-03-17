@@ -8,7 +8,7 @@ export class MockPostService implements IPostService {
   async addPost(message: string, userId: number): Promise<void> {
     this._db.posts.push({
       id: this._db.posts.length + 1,
-      creator: userId,
+      creatorId: userId,
       message: message,
       createdAt: new Date(Date.now()),
     });
@@ -20,7 +20,7 @@ export class MockPostService implements IPostService {
 
   async getAllPosts(userId: number): Promise<IPost[]> {
     const sortedPosts = await this.sortPosts();
-    return sortedPosts.filter((post) => post.creator === userId);
+    return sortedPosts.filter((post) => post.creatorId === userId);
   }
   async getAllPostsByUserFollowers(followers: IFollower[]): Promise<IPost[]> {
     const allFollowersPosts: IPost[] = [];
