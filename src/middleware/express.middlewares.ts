@@ -47,7 +47,7 @@ module.exports = (app) => {
   app.set("view engine", "ejs");
 
   // Logging Middleware
-  app.use(morgan("tiny"));
+  app.use(morgan("dev"));
 
   // Session Configuration
   app.use(
