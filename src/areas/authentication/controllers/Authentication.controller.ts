@@ -5,12 +5,6 @@ import { IAuthenticationService } from "../services";
 import FormValidater from "../../../helper/FormValidater";
 import { ensureAuthenticated, forwardAuthenticated } from "../../../middleware/authentication.middleware";
 
-declare module "express-session" {
-  interface SessionData {
-    messages: string[];
-    success: string;
-  }
-}
 declare global {
   namespace Express {
     interface Request {
