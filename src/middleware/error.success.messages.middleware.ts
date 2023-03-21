@@ -1,3 +1,5 @@
+import { Request, Response, NextFunction } from "express";
+
 declare module "express-session" {
   interface SessionData {
     messages: string[];
@@ -5,12 +7,14 @@ declare module "express-session" {
   }
 }
 
-export const displayError = (req, res, next) => {
-  [res.locals.error] = req.session.messages;
+export const displayError = (req: Request, res: Response, next: NextFunction) => {
+  res.locals.error = req.session.messages ? req.session.messages[0] : false;
   req.session.messages = [];
+  next();
 };
 
-export const displaySuccess = (req, res, next) => {
-  res.locals.success = req.session.success;
+export const displaySuccess = (req: Request, res: Response, next: NextFunction) => {
+  res.locals.success = req.session.success ? req.session.success : false;
   req.session.success = "";
+  next();
 };

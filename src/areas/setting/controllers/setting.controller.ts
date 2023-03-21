@@ -20,11 +20,7 @@ class SettingController implements IController {
     this.router.post(`${this.path}/change-password`, ensureAuthenticated, this.changePassword);
   }
   private getSettingsPage = async (req: Request, res: Response, next: NextFunction) => {
-    const [error] = req.session.messages;
-    const success = req.session.success;
-    req.session.messages = [];
-    req.session.success = "";
-    res.render("setting/views/setting", { error, success });
+    res.render("setting/views/setting");
   };
   private changeUsername = async (req: Request, res: Response, next: NextFunction) => {
     try {
