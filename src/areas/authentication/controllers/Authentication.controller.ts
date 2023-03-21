@@ -5,12 +5,6 @@ import { IAuthenticationService } from "../services";
 import FormValidater from "../../../helper/FormValidater";
 import { ensureAuthenticated, forwardAuthenticated } from "../../../middleware/authentication.middleware";
 
-declare module "express-session" {
-  interface SessionData {
-    messages: string[];
-    success: string;
-  }
-}
 declare global {
   namespace Express {
     interface Request {
@@ -43,15 +37,11 @@ class AuthenticationController implements IController {
   }
 
   private showLoginPage = (req: express.Request, res: express.Response) => {
-    const error = req.session.messages;
-    req.session.messages = [];
-    res.render("authentication/views/login", { error });
+    res.render("authentication/views/login");
   };
 
   private showRegistrationPage = (req: express.Request, res: express.Response) => {
-    const error = req.session.messages;
-    req.session.messages = [];
-    res.render("authentication/views/register", { error });
+    res.render("authentication/views/register");
   };
 
   // 🔑 These Authentication methods needs to be implemented by you

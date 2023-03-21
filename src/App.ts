@@ -3,6 +3,7 @@ import errorMiddleware from "./middleware/error.middleware";
 import Controller from "./interfaces/controller.interface";
 import dotenv from "dotenv";
 import debuggerMiddleware from "./middleware/debug.middleware";
+import { displayError, displaySuccess } from "./middleware/error.success.messages.middleware";
 
 class App {
   private _app: express.Application;
@@ -14,6 +15,7 @@ class App {
 
     this.initializeDebugging();
     this.initializeMiddlewares();
+    this.initializeErrorSuccessMessages();
     this.initializeControllers(controllers);
     this.initializeErrorHandling();
   }
@@ -34,6 +36,11 @@ class App {
   }
   private initializeDebugging() {
     this._app.use(debuggerMiddleware);
+  }
+
+  private initializeErrorSuccessMessages() {
+    this._app.use(displayError);
+    this._app.use(displaySuccess);
   }
 
   private initializeControllers(controllers: Controller[]) {

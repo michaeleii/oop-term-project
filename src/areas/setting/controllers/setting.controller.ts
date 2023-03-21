@@ -20,16 +20,11 @@ class SettingController implements IController {
     this.router.post(`${this.path}/change-password`, ensureAuthenticated, this.changePassword);
   }
   private getSettingsPage = async (req: Request, res: Response, next: NextFunction) => {
-    const user = await req.user;
-    const error = req.session.error;
-    const success = req.session.success;
-    req.session.error = "";
-    req.session.success = "";
-    res.render("setting/views/setting", { user, error, success });
+    res.render("setting/views/setting");
   };
   private changeUsername = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await req.user;
+      const user = req.user;
       const { newUsername } = req.body;
       if (newUsername === user.username) throw new Error("New username is the same as the old one.");
       if (newUsername.trim() === "") throw new Error("Username cannot be empty.");
@@ -37,14 +32,14 @@ class SettingController implements IController {
       req.session.success = `Your username was successfully changed to ${newUsername}.`;
       res.redirect("/setting");
     } catch (error) {
-      req.session.error = error.message;
+      req.session.messages = [error.message];
       next(error);
       res.redirect("/setting");
     }
   };
   private changeEmail = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await req.user;
+      const user = req.user;
       const { newEmail } = req.body;
       if (newEmail === user.email) throw new Error("New email is the same as the old one.");
       if (newEmail.trim() === "") throw new Error("Email cannot be empty.");
@@ -52,20 +47,20 @@ class SettingController implements IController {
       req.session.success = `Your email was successfully changed to ${newEmail}.`;
       res.redirect("/setting");
     } catch (error) {
-      req.session.error = error.message;
+      req.session.messages = [error.message];
       res.redirect("/setting");
       next(error);
     }
   };
   private changePassword = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await req.user;
+      const user = req.user;
       const { currentPassword, newPassword } = req.body;
       await this.settingService.changePassword(user.id, currentPassword, newPassword);
       req.session.success = "Password changed successfully";
       res.redirect("/setting");
     } catch (error) {
-      req.session.error = error.message;
+      req.session.messages = [error.message];
       res.redirect("/setting");
       next(error);
     }
