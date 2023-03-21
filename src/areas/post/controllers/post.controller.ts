@@ -37,7 +37,7 @@ class PostController implements IController {
       })
     );
 
-    res.render("post/views/posts", { posts: postsFormatted, user });
+    res.render("post/views/posts", { posts: postsFormatted });
   };
   private getAllFollowerPosts = async (req: Request, res: Response) => {
     const user = await req.user;
@@ -52,7 +52,7 @@ class PostController implements IController {
       })
     );
 
-    res.render("post/views/posts", { posts: postsFormatted, user });
+    res.render("post/views/posts", { posts: postsFormatted });
   };
 
   private getPostById = async (req: Request, res: Response, next: NextFunction) => {

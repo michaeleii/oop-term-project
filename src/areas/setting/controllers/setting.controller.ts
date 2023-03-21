@@ -20,12 +20,11 @@ class SettingController implements IController {
     this.router.post(`${this.path}/change-password`, ensureAuthenticated, this.changePassword);
   }
   private getSettingsPage = async (req: Request, res: Response, next: NextFunction) => {
-    const user = await req.user;
-    const error = req.session.error;
-    const success = req.session.success;
-    req.session.error = "";
+    const [error] = req.session.messages;
+    const success = await req.session.success;
+    req.session.messages = [];
     req.session.success = "";
-    res.render("setting/views/setting", { user, error, success });
+    res.render("setting/views/setting", { error, success });
   };
   private changeUsername = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -37,7 +36,7 @@ class SettingController implements IController {
       req.session.success = `Your username was successfully changed to ${newUsername}.`;
       res.redirect("/setting");
     } catch (error) {
-      req.session.error = error.message;
+      req.session.messages = [error.message];
       next(error);
       res.redirect("/setting");
     }
@@ -52,7 +51,7 @@ class SettingController implements IController {
       req.session.success = `Your email was successfully changed to ${newEmail}.`;
       res.redirect("/setting");
     } catch (error) {
-      req.session.error = error.message;
+      req.session.messages = [error.message];
       res.redirect("/setting");
       next(error);
     }
@@ -65,7 +64,7 @@ class SettingController implements IController {
       req.session.success = "Password changed successfully";
       res.redirect("/setting");
     } catch (error) {
-      req.session.error = error.message;
+      req.session.messages = [error.message];
       res.redirect("/setting");
       next(error);
     }
