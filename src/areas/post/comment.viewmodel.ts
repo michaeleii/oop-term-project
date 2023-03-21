@@ -14,8 +14,7 @@ export class CommentViewModel {
     this.postId = comment.postId;
     this.createdAt = DateFormatter.format(comment.createdAt);
     this.message = comment.message;
-    await this.getUser(comment.creatorId);
-    await this.getProfilePic(comment.creatorId);
+    await Promise.all([this.getUser(comment.creatorId), this.getProfilePic(comment.creatorId)]);
   }
   async getUser(creator: number): Promise<void> {
     const { username } = await this._db.prisma.user.findUnique({ where: { id: creator } });

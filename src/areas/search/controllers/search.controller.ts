@@ -21,9 +21,11 @@ class SearchController implements IController {
   }
   private search = async (req: Request, res: Response, next: NextFunction) => {
     const searchTerm = String(req.query.query);
-    const users = await this.searchService.searchUsers(searchTerm);
-    const posts = await this.searchService.searchPosts(searchTerm);
-    const currentUser = await req.user;
+    const [users, posts] = await Promise.all([
+      this.searchService.searchUsers(searchTerm),
+      this.searchService.searchPosts(searchTerm),
+    ]);
+    const currentUser = req.user;
     const usersFormatted = await Promise.all(
       users.map(async (searchedUser) => {
         const searchUserViewModel = new SearchUserViewModel();
@@ -42,16 +44,15 @@ class SearchController implements IController {
   };
   private followUser = async (req: Request, res: Response, next: NextFunction) => {
     const followingId = +req.params.id;
-    const currentUser = await req.user;
+    const currentUser = req.user;
     const user = new SearchUserViewModel();
     await user.init(await this.searchService.getUser(followingId), currentUser.id);
     const isFollowing = user.following;
 
-    if (isFollowing) {
-      await this.searchService.unfollowUser(currentUser.id, followingId);
-    } else {
-      await this.searchService.followUser(currentUser.id, followingId);
-    }
+    isFollowing
+      ? await this.searchService.unfollowUser(currentUser.id, followingId)
+      : await this.searchService.followUser(currentUser.id, followingId);
+
     res.redirect("back");
   };
 }

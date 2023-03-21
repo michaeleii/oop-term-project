@@ -21,14 +21,14 @@ class SettingController implements IController {
   }
   private getSettingsPage = async (req: Request, res: Response, next: NextFunction) => {
     const [error] = req.session.messages;
-    const success = await req.session.success;
+    const success = req.session.success;
     req.session.messages = [];
     req.session.success = "";
     res.render("setting/views/setting", { error, success });
   };
   private changeUsername = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await req.user;
+      const user = req.user;
       const { newUsername } = req.body;
       if (newUsername === user.username) throw new Error("New username is the same as the old one.");
       if (newUsername.trim() === "") throw new Error("Username cannot be empty.");
@@ -43,7 +43,7 @@ class SettingController implements IController {
   };
   private changeEmail = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await req.user;
+      const user = req.user;
       const { newEmail } = req.body;
       if (newEmail === user.email) throw new Error("New email is the same as the old one.");
       if (newEmail.trim() === "") throw new Error("Email cannot be empty.");
@@ -58,7 +58,7 @@ class SettingController implements IController {
   };
   private changePassword = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await req.user;
+      const user = req.user;
       const { currentPassword, newPassword } = req.body;
       await this.settingService.changePassword(user.id, currentPassword, newPassword);
       req.session.success = "Password changed successfully";
