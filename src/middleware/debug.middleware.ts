@@ -1,4 +1,6 @@
-const debuggerMiddleware = async (req, res, next) => {
+import { Request, Response, NextFunction } from "express";
+
+const debuggerMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const DEBUG_DATABASE = false;
   if (req.session) {
     console.log(`Session Details:`);
