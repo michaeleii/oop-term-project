@@ -8,7 +8,6 @@ import { ensureAuthenticated, forwardAuthenticated } from "../../../middleware/a
 declare module "express-session" {
   interface SessionData {
     messages: string[];
-    error: string;
     success: string;
   }
 }
@@ -50,8 +49,8 @@ class AuthenticationController implements IController {
   };
 
   private showRegistrationPage = (req: express.Request, res: express.Response) => {
-    const error = req.session.error;
-    req.session.error = "";
+    const error = req.session.messages;
+    req.session.messages = [];
     res.render("authentication/views/register", { error });
   };
 
@@ -66,7 +65,7 @@ class AuthenticationController implements IController {
       await this.service.createUser(req.body);
       res.redirect("/auth/login");
     } catch (error) {
-      req.session.error = error.message;
+      req.session.messages = [error.message];
       res.redirect("/auth/register");
       next(error);
     }
