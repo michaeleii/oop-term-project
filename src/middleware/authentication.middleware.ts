@@ -11,3 +11,10 @@ export const forwardAuthenticated = (req, res, next) => {
   }
   res.redirect("/posts");
 };
+
+export const setCurrentUser = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    res.locals.currentUser = req.user;
+  }
+  next();
+};
