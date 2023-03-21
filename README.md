@@ -105,22 +105,21 @@ I worked on the following tasks:
 3. Implement Follow
    - This task is responsible for following users.
 
-<!-- Example below:
-    March 9th (First Sprint Complete)
-    Amy Chan:
-    I worked on the following tasks:
+## Mar 6 (Fourth Sprint Complete)
 
-1.  <Insert Some Task Here> - This task is responsible for xyz functionality.
-2.  <Insert Some Task Here> - This task is responsible for xyz functionality.
-3.  <Insert Some Task Here> - This task is responsible for xyz functionality.
+### Michael Lei
 
-I also needed to research on Youtube and Google the following things:
+1. Implement Following posts page
+   - This task is responsible for showing users a page of their follower posts.
 
-1. <Insert Video or Link to thing you needed to research>
+### Brian
 
-John Chen:
-I worked on the following tasks:
+1. Create Prisma Schema
+   - This task is responsible for creating a schema for the database.
 
-1. <Insert Some Task Here> - This task is responsible for xyz functionality.
-2. <Insert Some Task Here> - This task is responsible for xyz functionality.
-3. <Insert Some Task Here> - This task is responsible for xyz functionality. -->
+## Mar 7 (Fifth Sprint Complete)
+
+### Michael Lei
+
+1. Intergrate Prisma
+   - This task is responsible for integrating Prisma methods into the project.
