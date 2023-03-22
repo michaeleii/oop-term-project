@@ -6,15 +6,6 @@ import * as dotenv from "dotenv";
 import redisStore from "connect-redis";
 dotenv.config();
 
-// (async () => {
-//   const myPlaintextPassword = "gates123!";
-//   const saltRounds = 10;
-//   const hash = await bcrypt.hash(myPlaintextPassword, saltRounds);
-//   const match = await bcrypt.compare(myPlaintextPassword, hash);
-//   console.log(hash);
-//   console.log(match);
-// })();
-
 declare module "dotenv" {
   interface ProcessEnv {
     REDIS_PASSWORD: string;
@@ -39,7 +30,7 @@ if (NODE_ENV === "production") {
   sessionStore = new RedisStore({ client: redisClient });
 }
 
-module.exports = (app) => {
+module.exports = (app: express.Application) => {
   // Static File Serving and Post Body Parsing
   app.use(express.static(path.join(__dirname, "..", "public")));
   app.use(express.urlencoded({ extended: true }));
