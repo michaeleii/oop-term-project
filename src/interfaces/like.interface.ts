@@ -1,7 +1,7 @@
 interface ILike {
-  id: number;
-  userId: number;
-  postId: number;
+  id: string;
+  userId: string;
+  postId: string;
 }
 
 export default ILike;

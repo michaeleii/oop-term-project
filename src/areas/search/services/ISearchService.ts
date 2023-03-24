@@ -7,8 +7,8 @@ export default interface ISearchService {
   readonly _db: DBClient | IDatabase;
   searchUsers(searchTerm: string): Promise<IUser[]>;
   searchPosts(searchTerm: string): Promise<IPost[]>;
-  followUser(userId: number, followingId: number): Promise<void>;
-  unfollowUser(userId: number, followingId: number): Promise<void>;
-  isFollowing(id: number, followingId: number): Promise<boolean>;
-  getUser(id: number): Promise<IUser>;
+  followUser(userId: string, followingId: string): Promise<void>;
+  unfollowUser(userId: string, followingId: string): Promise<void>;
+  isFollowing(id: string, followingId: string): Promise<boolean>;
+  getUser(id: string): Promise<IUser>;
 }

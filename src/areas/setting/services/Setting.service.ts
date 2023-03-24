@@ -3,7 +3,7 @@ import DBClient from "../../../PrismaClient";
 
 export class SettingService implements ISettingService {
   readonly _db: DBClient = DBClient.getInstance();
-  async changeUsername(userId: number, username: string): Promise<void> {
+  async changeUsername(userId: string, username: string): Promise<void> {
     const alreadyExistingUsername = await this._db.prisma.user.findUnique({
       where: {
         username,
@@ -15,7 +15,7 @@ export class SettingService implements ISettingService {
       await this._db.prisma.user.update({ data: { username }, where: { id: userId } });
     }
   }
-  async changeEmail(userId: number, email: string): Promise<void> {
+  async changeEmail(userId: string, email: string): Promise<void> {
     const alreadyExistingEmail = await this._db.prisma.user.findUnique({
       where: {
         email,
@@ -27,7 +27,7 @@ export class SettingService implements ISettingService {
       await this._db.prisma.user.update({ data: { email }, where: { id: userId } });
     }
   }
-  async changePassword(userId: number, currentPassword: string, newPassword: string): Promise<void> {
+  async changePassword(userId: string, currentPassword: string, newPassword: string): Promise<void> {
     const user = await this._db.prisma.user.findUnique({ where: { id: userId } });
     if (user) {
       const passwordMatches = await this._db.prisma.user.findUnique({

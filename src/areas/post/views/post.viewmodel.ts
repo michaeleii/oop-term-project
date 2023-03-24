@@ -5,7 +5,7 @@ import { CommentViewModel } from "../comment.viewmodel";
 
 export class PostViewModel {
   private readonly _db: DBClient = DBClient.getInstance();
-  public id: number;
+  public id: string;
   public creator: string;
   private profilePic: string;
   public message: string;
@@ -14,7 +14,7 @@ export class PostViewModel {
   public commentsCount: number;
   public userLiked: boolean;
   public likesCount: number;
-  async init(post: IPost, userId: number) {
+  async init(post: IPost, userId: string) {
     this.id = post.id;
     this.createdAt = DateFormatter.format(post.createdAt);
     this.message = post.message;
@@ -25,11 +25,11 @@ export class PostViewModel {
     await this.getUserLiked(userId);
     await this.getLikes();
   }
-  async getUser(creator: number): Promise<void> {
+  async getUser(creator: string): Promise<void> {
     const user = await this._db.prisma.user.findUnique({ where: { id: creator } });
     this.creator = user.username;
   }
-  async getProfilePic(creator: number): Promise<void> {
+  async getProfilePic(creator: string): Promise<void> {
     const user = await this._db.prisma.user.findUnique({ where: { id: creator } });
     const firstName = user.firstName;
     const lastName = user.lastName;
@@ -51,13 +51,13 @@ export class PostViewModel {
       })
     );
   }
-  async getCommentCount(postId: number): Promise<void> {
+  async getCommentCount(postId: string): Promise<void> {
     this.commentsCount = await this._db.prisma.comment.count({ where: { postId: this.id } });
   }
   async getLikes(): Promise<void> {
     this.likesCount = await this._db.prisma.like.count({ where: { postId: this.id } });
   }
-  async getUserLiked(userId: number): Promise<void> {
+  async getUserLiked(userId: string): Promise<void> {
     const like = await this._db.prisma.like.findFirst({ where: { postId: this.id, userId: userId } });
     this.userLiked = like ? true : false;
   }

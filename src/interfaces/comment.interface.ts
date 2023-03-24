@@ -1,7 +1,7 @@
 interface IComment {
-  id: number;
-  postId: number;
-  creatorId: number;
+  id: string;
+  postId: string;
+  creatorId: string;
   message: string;
   createdAt: Date;
 }

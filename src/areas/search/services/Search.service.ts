@@ -32,7 +32,7 @@ export class SearchService implements ISearchService {
       },
     });
   }
-  async followUser(userId: number, followingId: number): Promise<void> {
+  async followUser(userId: string, followingId: string): Promise<void> {
     await this._db.prisma.follower.create({
       data: {
         userId: userId,
@@ -40,7 +40,7 @@ export class SearchService implements ISearchService {
       },
     });
   }
-  async unfollowUser(userId: number, followingId: number): Promise<void> {
+  async unfollowUser(userId: string, followingId: string): Promise<void> {
     await this._db.prisma.follower.delete({
       where: {
         userId_followingId: {
@@ -50,7 +50,7 @@ export class SearchService implements ISearchService {
       },
     });
   }
-  async isFollowing(id: number, followingId: number): Promise<boolean> {
+  async isFollowing(id: string, followingId: string): Promise<boolean> {
     const follow = await this._db.prisma.follower.findUnique({
       where: {
         userId_followingId: {
@@ -61,7 +61,7 @@ export class SearchService implements ISearchService {
     });
     return follow ? true : false;
   }
-  async getUser(id: number): Promise<IUser> {
+  async getUser(id: string): Promise<IUser> {
     return await this._db.prisma.user.findUnique({
       where: {
         id: id,

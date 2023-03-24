@@ -5,7 +5,7 @@ import IPostService from "./IPostService";
 
 export class PostService implements IPostService {
   readonly _db: DBClient = DBClient.getInstance();
-  async addPost(message: string, userId: number): Promise<void> {
+  async addPost(message: string, userId: string): Promise<void> {
     await this._db.prisma.post.create({
       data: {
         message: message,
@@ -13,7 +13,7 @@ export class PostService implements IPostService {
       },
     });
   }
-  async deletePost(postId: number): Promise<void> {
+  async deletePost(postId: string): Promise<void> {
     await this._db.prisma.comment.deleteMany({
       where: {
         postId,
@@ -30,7 +30,7 @@ export class PostService implements IPostService {
       },
     });
   }
-  async getAllPosts(userId: number): Promise<IPost[]> {
+  async getAllPosts(userId: string): Promise<IPost[]> {
     return await this._db.prisma.post.findMany({
       where: {
         creatorId: userId,
@@ -48,7 +48,7 @@ export class PostService implements IPostService {
     }
     return allFollowersPosts;
   }
-  async getUserFollowers(userId: number): Promise<IFollower[]> {
+  async getUserFollowers(userId: string): Promise<IFollower[]> {
     return await this._db.prisma.follower.findMany({
       where: {
         userId,
@@ -62,14 +62,14 @@ export class PostService implements IPostService {
       },
     });
   }
-  async findById(id: number): Promise<IPost> {
+  async findById(id: string): Promise<IPost> {
     return await this._db.prisma.post.findUnique({
       where: {
         id,
       },
     });
   }
-  async likePost(postId: number, userId: number): Promise<void> {
+  async likePost(postId: string, userId: string): Promise<void> {
     await this._db.prisma.like.create({
       data: {
         postId,
@@ -77,7 +77,7 @@ export class PostService implements IPostService {
       },
     });
   }
-  async unlikePost(postId: number, userId: number): Promise<void> {
+  async unlikePost(postId: string, userId: string): Promise<void> {
     await this._db.prisma.like.delete({
       where: {
         postId_userId: {
@@ -87,7 +87,7 @@ export class PostService implements IPostService {
       },
     });
   }
-  async addCommentToPost(creatorId: number, message: string, postId: number): Promise<void> {
+  async addCommentToPost(creatorId: string, message: string, postId: string): Promise<void> {
     await this._db.prisma.comment.create({
       data: {
         creatorId,

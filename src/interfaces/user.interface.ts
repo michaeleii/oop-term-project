@@ -1,7 +1,7 @@
 import IPost from "./post.interface";
 
 interface IUser {
-  id: number;
+  id: string;
   username: string;
   email: string;
   password: string;

@@ -4,7 +4,7 @@ import IUser from "../../../interfaces/user.interface";
 
 export class SearchPostViewModel {
   private readonly _db: DBClient = DBClient.getInstance();
-  id: number;
+  id: string;
   creatorFirstName: string;
   creatorLastName: string;
   message: string;
@@ -16,7 +16,7 @@ export class SearchPostViewModel {
     this.creatorFirstName = creator.firstName;
     this.creatorLastName = creator.lastName;
   }
-  async getUser(creator: number): Promise<IUser> {
+  async getUser(creator: string): Promise<IUser> {
     return await this._db.prisma.user.findUnique({
       where: {
         id: creator,

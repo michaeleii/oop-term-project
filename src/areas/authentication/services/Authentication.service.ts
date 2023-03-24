@@ -14,7 +14,7 @@ export class AuthenticationService implements IAuthenticationService {
       },
     });
   }
-  async getUserById(id: number): Promise<IUser | null> {
+  async getUserById(id: string): Promise<IUser | null> {
     let user = await this._db.prisma.user.findUnique({
       where: {
         id: id,

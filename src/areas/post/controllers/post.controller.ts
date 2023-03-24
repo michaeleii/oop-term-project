@@ -56,7 +56,7 @@ class PostController implements IController {
   };
 
   private getPostById = async (req: Request, res: Response, next: NextFunction) => {
-    const id = +req.params.id;
+    const id = req.params.id;
     const userId = req.user.id;
     try {
       const post = await this.postService.findById(id);
@@ -79,7 +79,7 @@ class PostController implements IController {
 
   private likePostById = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
-    const postId = +req.params.id;
+    const postId = req.params.id;
     const post = new PostViewModel();
     await post.init(await this.postService.findById(postId), user.id);
     const likedPost = post.userLiked;
@@ -89,7 +89,7 @@ class PostController implements IController {
 
   private createComment = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
-    const postId = +req.params.id;
+    const postId = req.params.id;
     const message: string = req.body.commentText;
     if (message.trim() !== "") {
       await this.postService.addCommentToPost(user.id, message, postId);
@@ -106,7 +106,7 @@ class PostController implements IController {
     res.redirect("back");
   };
   private deletePost = async (req: Request, res: Response, next: NextFunction) => {
-    const postId = +req.params.id;
+    const postId = req.params.id;
     const user = req.user;
     const post = await this.postService.findById(postId);
     if (post.creatorId === user.id) {

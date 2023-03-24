@@ -3,20 +3,20 @@ import IUser from "../../../interfaces/user.interface";
 
 export class SearchUserViewModel {
   private readonly _db: DBClient = DBClient.getInstance();
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   profilePic: string;
   following: boolean;
   constructor() {}
-  async init(searchedUser: IUser, currentUserId: number) {
+  async init(searchedUser: IUser, currentUserId: string) {
     this.id = searchedUser.id;
     this.firstName = searchedUser.firstName;
     this.lastName = searchedUser.lastName;
     this.profilePic = this.getProfilePic(searchedUser.firstName, searchedUser.lastName);
     this.following = await this.isFollowing(currentUserId, this.id);
   }
-  async isFollowing(userId: number, followingId: number): Promise<boolean> {
+  async isFollowing(userId: string, followingId: string): Promise<boolean> {
     const follow = await this._db.prisma.follower.findFirst({
       where: {
         userId: userId,

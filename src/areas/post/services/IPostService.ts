@@ -6,21 +6,21 @@ import IDatabase from "../../../interfaces/database.interface.ts";
 
 export default interface IPostService {
   readonly _db: DBClient | IDatabase;
-  addPost(message: string, userId: number): Promise<void>;
-  deletePost(postId: number): Promise<void>;
+  addPost(message: string, userId: string): Promise<void>;
+  deletePost(postId: string): Promise<void>;
 
   sortPosts(): Promise<IPost[]>;
 
-  getAllPosts(userId: number): Promise<IPost[]>;
+  getAllPosts(userId: string): Promise<IPost[]>;
   getAllPostsByUserFollowers(followers: IFollower[]): Promise<IPost[]>;
 
-  getUserFollowers(userId: number): Promise<IFollower[]>;
+  getUserFollowers(userId: string): Promise<IFollower[]>;
 
-  findById(id: number): Promise<IPost | undefined>;
+  findById(id: string): Promise<IPost | undefined>;
 
-  likePost(postId: number, userId: number): Promise<void>;
+  likePost(postId: string, userId: string): Promise<void>;
 
-  unlikePost(postId: number, userId: number): Promise<void>;
+  unlikePost(postId: string, userId: string): Promise<void>;
 
-  addCommentToPost(creator: number, message: string, postId: number): Promise<IComment | void>;
+  addCommentToPost(creator: string, message: string, postId: string): Promise<IComment | void>;
 }

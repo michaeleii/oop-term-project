@@ -43,7 +43,7 @@ class SearchController implements IController {
     res.render("search/views/search", { users: usersFormatted, posts: postsFormatted });
   };
   private followUser = async (req: Request, res: Response, next: NextFunction) => {
-    const followingId = +req.params.id;
+    const followingId = req.params.id;
     const currentUser = req.user;
     const user = new SearchUserViewModel();
     await user.init(await this.searchService.getUser(followingId), currentUser.id);
