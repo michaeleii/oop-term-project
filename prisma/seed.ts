@@ -11,7 +11,7 @@ const main = async () => {
     const firstName = faker.name.firstName();
     const lastName = faker.name.lastName();
     const email = faker.internet.email(firstName, lastName);
-    const password = faker.internet.password(8);
+    const password = "icecream123!";
     const username = faker.internet.userName(firstName, lastName);
     const user = await prisma.user.create({
       data: {

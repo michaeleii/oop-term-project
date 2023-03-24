@@ -2,6 +2,7 @@ import IUser from "../../../interfaces/user.interface";
 import { IAuthenticationService } from "./IAuthentication.service";
 import DBClient from "../../../PrismaClient";
 import EmailAlreadyExistsException from "../../../exceptions/EmailAlreadyExists";
+import bcrypt from "bcrypt";
 
 export class AuthenticationService implements IAuthenticationService {
   readonly _db: DBClient = DBClient.getInstance();
@@ -32,7 +33,7 @@ export class AuthenticationService implements IAuthenticationService {
       throw new Error("User with that email does not exists");
     }
     if (user) {
-      const correctPassword = user.password === password;
+      const correctPassword = await bcrypt.compare(password, user.password);
       if (correctPassword) {
         return user;
       } else {
@@ -46,13 +47,14 @@ export class AuthenticationService implements IAuthenticationService {
     if (userAlreadyExists) {
       throw new EmailAlreadyExistsException(email);
     } else {
+      const hash = await bcrypt.hash(password, 10);
       await this._db.prisma.user.create({
         data: {
           username,
           firstName,
           lastName,
           email,
-          password,
+          password: hash,
         },
       });
       return await this.findUserByEmail(email);
