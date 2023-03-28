@@ -4,10 +4,37 @@
 
 DevHouse is a social media platform for developers to share their projects and ideas. Users can create posts, follow other users, and like posts. Users can also search for other users and posts.
 
-To try the website, use the following credentials:
+## Installation
 
+### Install Dependencies
+
+```bash
+npm install
 ```
-username: Jonatan_Schoen
+
+### Generate Prisma Client
+
+```bash
+npx prisma generate
+```
+
+### Run the Application
+
+```bash
+npm start
+```
+
+### View the database
+
+```bash
+npx prisma studio
+```
+
+### Try logging in to a user
+
+Since we used bcrypt to hash the passwords, you can use the following password to log in to a user.
+
+```bash
 password: icecream123!
 ```
 
