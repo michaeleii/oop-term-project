@@ -6,31 +6,31 @@ DevHouse is a social media platform for developers to share their projects and i
 
 ## Installation
 
-### Install Dependencies
+### 1. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### Generate Prisma Client
+### 2. Generate Prisma Client
 
 ```bash
 npx prisma generate
 ```
 
-### Run the Application
+### 3. Run the Application
 
 ```bash
 npm start
 ```
 
-### View the database
+### 4. View the database
 
 ```bash
 npx prisma studio
 ```
 
-### Try logging in to a user
+### 5. Try logging in to a user
 
 Since we used bcrypt to hash the passwords, you can use the following password to log in to a user.
 
