@@ -34,7 +34,7 @@ npx prisma studio
 
 Since we used bcrypt to hash the passwords, you can use the following password to log in to a user.
 
-```bash
+```text
 password: icecream123!
 ```
 
