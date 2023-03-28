@@ -1,4 +1,15 @@
-# Breakdown of Work
+# DevHouse
+
+## About
+
+DevHouse is a social media platform for developers to share their projects and ideas. Users can create posts, follow other users, and like posts. Users can also search for other users and posts.
+
+We learned how to use the following technologies:
+
+- Manage a project using GitHub
+-
+
+## Breakdown of Work
 
 ## Feb 27 (First Sprint Complete)
 
