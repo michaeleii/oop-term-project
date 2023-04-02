@@ -44,7 +44,7 @@ export default class PassportConfig {
     });
   }
   deserializeUser(passport: passport.PassportStatic) {
-    passport.deserializeUser(async (id: number, done) => {
+    passport.deserializeUser(async (id: string, done) => {
       let user = await this._authenticationService.getUserById(id);
       if (user) {
         done(null, user);
