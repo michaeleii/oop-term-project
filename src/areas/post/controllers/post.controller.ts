@@ -4,7 +4,12 @@ import IPostService from "../services/IPostService";
 import { ensureAuthenticated } from "../../../middleware/authentication.middleware";
 import { PostViewModel } from "../views/post.viewmodel";
 import PostNotFoundException from "../../../exceptions/PostNotFoundException";
-
+import IUser from "../../../interfaces/user.interface";
+declare global {
+  namespace Express {
+    interface User extends IUser {}
+  }
+}
 class PostController implements IController {
   public path = "/posts";
   public router = Router();

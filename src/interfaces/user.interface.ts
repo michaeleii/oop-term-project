@@ -1,5 +1,3 @@
-import IPost from "./post.interface";
-
 interface IUser {
   id: string;
   username: string;
