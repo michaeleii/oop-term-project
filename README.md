@@ -18,19 +18,19 @@ npm install
 npx prisma generate
 ```
 
-### 3. Run the Application
-
-```bash
-npm start
-```
-
-### 4. Create a `.env` file
+### 3. Create a `.env` file
 
 ```bash
 touch .env
 ```
 
 If you want to know what to put in the `.env` file, check out the `.env.example` file.
+
+### 4. Run the Application
+
+```bash
+npm start
+```
 
 ### 5. View the database
 
