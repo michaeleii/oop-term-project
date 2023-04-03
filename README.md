@@ -40,7 +40,7 @@ npx prisma studio
 
 ### 6. Try logging in to a user
 
-Since we used bcrypt to hash the passwords, you can use the following password to log in to a user.
+Since we used bcrypt to hash the passwords, you can use the following password to log in to a sample user.
 
 ```text
 password: icecream123!
