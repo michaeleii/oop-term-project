@@ -24,13 +24,21 @@ npx prisma generate
 npm start
 ```
 
-### 4. View the database
+### 4. Create a `.env` file
+
+```bash
+touch .env
+```
+
+If you want to know what to put in the `.env` file, check out the `.env.example` file.
+
+### 5. View the database
 
 ```bash
 npx prisma studio
 ```
 
-### 5. Try logging in to a user
+### 6. Try logging in to a user
 
 Since we used bcrypt to hash the passwords, you can use the following password to log in to a user.
 
