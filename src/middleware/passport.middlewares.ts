@@ -4,11 +4,9 @@ import PassportConfig from "../areas/authentication/config/PassportConfig";
 import { setCurrentUser } from "./authentication.middleware";
 import { Application } from "express";
 
-const passportLocal = new PassportConfig("local", new AuthenticationService());
+new PassportConfig("local", new AuthenticationService());
 module.exports = (app: Application) => {
   app.use(passport.initialize());
   app.use(passport.session());
-  passportLocal.serializeUser(passport);
-  passportLocal.deserializeUser(passport);
   app.use(setCurrentUser);
 };

@@ -37,13 +37,15 @@ export default class PassportConfig {
   }
   registerStrategy(passport: passport.PassportStatic) {
     passport.use(this._name, this._strategy);
+    this.serializeUser(passport);
+    this.deserializeUser(passport);
   }
-  serializeUser(passport: passport.PassportStatic) {
+  private serializeUser(passport: passport.PassportStatic) {
     passport.serializeUser((user, done) => {
       done(null, user.id);
     });
   }
-  deserializeUser(passport: passport.PassportStatic) {
+  private deserializeUser(passport: passport.PassportStatic) {
     passport.deserializeUser(async (id: string, done) => {
       let user = await this._authenticationService.getUserById(id);
       if (user) {
